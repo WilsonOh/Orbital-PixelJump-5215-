@@ -71,6 +71,7 @@ my_background_objects = [[0.25, [100, 50, far_cloud1]],
                          [0.25, [300, 20, far_cloud2]],
                          [0.50, [50, 20, close_cloud1]],
                          [0.50, [250, 50, close_cloud2]]]
+print('cock')
 
 moving_right = False
 moving_left = False
