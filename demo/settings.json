@@ -1,0 +1,26 @@
+{
+  "window": {
+    "tile_size": 64,
+    "screen_width": 1792,
+    "screen_height": 704,
+    "fps": 60
+  },
+  "player": {
+    "horizontal_velocity": 8,
+    "vertical_velocity": 16,
+    "gravity": 0.8
+  },
+  "colors": {
+    "bg": "#060C17",
+    "player": "#C4F7FF",
+    "tile": "#94D7F2"
+  },
+  "camera": {
+    "camera_borders": {
+      "left": 100,
+      "right": 200,
+      "top": 100,
+      "bottom": 150
+    }
+  }
+}
