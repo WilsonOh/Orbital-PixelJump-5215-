@@ -17,7 +17,7 @@ clock = pygame.time.Clock()
 # creating game window
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 
-# dirt and grass image (16 x 16)
+# dirt and grass image (32 x 32)
 grass_image = pygame.image.load('assets/grass.png')
 dirt_image = pygame.image.load('assets/dirt.png')
 TILE_SIZE = grass_image.get_width()
@@ -25,7 +25,6 @@ TILE_SIZE = grass_image.get_width()
 # scrolling movement (list) allow decimals
 true_scroll = [0, 0]
 
-print('adding animations')
 
 def load_map(path):
     f = open(path + '.txt', 'r')
@@ -40,38 +39,37 @@ def load_map(path):
 
 game_map = load_map('assets/map')
 
-display_width = 480
-display_height = 270
+
+display_width = 960
+display_height = 540
 display_size = (display_width, display_height)
-# scaling the dirt and grass to window (4x)
 display = pygame.Surface(display_size)
+
 
 # player image
 player_image = pygame.image.load('assets/KNIGHT.png')
-#player_image = pygame.image.load('assets/SECONDMODEL.png')
-player_image = pygame.transform.scale(player_image, (16, 16))
 bg_image = pygame.image.load('assets/01073865290819.5d61d475f0072.jpg')
 bg_image = pygame.transform.scale(bg_image, display_size)
 
 # cloud background
 close_cloud1 = pygame.image.load('assets/Cirrus_cloud_2.png')
-close_cloud1 = pygame.transform.scale(close_cloud1, (91, 37))
+close_cloud1 = pygame.transform.scale(close_cloud1, (182, 74))
 close_cloud2 = pygame.image.load('assets/Cumulonimbus_cloud_2.png')
-close_cloud2 = pygame.transform.scale(close_cloud2, (186, 66))
+close_cloud2 = pygame.transform.scale(close_cloud2, (372, 132))
 far_cloud1 = pygame.image.load('assets/Cirrocumulus_cloud_3.png')
-far_cloud1 = pygame.transform.scale(far_cloud1, (135, 71))
+far_cloud1 = pygame.transform.scale(far_cloud1, (270, 142))
 far_cloud2 = pygame.image.load('assets/Regular_cloud_2.png')
-far_cloud2 = pygame.transform.scale(far_cloud2, (96, 32))
+far_cloud2 = pygame.transform.scale(far_cloud2, (192, 64))
 
 background_objects = [[0.25, [100, 50, far_cloud1.get_width(), far_cloud1.get_height()]],
                       [0.25, [300, 20, far_cloud2.get_width(), far_cloud2.get_height()]],
                       [0.50, [50, 20, close_cloud1.get_width(), close_cloud1.get_height()]],
                       [0.50, [250, 50, close_cloud2.get_width(), close_cloud2.get_height()]]]
 
-my_background_objects = [[0.25, [100, 50, far_cloud1]],
-                         [0.25, [300, 20, far_cloud2]],
-                         [0.50, [50, 20, close_cloud1]],
-                         [0.50, [250, 50, close_cloud2]]]
+my_background_objects = [[0.25, [200, 100, far_cloud1]],
+                         [0.25, [600, 40, far_cloud2]],
+                         [0.50, [100, 40, close_cloud1]],
+                         [0.50, [500, 100, close_cloud2]]]
 
 moving_right = False
 moving_left = False
@@ -130,8 +128,8 @@ while True:
     display.blit(bg_image, (0, 0))
 
     # divide by 20 to add abit of delay for camera (looks better)
-    true_scroll[0] += (player_rect.x - true_scroll[0] - 248)/20
-    true_scroll[1] += (player_rect.y - true_scroll[1] - 143)/20
+    true_scroll[0] += (player_rect.x - true_scroll[0] - (display_width / 2 + (TILE_SIZE / 2)))/20
+    true_scroll[1] += (player_rect.y - true_scroll[1] - (display_height / 2 + (TILE_SIZE / 2)))/20
 
     # scroll has no decimals to make less screen tearing
     scroll = true_scroll.copy()
@@ -176,14 +174,14 @@ while True:
     # default no movement
     player_movement = [0, 0]
     if moving_right:
-        player_movement[0] += 2
+        player_movement[0] += 4
     if moving_left:
-        player_movement[0] -= 2
+        player_movement[0] -= 4
     player_movement[1] += player_y_momentum
-    player_y_momentum += 0.2
+    player_y_momentum += 0.4
     # capping the falling acceleration
-    if player_y_momentum > 6:
-        player_y_momentum = 6
+    if player_y_momentum > 10:
+        player_y_momentum = 10
 
     player_rect, collisions = move(player_rect, player_movement, tile_rects)
 
@@ -209,8 +207,8 @@ while True:
                 moving_left = True
             if event.key == pygame.K_SPACE:
                 # about 3 frames for 0.2 momentum to clear 1 pixel, 3 frames for buffer
-                if air_timer < 8:
-                    player_y_momentum = -4
+                if air_timer < 10:
+                    player_y_momentum = -9
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_d:
                 moving_right = False
