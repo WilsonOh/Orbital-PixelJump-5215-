@@ -25,6 +25,7 @@ TILE_SIZE = grass_image.get_width()
 # scrolling movement (list) allow decimals
 true_scroll = [0, 0]
 
+print('adding animations')
 
 def load_map(path):
     f = open(path + '.txt', 'r')
