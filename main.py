@@ -1,7 +1,8 @@
-import pygame, sys
+import pygame, sys, random
 
 # initialise pygame
 pygame.init()
+pygame.mixer.pre_init(44100, -16, 2, 512)
 
 # dimension of window
 WINDOW_WIDTH = 1920
@@ -22,6 +23,18 @@ grass_image = pygame.image.load('assets/grass.png')
 dirt_image = pygame.image.load('assets/dirt.png')
 TILE_SIZE = grass_image.get_width()
 
+jump_sound = pygame.mixer.Sound('assets/jump.wav')
+jump_sound.set_volume(0.5)
+land_sound = pygame.mixer.Sound('assets/land.wav')
+step_sound = [pygame.mixer.Sound('assets/step0.wav'), pygame.mixer.Sound('assets/step1.wav')]
+step_sound[0].set_volume(0.5)
+step_sound[1].set_volume(0.5)
+
+
+pygame.mixer.music.load('assets/music.wav')
+pygame.mixer.music.set_volume(0.2)
+pygame.mixer.music.play(-1)
+
 # scrolling movement (list) allow decimals
 true_scroll = [0, 0]
 
@@ -37,6 +50,47 @@ def load_map(path):
     return game_map
 
 
+# Animation frame is a dict contatining the images to be used with the id
+global animation_frames
+animation_frames = {}
+
+
+# Eg frame_duration is [7,7] (list of multiple frame durations)
+def load_animation(path, frame_durations):
+    global animation_frames
+    animation_name = path.split('/')[-1]
+    animation_frame_data = []
+    n = 0
+    for frame in frame_durations:
+        animation_frame_id = animation_name + '_' + str(n)
+        img_loc = path + '/' + animation_frame_id + '.png'
+        animation_image = pygame.image.load(img_loc)
+        animation_frames[animation_frame_id] = animation_image.copy()
+        for i in range(frame):
+            animation_frame_data.append(animation_frame_id)
+        n += 1
+    return animation_frame_data
+
+
+def change_action(action_var, frame, new_action):
+    if action_var != new_action:
+        action_var = new_action
+        frame = 0
+    return action_var, frame
+
+
+# Animation database is the dict of all the id for each action
+animation_database = {}
+animation_database['running'] = load_animation('assets/running', [7,7,7,7,7,7,7,7])
+animation_database['idle'] = load_animation('assets/idle', [7,7,40])
+
+# usually in a player class
+player_action = 'idle'
+player_frame = 0
+player_flip = False
+
+step_sound_timer = 0
+
 game_map = load_map('assets/map')
 
 
@@ -45,9 +99,6 @@ display_height = 540
 display_size = (display_width, display_height)
 display = pygame.Surface(display_size)
 
-
-# player image
-player_image = pygame.image.load('assets/KNIGHT.png')
 bg_image = pygame.image.load('assets/01073865290819.5d61d475f0072.jpg')
 bg_image = pygame.transform.scale(bg_image, display_size)
 
@@ -81,8 +132,7 @@ player_y_momentum = 0
 air_timer = 0
 
 # rect for player, for collisions
-player_rect = pygame.Rect(240, 85, player_image.get_width(), player_image.get_height())
-test_rect = pygame.Rect(WINDOW_WIDTH / 2 - 75, WINDOW_HEIGHT / 2 - 75, 100, 50)
+player_rect = pygame.Rect(240, 85, 32, 32)
 
 
 # rect : player rect, tiles : list of rects
@@ -127,6 +177,9 @@ def move(rect, movement, tiles):
 while True:
     display.blit(bg_image, (0, 0))
 
+    if step_sound_timer > 0:
+        step_sound_timer -= 1
+
     # divide by 20 to add abit of delay for camera (looks better)
     true_scroll[0] += (player_rect.x - true_scroll[0] - (display_width / 2 + (TILE_SIZE / 2)))/20
     true_scroll[1] += (player_rect.y - true_scroll[1] - (display_height / 2 + (TILE_SIZE / 2)))/20
@@ -168,9 +221,6 @@ while True:
             x += 1
         y += 1
 
-    # for tiles in tile_rects:
-    #     pygame.draw.rect(display, (255,0,0), tiles)
-
     # default no movement
     player_movement = [0, 0]
     if moving_right:
@@ -183,18 +233,38 @@ while True:
     if player_y_momentum > 10:
         player_y_momentum = 10
 
+    if player_movement[0] > 0:
+        player_action, player_frame = change_action(player_action, player_frame, 'running')
+        player_flip = False
+
+    if player_movement[0] == 0:
+        player_action, player_frame = change_action(player_action, player_frame, 'idle')
+
+    if player_movement[0] < 0:
+        player_action, player_frame = change_action(player_action, player_frame, 'running')
+        player_flip = True
+
     player_rect, collisions = move(player_rect, player_movement, tile_rects)
 
     if collisions['bottom']:
         player_y_momentum = 0
         air_timer = 0
+        if player_movement[0] != 0:
+            if step_sound_timer == 0:
+                step_sound_timer = 30
+                random.choice(step_sound).play()
     else:
         air_timer += 1
 
     if collisions['top']:
         player_y_momentum = 0
 
-    display.blit(player_image, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
+    player_frame += 1
+    if player_frame >= len(animation_database[player_action]):
+        player_frame = 0
+    player_img_id = animation_database[player_action][player_frame]
+    player_image = animation_frames[player_img_id]
+    display.blit(pygame.transform.flip(player_image,player_flip, False), (player_rect.x - scroll[0], player_rect.y - scroll[1]))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -208,6 +278,7 @@ while True:
             if event.key == pygame.K_SPACE:
                 # about 3 frames for 0.2 momentum to clear 1 pixel, 3 frames for buffer
                 if air_timer < 10:
+                    jump_sound.play()
                     player_y_momentum = -9
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_d:
