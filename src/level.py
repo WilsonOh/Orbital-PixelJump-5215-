@@ -28,23 +28,49 @@ class Level:
         self.backgrounds = [
             [
                 0.25,
-                [100, 50, get_background("far", (WINDOW_WIDTH, WINDOW_HEIGHT))],
+                [
+                    100,
+                    50,
+                    get_background(
+                        "far", (WINDOW_WIDTH, WINDOW_HEIGHT), colorkey=(255, 255, 255)
+                    ),
+                ],
             ],
             [
                 0.25,
-                [300, 20, get_background("close", (WINDOW_WIDTH * 2, WINDOW_HEIGHT))],
+                [
+                    300,
+                    20,
+                    get_background(
+                        "close",
+                        (WINDOW_WIDTH * 2, WINDOW_HEIGHT),
+                        colorkey=(255, 255, 255),
+                    ),
+                ],
             ],
             [
                 0.50,
                 [
                     50,
                     20,
-                    get_background("foreground", (WINDOW_WIDTH * 2, WINDOW_HEIGHT)),
+                    get_background(
+                        "trees",
+                        (WINDOW_WIDTH * 2, WINDOW_HEIGHT),
+                        colorkey=(255, 255, 255),
+                    ),
                 ],
             ],
             [
                 0.75,
-                [250, 50, get_background("trees", (WINDOW_WIDTH * 2, WINDOW_HEIGHT))],
+                [
+                    250,
+                    50,
+                    get_background(
+                        "foreground",
+                        (WINDOW_WIDTH * 2, WINDOW_HEIGHT),
+                        colorkey=(255, 255, 255),
+                    ),
+                ],
             ],
         ]
 
@@ -67,12 +93,12 @@ class Level:
                         collision_sprites=self.collision_sprites,
                     )
 
-    def run(self):
+    def run(self, clock: pygame.time.Clock):
         self.window.blit(
             get_background("parallax-mountain-bg", (WINDOW_WIDTH, WINDOW_HEIGHT)),
             (0, 0),
         )
-        self.visible_sprites.draw(self.window, self.backgrounds)
+        self.visible_sprites.draw(self.window, self.backgrounds, clock)
         self.visible_sprites.update(self.player)
         self.active_sprites.update()
 
@@ -82,7 +108,9 @@ class Camera(pygame.sprite.Group):
         super().__init__()
         self.offset: pygame.Vector2 = pygame.Vector2(0, 0)
 
-    def draw(self, surface: pygame.surface.Surface, backgrounds) -> None:
+    def draw(
+        self, surface: pygame.surface.Surface, backgrounds, clock: pygame.time.Clock
+    ) -> None:
         for background in backgrounds:
             surface.blit(
                 background[1][2],
@@ -95,6 +123,9 @@ class Camera(pygame.sprite.Group):
             if sprite.rect is not None and sprite.image is not None:
                 sprite_topleft = pygame.Vector2(sprite.rect.topleft)
                 surface.blit(sprite.image, sprite_topleft - self.offset)
+        font = pygame.font.SysFont("Arial", 50, True)
+        text = font.render(f"{clock.get_fps():.2f}", True, pygame.Color("red"))
+        surface.blit(text, (0, 0))
 
     def update(self, player: Player) -> None:
         if player.rect is not None:

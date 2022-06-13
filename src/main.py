@@ -17,6 +17,6 @@ level = Level()
 
 while True:
     window.fill(BG_COLOR)
-    level.run()
+    level.run(clock)
     pygame.display.update()
     clock.tick_busy_loop(FPS)

@@ -1,3 +1,4 @@
+from typing import Optional
 import pygame
 from pathlib import Path
 
@@ -5,7 +6,11 @@ ASSETS_PATH = Path(__file__).parents[1].resolve() / "assets/"
 
 
 def get_background(
-    background_name: str, scale: tuple[int, int], convert=True
+    background_name: str,
+    scale: tuple[int, int],
+    *,
+    colorkey: Optional[tuple[int, int, int]] = None,
+    convert=True,
 ) -> pygame.surface.Surface:
     backgrounds_path = ASSETS_PATH / "layers/"
     background_image_path = backgrounds_path / (background_name + ".png")
@@ -17,7 +22,7 @@ def get_background(
         background = pygame.transform.scale(
             pygame.image.load(background_image_path), scale
         )
-    background.set_colorkey((255, 255, 255))
+    background.set_colorkey(colorkey)
     return background
 
 

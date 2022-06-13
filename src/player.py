@@ -11,8 +11,6 @@ PLAYER_HORIZONTAL_VEL = settings["player"]["horizontal_velocity"]
 PLAYER_VERTICAL_VEL = settings["player"]["vertical_velocity"]
 GRAVITY = settings["player"]["gravity"]
 
-clock = pygame.time.Clock()
-
 
 class Player(pygame.sprite.Sprite):
     def __init__(
