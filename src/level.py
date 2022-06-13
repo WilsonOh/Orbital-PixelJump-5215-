@@ -32,7 +32,9 @@ class Level:
                     100,
                     50,
                     get_background(
-                        "far", (WINDOW_WIDTH, WINDOW_HEIGHT), colorkey=(255, 255, 255)
+                        "far",
+                        (WINDOW_WIDTH, WINDOW_HEIGHT),
+                        colorkey=(255, 255, 255),
                     ),
                 ],
             ],
@@ -95,7 +97,11 @@ class Level:
 
     def run(self, clock: pygame.time.Clock):
         self.window.blit(
-            get_background("parallax-mountain-bg", (WINDOW_WIDTH, WINDOW_HEIGHT)),
+            get_background(
+                "parallax-mountain-bg",
+                (WINDOW_WIDTH, WINDOW_HEIGHT),
+                colorkey=((255, 255, 255)),
+            ),
             (0, 0),
         )
         self.visible_sprites.draw(self.window, self.backgrounds, clock)
