@@ -25,6 +25,11 @@ class Level:
         # Checks for collision every frame
         self.collision_sprites = pygame.sprite.Group()
         self.setup_level()
+        self.main_background = get_background(
+            "parallax-mountain-bg",
+            (WINDOW_WIDTH, WINDOW_HEIGHT),
+            colorkey=((255, 255, 255)),
+        )
         self.backgrounds = [
             [
                 0.25,
@@ -96,14 +101,7 @@ class Level:
                     )
 
     def run(self, clock: pygame.time.Clock):
-        self.window.blit(
-            get_background(
-                "parallax-mountain-bg",
-                (WINDOW_WIDTH, WINDOW_HEIGHT),
-                colorkey=((255, 255, 255)),
-            ),
-            (0, 0),
-        )
+        self.window.blit(self.main_background, (0, 0))
         self.visible_sprites.draw(self.window, self.backgrounds, clock)
         self.visible_sprites.update(self.player)
         self.active_sprites.update()
