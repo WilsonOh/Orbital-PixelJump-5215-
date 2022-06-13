@@ -1,4 +1,6 @@
-import pygame, sys
+import sys
+
+import pygame
 
 # initialise pygame
 pygame.init()
@@ -18,26 +20,20 @@ clock = pygame.time.Clock()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 
 # dirt and grass image (16 x 16)
-grass_image = pygame.image.load('assets/grass.png')
-dirt_image = pygame.image.load('assets/dirt.png')
+grass_image = pygame.image.load("assets/grass.png")
+dirt_image = pygame.image.load("assets/dirt.png")
 TILE_SIZE = grass_image.get_width()
 
 # scrolling movement (list) allow decimals
 true_scroll = [0, 0]
 
 
-def load_map(path):
-    f = open(path + '.txt', 'r')
-    data = f.read()
-    f.close()
-    data = data.split('\n')
-    game_map = []
-    for row in data:
-        game_map.append(list(row))
-    return game_map
+def load_map(path: str) -> list[list[str]]:
+    with open(f"{path}.txt") as f:
+        return [list(row) for row in f.readlines()]
 
 
-game_map = load_map('assets/map')
+game_map = load_map("assets/map")
 
 display_width = 480
 display_height = 270
@@ -46,31 +42,35 @@ display_size = (display_width, display_height)
 display = pygame.Surface(display_size)
 
 # player image
-player_image = pygame.image.load('assets/KNIGHT.png')
-#player_image = pygame.image.load('assets/SECONDMODEL.png')
+player_image = pygame.image.load("assets/KNIGHT.png")
+# player_image = pygame.image.load('assets/SECONDMODEL.png')
 player_image = pygame.transform.scale(player_image, (16, 16))
-bg_image = pygame.image.load('assets/01073865290819.5d61d475f0072.jpg')
+bg_image = pygame.image.load("assets/01073865290819.5d61d475f0072.jpg")
 bg_image = pygame.transform.scale(bg_image, display_size)
 
 # cloud background
-close_cloud1 = pygame.image.load('assets/Cirrus_cloud_2.png')
+close_cloud1 = pygame.image.load("assets/Cirrus_cloud_2.png")
 close_cloud1 = pygame.transform.scale(close_cloud1, (91, 37))
-close_cloud2 = pygame.image.load('assets/Cumulonimbus_cloud_2.png')
+close_cloud2 = pygame.image.load("assets/Cumulonimbus_cloud_2.png")
 close_cloud2 = pygame.transform.scale(close_cloud2, (186, 66))
-far_cloud1 = pygame.image.load('assets/Cirrocumulus_cloud_3.png')
+far_cloud1 = pygame.image.load("assets/Cirrocumulus_cloud_3.png")
 far_cloud1 = pygame.transform.scale(far_cloud1, (135, 71))
-far_cloud2 = pygame.image.load('assets/Regular_cloud_2.png')
+far_cloud2 = pygame.image.load("assets/Regular_cloud_2.png")
 far_cloud2 = pygame.transform.scale(far_cloud2, (96, 32))
 
-background_objects = [[0.25, [100, 50, far_cloud1.get_width(), far_cloud1.get_height()]],
-                      [0.25, [300, 20, far_cloud2.get_width(), far_cloud2.get_height()]],
-                      [0.50, [50, 20, close_cloud1.get_width(), close_cloud1.get_height()]],
-                      [0.50, [250, 50, close_cloud2.get_width(), close_cloud2.get_height()]]]
+background_objects = [
+    [0.25, [100, 50, far_cloud1.get_width(), far_cloud1.get_height()]],
+    [0.25, [300, 20, far_cloud2.get_width(), far_cloud2.get_height()]],
+    [0.50, [50, 20, close_cloud1.get_width(), close_cloud1.get_height()]],
+    [0.50, [250, 50, close_cloud2.get_width(), close_cloud2.get_height()]],
+]
 
-my_background_objects = [[0.25, [100, 50, far_cloud1]],
-                         [0.25, [300, 20, far_cloud2]],
-                         [0.50, [50, 20, close_cloud1]],
-                         [0.50, [250, 50, close_cloud2]]]
+my_background_objects = [
+    [0.25, [100, 50, far_cloud1]],
+    [0.25, [300, 20, far_cloud2]],
+    [0.50, [50, 20, close_cloud1]],
+    [0.50, [250, 50, close_cloud2]],
+]
 
 moving_right = False
 moving_left = False
@@ -98,7 +98,7 @@ def collision_test(rect, tiles):
 # movement, x first, check collisions, then y, check collision. NOT DIAGONAL
 # move rect with movement(list), tiles to generate hitlist with
 def move(rect, movement, tiles):
-    collision_types = {'top': False, 'bottom': False, 'right': False, 'left': False}
+    collision_types = {"top": False, "bottom": False, "right": False, "left": False}
     # move x first, then check for collisions and adjust
     rect.x += movement[0]
     hit_listx = collision_test(rect, tiles)
@@ -106,10 +106,10 @@ def move(rect, movement, tiles):
         # if moving right
         if movement[0] > 0:
             rect.right = tile.left
-            collision_types['right'] = True
-        elif movement[0] < 0: # moving left
+            collision_types["right"] = True
+        elif movement[0] < 0:  # moving left
             rect.left = tile.right
-            collision_types['left'] = True
+            collision_types["left"] = True
     # moving y later, with a new updated hit_list
     rect.y += movement[1]
     hit_listy = collision_test(rect, tiles)
@@ -117,10 +117,10 @@ def move(rect, movement, tiles):
         # if falling down
         if movement[1] > 0:
             rect.bottom = tile.top
-            collision_types['bottom'] = True
+            collision_types["bottom"] = True
         elif movement[1] < 0:
             rect.top = tile.bottom
-            collision_types['top'] = True
+            collision_types["top"] = True
     return rect, collision_types
 
 
@@ -129,8 +129,8 @@ while True:
     display.blit(bg_image, (0, 0))
 
     # divide by 20 to add abit of delay for camera (looks better)
-    true_scroll[0] += (player_rect.x - true_scroll[0] - 248)/20
-    true_scroll[1] += (player_rect.y - true_scroll[1] - 143)/20
+    true_scroll[0] += (player_rect.x - true_scroll[0] - 248) / 20
+    true_scroll[1] += (player_rect.y - true_scroll[1] - 143) / 20
 
     # scroll has no decimals to make less screen tearing
     scroll = true_scroll.copy()
@@ -138,7 +138,7 @@ while True:
     scroll[1] = int(true_scroll[1])
 
     # adding the background objects with parallax scrolling, List(amount to * into scroll, List(rect parameter))
-    '''
+    """
     for obj in background_objects:
         obj_rect = pygame.Rect(obj[1][0] - scroll[0] * obj[0], obj[1][1] - scroll[1] * obj[0],
                                obj[1][2], obj[1][3])
@@ -146,10 +146,12 @@ while True:
             pygame.draw.rect(display, (14, 222, 150), obj_rect)
         else:
             pygame.draw.rect(display, (9, 91, 85), obj_rect)
-    '''
+    """
 
     for obj in my_background_objects:
-        display.blit(obj[1][2], (obj[1][0] - scroll[0] * obj[0], obj[1][1] - scroll[1] * obj[0]))
+        display.blit(
+            obj[1][2], (obj[1][0] - scroll[0] * obj[0], obj[1][1] - scroll[1] * obj[0])
+        )
 
     # list to keep track of not "air" for collision later
     tile_rects = []
@@ -158,14 +160,20 @@ while True:
     for row in game_map:
         x = 0
         for tile in row:
-            if tile == '1':
+            if tile == "1":
                 # x and y are * by the image size to get correct coordinates
-                display.blit(dirt_image, (x * TILE_SIZE - scroll[0], y * TILE_SIZE - scroll[1]))
-            if tile == '2':
-                display.blit(grass_image, (x * TILE_SIZE - scroll[0], y * TILE_SIZE - scroll[1]))
+                display.blit(
+                    dirt_image, (x * TILE_SIZE - scroll[0], y * TILE_SIZE - scroll[1])
+                )
+            if tile == "2":
+                display.blit(
+                    grass_image, (x * TILE_SIZE - scroll[0], y * TILE_SIZE - scroll[1])
+                )
             # if tile is not "air", we need to keep track of rect so we can add collision
-            if tile != '0':
-                tile_rects.append(pygame.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE))
+            if tile != "0":
+                tile_rects.append(
+                    pygame.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+                )
             x += 1
         y += 1
 
@@ -186,13 +194,13 @@ while True:
 
     player_rect, collisions = move(player_rect, player_movement, tile_rects)
 
-    if collisions['bottom']:
+    if collisions["bottom"]:
         player_y_momentum = 0
         air_timer = 0
     else:
         air_timer += 1
 
-    if collisions['top']:
+    if collisions["top"]:
         player_y_momentum = 0
 
     display.blit(player_image, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
