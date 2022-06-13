@@ -1,8 +1,9 @@
 import json
-import os
+from pathlib import Path
 
-SETTINGS_PATH = os.path.abspath("../settings/settings.json")
-LEVEL_MAP_PATH = os.path.abspath("../settings/level_map.json")
+root_dir = Path(__file__).parents[1].resolve()
+SETTINGS_PATH = root_dir / "settings/settings.json"
+LEVEL_MAP_PATH = root_dir / "settings/level_map.json"
 
 
 def load_settings() -> dict:

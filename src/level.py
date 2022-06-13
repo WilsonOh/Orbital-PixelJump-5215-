@@ -1,20 +1,17 @@
-import os
-
 import pygame
 
 from player import Player
 from settings import load_level_map, load_settings
+from assets import get_background, get_map
 from tile import Tile
 
 settings = load_settings()
 level_map = load_level_map()
 
-LEVEL_MAP = level_map["1"]
+LEVEL_MAP = get_map()
 TILE_SIZE = settings["window"]["tile_size"]
 WINDOW_WIDTH = settings["window"]["screen_width"]
 WINDOW_HEIGHT = settings["window"]["screen_height"]
-
-BACKGROUND_PATH = os.path.abspath("../assets/layers/")
 
 
 class Level:
@@ -28,43 +25,26 @@ class Level:
         # Checks for collision every frame
         self.collision_sprites = pygame.sprite.Group()
         self.setup_level()
-        self.FAR_MOUNTAIN = pygame.transform.scale(
-            pygame.image.load(BACKGROUND_PATH + "/far.png"),
-            (WINDOW_WIDTH, WINDOW_HEIGHT),
-        ).convert()
-        self.FAR_MOUNTAIN.set_colorkey((255, 255, 255))
-
-        self.CLOSE_MOUNTAIN = pygame.transform.scale(
-            pygame.image.load(BACKGROUND_PATH + "/close.png"),
-            (WINDOW_WIDTH * 2, WINDOW_HEIGHT),
-        )
-
-        self.FOREGROUND = pygame.transform.scale(
-            pygame.image.load(BACKGROUND_PATH + "/foreground.png"),
-            (WINDOW_WIDTH * 2, WINDOW_HEIGHT),
-        ).convert()
-        self.FOREGROUND.set_colorkey((255, 255, 255))
-
-        self.TREES = pygame.transform.scale(
-            pygame.image.load(BACKGROUND_PATH + "/trees.png"),
-            (WINDOW_WIDTH * 2, WINDOW_HEIGHT),
-        )
         self.backgrounds = [
             [
                 0.25,
-                [100, 50, self.FAR_MOUNTAIN],
+                [100, 50, get_background("far", (WINDOW_WIDTH, WINDOW_HEIGHT))],
             ],
             [
                 0.25,
-                [300, 20, self.CLOSE_MOUNTAIN],
+                [300, 20, get_background("close", (WINDOW_WIDTH * 2, WINDOW_HEIGHT))],
             ],
             [
                 0.50,
-                [50, 20, self.TREES],
+                [
+                    50,
+                    20,
+                    get_background("foreground", (WINDOW_WIDTH * 2, WINDOW_HEIGHT)),
+                ],
             ],
             [
                 0.75,
-                [250, 50, self.FOREGROUND],
+                [250, 50, get_background("trees", (WINDOW_WIDTH * 2, WINDOW_HEIGHT))],
             ],
         ]
 
@@ -73,8 +53,12 @@ class Level:
             for col_idx, col in enumerate(row):
                 x = col_idx * TILE_SIZE
                 y = row_idx * TILE_SIZE
-                if col == "#":
+                if col == "D":
                     Tile((x, y), self.visible_sprites, self.collision_sprites)
+                if col == "G":
+                    Tile(
+                        (x, y), self.visible_sprites, self.collision_sprites, grass=True
+                    )
                 if col == "P":
                     self.player = Player(
                         (x, y),
@@ -85,13 +69,10 @@ class Level:
 
     def run(self):
         self.window.blit(
-            pygame.transform.scale(
-                pygame.image.load(BACKGROUND_PATH + "/parallax-mountain-bg.png"),
-                (WINDOW_WIDTH, WINDOW_HEIGHT),
-            ),
+            get_background("parallax-mountain-bg", (WINDOW_WIDTH, WINDOW_HEIGHT)),
             (0, 0),
         )
-        self.visible_sprites.draw(self.window, self.player, self.backgrounds)
+        self.visible_sprites.draw(self.window, self.backgrounds)
         self.visible_sprites.update(self.player)
         self.active_sprites.update()
 
@@ -101,7 +82,7 @@ class Camera(pygame.sprite.Group):
         super().__init__()
         self.offset: pygame.Vector2 = pygame.Vector2(0, 0)
 
-    def draw(self, surface: pygame.Surface, player: Player, backgrounds) -> None:
+    def draw(self, surface: pygame.surface.Surface, backgrounds) -> None:
         for background in backgrounds:
             surface.blit(
                 background[1][2],
@@ -111,13 +92,16 @@ class Camera(pygame.sprite.Group):
                 ),
             )
         for sprite in self:
-            surface.blit(sprite.image, sprite.rect.topleft - self.offset)
+            if sprite.rect is not None and sprite.image is not None:
+                sprite_topleft = pygame.Vector2(sprite.rect.topleft)
+                surface.blit(sprite.image, sprite_topleft - self.offset)
 
     def update(self, player: Player) -> None:
-        self.offset.x += (
-            (player.rect.x - self.offset.x) - ((WINDOW_WIDTH // 2) + (TILE_SIZE // 2))
-        ) // 20
+        if player.rect is not None:
+            self.offset.x += (
+                (player.rect.x - self.offset.x) - (WINDOW_WIDTH // 2 + TILE_SIZE // 2)
+            ) // 20
 
-        self.offset.y += (
-            (player.rect.y - self.offset.y) - ((WINDOW_HEIGHT // 2) + (TILE_SIZE // 2))
-        ) // 20
+            self.offset.y += (
+                (player.rect.y - self.offset.y) - (WINDOW_HEIGHT // 2 + TILE_SIZE // 2)
+            ) // 20

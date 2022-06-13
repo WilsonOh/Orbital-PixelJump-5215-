@@ -1,8 +1,6 @@
-import os
-
 import pygame
-
 from settings import load_settings
+from assets import get_sprite_image
 
 settings = load_settings()
 
@@ -12,8 +10,6 @@ FPS = settings["window"]["fps"]
 PLAYER_HORIZONTAL_VEL = settings["player"]["horizontal_velocity"]
 PLAYER_VERTICAL_VEL = settings["player"]["vertical_velocity"]
 GRAVITY = settings["player"]["gravity"]
-
-ASSETS_PATH = os.path.abspath("../assets/")
 
 clock = pygame.time.Clock()
 
@@ -26,9 +22,7 @@ class Player(pygame.sprite.Sprite):
         collision_sprites: pygame.sprite.Group
     ):
         super().__init__(*groups)
-        self.image = pygame.transform.scale2x(
-            pygame.image.load(ASSETS_PATH + "/KNIGHT.png")
-        )
+        self.image = get_sprite_image("KNIGHT", (TILE_SIZE, TILE_SIZE), convert=False)
         self.rect = self.image.get_rect(topleft=position)
         self.velocity = pygame.Vector2()
         self.collision_sprites = collision_sprites
@@ -62,23 +56,25 @@ class Player(pygame.sprite.Sprite):
 
     def horizontal_collisions(self):
         for sprite in self.collision_sprites.sprites():
-            if sprite.rect.colliderect(self.rect):
-                if self.velocity.x < 0:
-                    self.rect.left = sprite.rect.right
-                if self.velocity.x > 0:
-                    self.rect.right = sprite.rect.left
+            if self.rect is not None and sprite.rect is not None:
+                if sprite.rect.colliderect(self.rect):
+                    if self.velocity.x < 0:
+                        self.rect.left = sprite.rect.right
+                    if self.velocity.x > 0:
+                        self.rect.right = sprite.rect.left
 
     def vertical_collisions(self):
         for sprite in self.collision_sprites.sprites():
-            if sprite.rect.colliderect(self.rect):
-                if self.velocity.y < 0:
-                    self.rect.top = sprite.rect.bottom
-                    self.velocity.y = 0
-                if self.velocity.y > 0:
-                    self.rect.bottom = sprite.rect.top
-                    self.velocity.y = 0
-                    self.can_jump = True
-                    self.can_double_jump = True
+            if self.rect is not None and sprite.rect is not None:
+                if sprite.rect.colliderect(self.rect):
+                    if self.velocity.y < 0:
+                        self.rect.top = sprite.rect.bottom
+                        self.velocity.y = 0
+                    if self.velocity.y > 0:
+                        self.rect.bottom = sprite.rect.top
+                        self.velocity.y = 0
+                        self.can_jump = True
+                        self.can_double_jump = True
 
     def apply_gravity(self):
         self.velocity.y += GRAVITY

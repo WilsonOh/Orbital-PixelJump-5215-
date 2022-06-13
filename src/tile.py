@@ -1,20 +1,28 @@
-import os
-
+from pathlib import Path
 import pygame
-
 from settings import load_settings
 
 settings = load_settings()
 TILE_SIZE = settings["window"]["tile_size"]
 TILE_COLOR = settings["colors"]["tile"]
 
-ASSETS_PATH = os.path.abspath("../assets/")
+ASSETS_PATH = Path(__file__).parents[1].resolve() / "assets/"
 
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, position: tuple[int, int], *groups: pygame.sprite.AbstractGroup):
+    def __init__(
+        self,
+        position: tuple[int, int],
+        *groups: pygame.sprite.AbstractGroup,
+        grass=False
+    ):
         super().__init__(*groups)
-        self.image = pygame.transform.scale(
-            pygame.image.load(ASSETS_PATH + "/dirt.png"), (64, 64)
-        )
+        if grass:
+            self.image = pygame.transform.scale(
+                pygame.image.load(ASSETS_PATH / "grass.png"), (64, 64)
+            )
+        else:
+            self.image = pygame.transform.scale(
+                pygame.image.load(ASSETS_PATH / "dirt.png"), (64, 64)
+            )
         self.rect = self.image.get_rect(topleft=position)
