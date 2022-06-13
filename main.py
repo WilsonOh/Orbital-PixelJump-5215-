@@ -32,7 +32,7 @@ step_sound[1].set_volume(0.5)
 
 
 pygame.mixer.music.load('assets/music.wav')
-pygame.mixer.music.set_volume(0.2)
+pygame.mixer.music.set_volume(0.4)
 pygame.mixer.music.play(-1)
 
 # scrolling movement (list) allow decimals
