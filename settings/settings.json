@@ -1,12 +1,12 @@
 {
   "window": {
     "tile_size": 64,
-    "screen_width": 1792,
-    "screen_height": 704,
+    "screen_width": 1200,
+    "screen_height": 600,
     "fps": 60
   },
   "player": {
-    "horizontal_velocity": 8,
+    "horizontal_velocity": 10,
     "vertical_velocity": 16,
     "gravity": 0.8
   },

@@ -1,7 +1,8 @@
 import json
+import os
 
-SETTINGS_PATH = "./settings.json"
-LEVEL_MAP_PATH = "./level_map.json"
+SETTINGS_PATH = os.path.abspath("../settings/settings.json")
+LEVEL_MAP_PATH = os.path.abspath("../settings/level_map.json")
 
 
 def load_settings() -> dict:

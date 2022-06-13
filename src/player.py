@@ -1,25 +1,34 @@
+import os
+
 import pygame
+
 from settings import load_settings
 
 settings = load_settings()
 
-TILE_SIZE = settings['window']['tile_size']
-PLAYER_COLOR = settings['colors']['player']
-FPS = settings['window']['fps']
-PLAYER_HORIZONTAL_VEL = settings['player']['horizontal_velocity']
-PLAYER_VERTICAL_VEL = settings['player']['vertical_velocity']
-GRAVITY = settings['player']['gravity']
+TILE_SIZE = settings["window"]["tile_size"]
+PLAYER_COLOR = settings["colors"]["player"]
+FPS = settings["window"]["fps"]
+PLAYER_HORIZONTAL_VEL = settings["player"]["horizontal_velocity"]
+PLAYER_VERTICAL_VEL = settings["player"]["vertical_velocity"]
+GRAVITY = settings["player"]["gravity"]
+
+ASSETS_PATH = os.path.abspath("../assets/")
 
 clock = pygame.time.Clock()
 
 
 class Player(pygame.sprite.Sprite):
-
-    def __init__(self, position: tuple[int, int], *groups: pygame.sprite.AbstractGroup,
-                 collision_sprites: pygame.sprite.Group):
+    def __init__(
+        self,
+        position: tuple[int, int],
+        *groups: pygame.sprite.AbstractGroup,
+        collision_sprites: pygame.sprite.Group
+    ):
         super().__init__(*groups)
-        self.image = pygame.Surface((TILE_SIZE // 2, TILE_SIZE))
-        self.image.fill(PLAYER_COLOR)
+        self.image = pygame.transform.scale2x(
+            pygame.image.load(ASSETS_PATH + "/KNIGHT.png")
+        )
         self.rect = self.image.get_rect(topleft=position)
         self.velocity = pygame.Vector2()
         self.collision_sprites = collision_sprites
@@ -29,9 +38,12 @@ class Player(pygame.sprite.Sprite):
 
     def input(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_a] and 0 < self.rect.x:
+        if keys[pygame.K_a]:  # and 0 < self.rect.x:
             self.velocity.x = -PLAYER_HORIZONTAL_VEL
-        elif keys[pygame.K_d] and self.rect.x < pygame.display.get_window_size()[0] - self.rect.width:
+        elif (
+            keys[pygame.K_d]
+            # and self.rect.x < pygame.display.get_window_size()[0] - self.rect.width
+        ):
             self.velocity.x = PLAYER_HORIZONTAL_VEL
         else:
             self.velocity.x = 0
@@ -77,8 +89,13 @@ class Player(pygame.sprite.Sprite):
         font = pygame.font.SysFont("comicsans", 50, bold=True)
         text = font.render("YOU DIED", True, pygame.Color("red"))
         if self.rect.y > pygame.display.get_window_size()[1] * 2:
-            window.blit(text, (window.get_width()//2 - text.get_width()//2,
-                               window.get_height()//2 - text.get_height()//2))
+            window.blit(
+                text,
+                (
+                    window.get_width() // 2 - text.get_width() // 2,
+                    window.get_height() // 2 - text.get_height() // 2,
+                ),
+            )
             self.death_count += 1
             if self.death_count > 1.5 * FPS:
                 pygame.quit()

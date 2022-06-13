@@ -1,12 +1,13 @@
 import pygame
+
 from level import Level
 from settings import load_settings
 
 settings = load_settings()
-WIDTH = settings['window']['screen_width']
-HEIGHT = settings['window']['screen_height']
-BG_COLOR = settings['colors']['bg']
-FPS = settings['window']['fps']
+WIDTH = settings["window"]["screen_width"]
+HEIGHT = settings["window"]["screen_height"]
+BG_COLOR = settings["colors"]["bg"]
+FPS = settings["window"]["fps"]
 
 pygame.init()
 window = pygame.display.set_mode((WIDTH, HEIGHT))

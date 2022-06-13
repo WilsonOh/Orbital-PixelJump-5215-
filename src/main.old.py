@@ -6,8 +6,8 @@ import pygame
 pygame.init()
 
 # dimension of window
-WINDOW_WIDTH = 1920
-WINDOW_HEIGHT = 1080
+WINDOW_WIDTH = 1200
+WINDOW_HEIGHT = 600
 WINDOW_SIZE = (WINDOW_WIDTH, WINDOW_HEIGHT)
 
 # title of window
@@ -20,8 +20,8 @@ clock = pygame.time.Clock()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 
 # dirt and grass image (16 x 16)
-grass_image = pygame.image.load("assets/grass.png")
-dirt_image = pygame.image.load("assets/dirt.png")
+grass_image = pygame.image.load("../assets/grass.png")
+dirt_image = pygame.image.load("../assets/dirt.png")
 TILE_SIZE = grass_image.get_width()
 
 # scrolling movement (list) allow decimals
@@ -33,7 +33,7 @@ def load_map(path: str) -> list[list[str]]:
         return [list(row) for row in f.readlines()]
 
 
-game_map = load_map("assets/map")
+game_map = load_map("../assets/map")
 
 display_width = 480
 display_height = 270
@@ -42,20 +42,20 @@ display_size = (display_width, display_height)
 display = pygame.Surface(display_size)
 
 # player image
-player_image = pygame.image.load("assets/KNIGHT.png")
+player_image = pygame.image.load("../assets/KNIGHT.png")
 # player_image = pygame.image.load('assets/SECONDMODEL.png')
 player_image = pygame.transform.scale(player_image, (16, 16))
-bg_image = pygame.image.load("assets/01073865290819.5d61d475f0072.jpg")
+bg_image = pygame.image.load("../assets/01073865290819.5d61d475f0072.jpg")
 bg_image = pygame.transform.scale(bg_image, display_size)
 
 # cloud background
-close_cloud1 = pygame.image.load("assets/Cirrus_cloud_2.png")
+close_cloud1 = pygame.image.load("../assets/Cirrus_cloud_2.png")
 close_cloud1 = pygame.transform.scale(close_cloud1, (91, 37))
-close_cloud2 = pygame.image.load("assets/Cumulonimbus_cloud_2.png")
+close_cloud2 = pygame.image.load("../assets/Cumulonimbus_cloud_2.png")
 close_cloud2 = pygame.transform.scale(close_cloud2, (186, 66))
-far_cloud1 = pygame.image.load("assets/Cirrocumulus_cloud_3.png")
+far_cloud1 = pygame.image.load("../assets/Cirrocumulus_cloud_3.png")
 far_cloud1 = pygame.transform.scale(far_cloud1, (135, 71))
-far_cloud2 = pygame.image.load("assets/Regular_cloud_2.png")
+far_cloud2 = pygame.image.load("../assets/Regular_cloud_2.png")
 far_cloud2 = pygame.transform.scale(far_cloud2, (96, 32))
 
 background_objects = [
@@ -129,8 +129,8 @@ while True:
     display.blit(bg_image, (0, 0))
 
     # divide by 20 to add abit of delay for camera (looks better)
-    true_scroll[0] += (player_rect.x - true_scroll[0] - 248) / 20
-    true_scroll[1] += (player_rect.y - true_scroll[1] - 143) / 20
+    true_scroll[0] += (player_rect.x - true_scroll[0] - 248) // 20
+    true_scroll[1] += (player_rect.y - true_scroll[1] - 143) // 20
 
     # scroll has no decimals to make less screen tearing
     scroll = true_scroll.copy()
@@ -227,3 +227,4 @@ while True:
     screen.blit(pygame.transform.scale(display, WINDOW_SIZE), (0, 0))
     pygame.display.update()
     clock.tick(60)
+    print(clock.get_fps())
