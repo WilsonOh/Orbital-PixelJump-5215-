@@ -1,6 +1,7 @@
 import pygame
 from settings import load_settings
 from assets import get_sprite_image
+from animations import load_animation, change_action
 
 settings = load_settings()
 
@@ -28,6 +29,14 @@ class Player(pygame.sprite.Sprite):
         self.can_jump = True
         self.can_double_jump = True
 
+        self.animation_images = {}
+        self.animation_database = {'idle': load_animation('idle', [7, 7, 40], self.animation_images),
+                                   'running': load_animation('running', [7, 7, 7, 7, 7, 7, 7, 7],
+                                                             self.animation_images)}
+        self.player_action = 'idle'
+        self.player_frame = 0
+        self.player_flip = False
+
     def input(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:  # and 0 < self.rect.x:
@@ -51,6 +60,26 @@ class Player(pygame.sprite.Sprite):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit(0)
+
+    def animation(self):
+        if self.velocity.x > 0:
+            self.player_action, self.player_frame = change_action(self.player_action, self.player_frame, 'running')
+            self.player_flip = False
+
+        if self.velocity.x == 0:
+            self.player_action, self.player_frame = change_action(self.player_action, self.player_frame, 'idle')
+
+        if self.velocity.x < 0:
+            self.player_action, self.player_frame = change_action(self.player_action, self.player_frame, 'running')
+            self.player_flip = True
+
+    def animating_image(self):
+        self.player_frame += 1
+        if self.player_frame >= len(self.animation_database[self.player_action]):
+            self.player_frame = 0
+        player_img_id = self.animation_database[self.player_action][self.player_frame]
+        player_image = self.animation_images[player_img_id]
+        self.image = pygame.transform.flip(player_image, self.player_flip, False)
 
     def horizontal_collisions(self):
         for sprite in self.collision_sprites.sprites():
@@ -97,8 +126,12 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         self.input()
+        self.animation()
+        self.animating_image()
         self.rect.x += self.velocity.x
         self.horizontal_collisions()
         self.apply_gravity()
         self.vertical_collisions()
         self.check_alive()
+
+

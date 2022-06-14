@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d5bb3b8c-447e-451a-8a80-c5cc5924bee1" name="Changes" comment="Updates : &#10;&#10;Added Animations(Running, Idle)&#10;Added Sounds(BG music, running, jump)" />
+    <list default="true" id="d5bb3b8c-447e-451a-8a80-c5cc5924bee1" name="Changes" comment="Test">
+      <change afterPath="$PROJECT_DIR$/src/animations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/map.txt" beforeDir="false" afterPath="$PROJECT_DIR$/assets/map.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/level.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/level.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/player.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -170,5 +184,15 @@
     <MESSAGE value="Updated scaling from 4x to 2x to allow for clearer sprites(16bit to 32bit)&#10;&#10;Changed values of movement and acceleration to adjust." />
     <MESSAGE value="Updates : &#10;&#10;Added Animations(Running, Idle)&#10;Added Sounds(BG music, running, jump)" />
     <option name="LAST_COMMIT_MESSAGE" value="Updates : &#10;&#10;Added Animations(Running, Idle)&#10;Added Sounds(BG music, running, jump)" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$USER_HOME$/AppData/Local/Temp/support.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

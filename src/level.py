@@ -32,10 +32,10 @@ class Level:
         )
         self.backgrounds = [
             [
-                0.25,
+                0.15,
                 [
                     100,
-                    50,
+                    0,
                     get_background(
                         "far",
                         (WINDOW_WIDTH, WINDOW_HEIGHT),
@@ -47,7 +47,7 @@ class Level:
                 0.25,
                 [
                     300,
-                    20,
+                    0,
                     get_background(
                         "close",
                         (WINDOW_WIDTH * 2, WINDOW_HEIGHT),
@@ -59,7 +59,7 @@ class Level:
                 0.50,
                 [
                     50,
-                    20,
+                    0,
                     get_background(
                         "trees",
                         (WINDOW_WIDTH * 2, WINDOW_HEIGHT),
@@ -71,7 +71,7 @@ class Level:
                 0.75,
                 [
                     250,
-                    50,
+                    0,
                     get_background(
                         "foreground",
                         (WINDOW_WIDTH * 2, WINDOW_HEIGHT),

@@ -38,6 +38,18 @@ def get_sprite_image(
     return asset
 
 
+def get_animation_image(
+    asset_name: str, animation_name: str, scale: tuple[int, int], convert=True
+) -> pygame.surface.Surface:
+    asset_path = ASSETS_PATH / animation_name / (asset_name + ".png")
+    if convert:
+        asset = pygame.transform.scale(pygame.image.load(asset_path), scale).convert()
+    else:
+        asset = pygame.transform.scale(pygame.image.load(asset_path), scale)
+    asset.set_colorkey((255, 255, 255))
+    return asset
+
+
 def get_map() -> list[list[str]]:
     with open(ASSETS_PATH / "map.txt") as f:
         return [list(row) for row in f.readlines()]
