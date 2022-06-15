@@ -1,4 +1,4 @@
-import pygame
+import pygame, random
 from settings import load_settings
 from assets import get_sprite_image
 from animations import load_animation, change_action
@@ -29,6 +29,7 @@ class Player(pygame.sprite.Sprite):
         self.can_jump = True
         self.can_double_jump = True
 
+        # For animations
         self.animation_images = {}
         self.animation_database = {'idle': load_animation('idle', [7, 7, 40], self.animation_images),
                                    'running': load_animation('running', [7, 7, 7, 7, 7, 7, 7, 7],
@@ -37,7 +38,19 @@ class Player(pygame.sprite.Sprite):
         self.player_frame = 0
         self.player_flip = False
 
+        # For audio
+        self.jump_sound = pygame.mixer.Sound('../assets/music/jump.wav')
+        self.jump_sound.set_volume(0.5)
+        self.step_sound = [pygame.mixer.Sound('../assets/music/step0.wav'),
+                           pygame.mixer.Sound('../assets/music/step1.wav')]
+        self.step_sound_timer = 0
+        self.step_sound[0].set_volume(0.5)
+        self.step_sound[1].set_volume(0.5)
+
     def input(self):
+        if self.step_sound_timer > 0:
+            self.step_sound_timer -= 1
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:  # and 0 < self.rect.x:
             self.velocity.x = -PLAYER_HORIZONTAL_VEL
@@ -54,9 +67,11 @@ class Player(pygame.sprite.Sprite):
                     if self.can_jump:
                         self.velocity.y = -PLAYER_VERTICAL_VEL
                         self.can_jump = False
+                        self.jump_sound.play()
                     elif self.can_double_jump:
                         self.velocity.y = -PLAYER_VERTICAL_VEL
                         self.can_double_jump = False
+                        self.jump_sound.play()
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit(0)
@@ -102,6 +117,10 @@ class Player(pygame.sprite.Sprite):
                         self.velocity.y = 0
                         self.can_jump = True
                         self.can_double_jump = True
+                        if self.velocity.x != 0:
+                            if self.step_sound_timer == 0:
+                                self.step_sound_timer = 30
+                                random.choice(self.step_sound).play()
 
     def apply_gravity(self):
         self.velocity.y += GRAVITY

@@ -10,6 +10,7 @@ BG_COLOR = settings["colors"]["bg"]
 FPS = settings["window"]["fps"]
 
 pygame.init()
+pygame.mixer.pre_init(44100, -16, 2, 512)
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("2D Platformer")
 clock = pygame.time.Clock()

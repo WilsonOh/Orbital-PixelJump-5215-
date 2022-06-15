@@ -24,6 +24,7 @@ class Level:
         self.visible_sprites = Camera()
         # Checks for collision every frame
         self.collision_sprites = pygame.sprite.Group()
+        self.play_bgm('../assets/music/music.wav')
         self.setup_level()
         self.main_background = get_background(
             "parallax-mountain-bg",
@@ -99,6 +100,11 @@ class Level:
                         self.active_sprites,
                         collision_sprites=self.collision_sprites,
                     )
+
+    def play_bgm(self, path):
+        pygame.mixer.music.load(path)
+        pygame.mixer.music.set_volume(0.3)
+        pygame.mixer.music.play(-1)
 
     def run(self, clock: pygame.time.Clock):
         self.window.blit(self.main_background, (0, 0))
