@@ -1,21 +1,21 @@
                                      
                                      
-
-
-
-
-
-
-
-
-
-                                     
-       GGGGG                         
- P                                   
-GG               GG      GG    G     
-DDGGGGGGGGGGGGGGGDD    GGDDG  GDGG  G
-DDDDDDDDDDDDDDDDDDD    DDDDD  DDDDGGD
-DDDDDDDDDDDDDDDDDDD     DD    DDDDDDD
-DDDDDDDDDDDDDDDDDDD     D     DDDDDDD
-DDDDDDDDDDDDDDDDDDD     D     DDDDDDD
-DDDDDDDDDDDDDDDDDDD           DDDDDDD
+                                    G
+                                            G
+                                                G
+                                                    G
+                                                     G
+                                                      G
+                                                       G
+                                                        G
+                                                         G
+                                                          G
+       GGGGG                                               G
+ P                                                       GGGGGG
+GG               GG      GG    G                         DDDDDD
+DDGGGGGGGGGGGGGGGDD    GGDDG  GDGG  G                    DDDDDD
+DDDDDDDDDDDDDDDDDDD    DDDDD  DDDDGGD      GGG GG
+DDDDDDDDDDDDDDDDDDD     DD    DDDDDDD      DDD DD     GGGGGGGGGGG
+DDDDDDDDDDDDDDDDDDD     D     DDDDDDDGGGGGGDDDGDDGGGGDDDDDDDDDDDD
+DDDDDDDDDDDDDDDDDDD     D     DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+DDDDDDDDDDDDDDDDDDD           DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
