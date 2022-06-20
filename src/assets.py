@@ -26,6 +26,15 @@ def get_background(
     return background
 
 
+def get_music(asset_name: str) -> pygame.mixer.Sound:
+    asset_path = ASSETS_PATH / "music" / asset_name
+    return pygame.mixer.Sound(asset_path)
+
+
+def get_assets_path() -> str:
+    return str(ASSETS_PATH) + "/"
+
+
 def get_sprite_image(
     asset_name: str, scale: tuple[int, int], convert=True
 ) -> pygame.surface.Surface:

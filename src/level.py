@@ -3,12 +3,11 @@ import pygame
 from enemies import Enemy
 from tile import EnemyTile
 from player import Player
-from settings import load_level_map, load_settings
-from assets import get_background, get_map
+from settings import load_settings
+from assets import get_background, get_map, get_assets_path
 from tile import Tile
 
 settings = load_settings()
-level_map = load_level_map()
 
 LEVEL_MAP = get_map()
 TILE_SIZE = settings["window"]["tile_size"]
@@ -29,7 +28,7 @@ class Level:
         self.enemy_collision_sprites = pygame.sprite.Group()
         self.player_sprite = pygame.sprite.Group()
         self.collision_sprites = pygame.sprite.Group()
-        self.play_bgm('../assets/music/music.wav')
+        self.play_bgm(get_assets_path() + "music/music.wav")
         self.setup_level()
         self.main_background = get_background(
             "parallax-mountain-bg",
@@ -118,7 +117,7 @@ class Level:
                 if col == "I":
                     EnemyTile((x, y), self.enemy_collision_sprites)
 
-    def play_bgm(self, path):
+    def play_bgm(self, path: str) -> None:
         pygame.mixer.music.load(path)
         pygame.mixer.music.set_volume(0.3)
         pygame.mixer.music.play(-1)

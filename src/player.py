@@ -1,6 +1,7 @@
-import pygame, random
+import pygame
+import random
 from settings import load_settings
-from assets import get_sprite_image
+from assets import get_sprite_image, get_music
 from animations import load_animation, change_action
 
 settings = load_settings()
@@ -31,18 +32,23 @@ class Player(pygame.sprite.Sprite):
 
         # For animations
         self.animation_images = {}
-        self.animation_database = {'idle': load_animation('idle', [7, 7, 40], self.animation_images),
-                                   'running': load_animation('running', [7, 7, 7, 7, 7, 7, 7, 7],
-                                                             self.animation_images)}
-        self.player_action = 'idle'
+        self.animation_database = {
+            "idle": load_animation("idle", [7, 7, 40], self.animation_images),
+            "running": load_animation(
+                "running", [7, 7, 7, 7, 7, 7, 7, 7], self.animation_images
+            ),
+        }
+        self.player_action = "idle"
         self.player_frame = 0
         self.player_flip = False
 
         # For audio
-        self.jump_sound = pygame.mixer.Sound('../assets/music/jump.wav')
+        self.jump_sound = get_music("jump.wav")
         self.jump_sound.set_volume(0.5)
-        self.step_sound = [pygame.mixer.Sound('../assets/music/step0.wav'),
-                           pygame.mixer.Sound('../assets/music/step1.wav')]
+        self.step_sound = [
+            get_music("step0.wav"),
+            get_music("step1.wav"),
+        ]
         self.step_sound_timer = 0
         self.step_sound[0].set_volume(0.5)
         self.step_sound[1].set_volume(0.5)
@@ -78,14 +84,20 @@ class Player(pygame.sprite.Sprite):
 
     def animation(self):
         if self.velocity.x > 0:
-            self.player_action, self.player_frame = change_action(self.player_action, self.player_frame, 'running')
+            self.player_action, self.player_frame = change_action(
+                self.player_action, self.player_frame, "running"
+            )
             self.player_flip = False
 
         if self.velocity.x == 0:
-            self.player_action, self.player_frame = change_action(self.player_action, self.player_frame, 'idle')
+            self.player_action, self.player_frame = change_action(
+                self.player_action, self.player_frame, "idle"
+            )
 
         if self.velocity.x < 0:
-            self.player_action, self.player_frame = change_action(self.player_action, self.player_frame, 'running')
+            self.player_action, self.player_frame = change_action(
+                self.player_action, self.player_frame, "running"
+            )
             self.player_flip = True
 
     def animating_image(self):
@@ -152,5 +164,3 @@ class Player(pygame.sprite.Sprite):
         self.apply_gravity()
         self.vertical_collisions()
         self.check_alive()
-
-
