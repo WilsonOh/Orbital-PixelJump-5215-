@@ -26,3 +26,16 @@ class Tile(pygame.sprite.Sprite):
                 pygame.image.load(ASSETS_PATH / "dirt.png"), (64, 64)
             )
         self.rect = self.image.get_rect(topleft=position)
+
+
+class EnemyTile(Tile):
+    def __init__(
+        self,
+        position: tuple[int, int],
+        *groups: pygame.sprite.AbstractGroup,
+        grass=False
+    ):
+        super().__init__(position, *groups, grass=grass)
+        self.image = pygame.Surface((TILE_SIZE, TILE_SIZE))
+        self.rect = self.image.get_rect(topleft=position)
+        self.image.fill(pygame.Color("red"))

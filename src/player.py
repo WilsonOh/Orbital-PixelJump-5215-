@@ -16,7 +16,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(
         self,
         position: tuple[int, int],
-        *groups: pygame.sprite.AbstractGroup,
+        *groups: pygame.sprite.Group,
         collision_sprites: pygame.sprite.Group
     ):
         super().__init__(*groups)

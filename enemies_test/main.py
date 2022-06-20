@@ -61,7 +61,6 @@ class Enemy(Entity):
         self.rect.move_ip(self.velocity)
         self.move()
         self.check_collision()
-        print(self.velocity)
 
 
 class Plank(Entity):

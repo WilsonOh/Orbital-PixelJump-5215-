@@ -1,5 +1,7 @@
 import pygame
 
+from enemies import Enemy
+from tile import EnemyTile
 from player import Player
 from settings import load_level_map, load_settings
 from assets import get_background, get_map
@@ -23,6 +25,9 @@ class Level:
         # Drawn every frame
         self.visible_sprites = Camera()
         # Checks for collision every frame
+        self.enemy_sprites = pygame.sprite.Group()
+        self.enemy_collision_sprites = pygame.sprite.Group()
+        self.player_sprite = pygame.sprite.Group()
         self.collision_sprites = pygame.sprite.Group()
         self.setup_level()
         self.main_background = get_background(
@@ -97,14 +102,27 @@ class Level:
                         (x, y),
                         self.visible_sprites,
                         self.active_sprites,
+                        self.player_sprite,
                         collision_sprites=self.collision_sprites,
                     )
+                if col == "E":
+                    Enemy(
+                        (x, y),
+                        self.enemy_sprites,
+                        self.visible_sprites,
+                        collision_sprites=self.collision_sprites,
+                        enemy_collision_sprites=self.enemy_collision_sprites,
+                        player_sprite=self.player_sprite,
+                    )
+                if col == "I":
+                    EnemyTile((x, y), self.enemy_collision_sprites)
 
     def run(self, clock: pygame.time.Clock):
         self.window.blit(self.main_background, (0, 0))
         self.visible_sprites.draw(self.window, self.backgrounds, clock)
         self.visible_sprites.update(self.player)
         self.active_sprites.update()
+        self.enemy_sprites.update()
 
 
 class Camera(pygame.sprite.Group):
