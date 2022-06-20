@@ -2,6 +2,7 @@ import pygame
 
 from level import Level
 from settings import load_settings
+from menu import menu
 
 settings = load_settings()
 WIDTH = settings["window"]["screen_width"]
@@ -12,10 +13,11 @@ FPS = settings["window"]["fps"]
 pygame.init()
 pygame.mixer.pre_init(44100, -16, 2, 512)
 window = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("2D Platformer")
+pygame.display.set_caption("PIXELJUMP")
 clock = pygame.time.Clock()
 level = Level()
 
+menu()
 while True:
     window.fill(BG_COLOR)
     level.run(clock)
