@@ -29,6 +29,7 @@ class Level:
         self.enemy_collision_sprites = pygame.sprite.Group()
         self.player_sprite = pygame.sprite.Group()
         self.collision_sprites = pygame.sprite.Group()
+        self.play_bgm('../assets/music/music.wav')
         self.setup_level()
         self.main_background = get_background(
             "parallax-mountain-bg",
@@ -37,10 +38,10 @@ class Level:
         )
         self.backgrounds = [
             [
-                0.25,
+                0.15,
                 [
                     100,
-                    50,
+                    0,
                     get_background(
                         "far",
                         (WINDOW_WIDTH, WINDOW_HEIGHT),
@@ -52,7 +53,7 @@ class Level:
                 0.25,
                 [
                     300,
-                    20,
+                    0,
                     get_background(
                         "close",
                         (WINDOW_WIDTH * 2, WINDOW_HEIGHT),
@@ -64,7 +65,7 @@ class Level:
                 0.50,
                 [
                     50,
-                    20,
+                    0,
                     get_background(
                         "trees",
                         (WINDOW_WIDTH * 2, WINDOW_HEIGHT),
@@ -76,7 +77,7 @@ class Level:
                 0.75,
                 [
                     250,
-                    50,
+                    0,
                     get_background(
                         "foreground",
                         (WINDOW_WIDTH * 2, WINDOW_HEIGHT),
@@ -116,6 +117,11 @@ class Level:
                     )
                 if col == "I":
                     EnemyTile((x, y), self.enemy_collision_sprites)
+
+    def play_bgm(self, path):
+        pygame.mixer.music.load(path)
+        pygame.mixer.music.set_volume(0.3)
+        pygame.mixer.music.play(-1)
 
     def run(self, clock: pygame.time.Clock):
         self.window.blit(self.main_background, (0, 0))
