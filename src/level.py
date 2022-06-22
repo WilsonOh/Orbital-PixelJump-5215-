@@ -1,11 +1,10 @@
 import pygame
 
 from enemies import Enemy
-from tile import EnemyTile
+from tile import Tile, EnemyTile, TreeTile
 from player import Player
 from settings import load_settings
 from assets import get_background, get_map, get_assets_path
-from tile import Tile
 
 settings = load_settings()
 
@@ -91,12 +90,14 @@ class Level:
             for col_idx, col in enumerate(row):
                 x = col_idx * TILE_SIZE
                 y = row_idx * TILE_SIZE
+                '''
                 if col == "D":
                     Tile((x, y), self.visible_sprites, self.collision_sprites)
                 if col == "G":
                     Tile(
                         (x, y), self.visible_sprites, self.collision_sprites, grass=True
                     )
+                '''
                 if col == "P":
                     self.player = Player(
                         (x, y),
@@ -116,10 +117,16 @@ class Level:
                     )
                 if col == "I":
                     EnemyTile((x, y), self.enemy_collision_sprites)
+                if col == "T":
+                    TreeTile((x, y), self.visible_sprites, col=col)
+
+                if col.isnumeric():
+                    Tile((x, y), self.visible_sprites, self.collision_sprites, col=col)
+
 
     def play_bgm(self, path: str) -> None:
         pygame.mixer.music.load(path)
-        pygame.mixer.music.set_volume(0.3)
+        pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play(-1)
 
     def run(self, clock: pygame.time.Clock):

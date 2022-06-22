@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d5bb3b8c-447e-451a-8a80-c5cc5924bee1" name="Changes" comment="Added animations with a helper animations.py file">
+    <list default="true" id="d5bb3b8c-447e-451a-8a80-c5cc5924bee1" name="Changes" comment="Trying">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/TILES/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/TILES/1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/TILES/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/TILES/2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/TILES/3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/TILES/3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/TILES/4.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/TILES/4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/TILES/5.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/TILES/5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/TILES/6.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/TILES/6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/TILES/7.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/TILES/7.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/map.txt" beforeDir="false" afterPath="$PROJECT_DIR$/assets/map.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/settings/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enemies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/enemies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/map1.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/level.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/level.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tile.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tile.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +166,21 @@
       <option name="project" value="LOCAL" />
       <updated>1655219239165</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Fixed bug with enemy collision">
+      <created>1655900947595</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1655900947595</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Trying">
+      <created>1655910920385</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1655910920385</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -191,6 +212,8 @@
     <MESSAGE value="Updated scaling from 4x to 2x to allow for clearer sprites(16bit to 32bit)&#10;&#10;Changed values of movement and acceleration to adjust." />
     <MESSAGE value="Updates : &#10;&#10;Added Animations(Running, Idle)&#10;Added Sounds(BG music, running, jump)" />
     <MESSAGE value="Added animations with a helper animations.py file" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added animations with a helper animations.py file" />
+    <MESSAGE value="Fixed bug with enemy collision" />
+    <MESSAGE value="Trying" />
+    <option name="LAST_COMMIT_MESSAGE" value="Trying" />
   </component>
 </project>
