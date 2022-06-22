@@ -14,7 +14,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.Surface((64, 64))
         self.rect = self.image.get_rect(topleft=pos)
         self.image.fill(pygame.Color("black"))
-        self.velocity = pygame.Vector2((6, 0))
+        self.velocity = pygame.Vector2((7, 0))
         self.collision_sprites = collision_sprites
         self.player_sprite = player_sprite
         self.enemy_collision_sprites = enemy_collision_sprites
@@ -27,8 +27,8 @@ class Enemy(pygame.sprite.Sprite):
                         self.rect.left = sprite.rect.right
                         self.velocity.x *= -1
                     elif self.velocity.x > 0:
-                        self.velocity *= -1
                         self.rect.right = sprite.rect.left
+                        self.velocity *= -1
         for sprite in self.enemy_collision_sprites.sprites():
             if self.rect is not None and sprite.rect is not None:
                 if sprite.rect.colliderect(self.rect):
@@ -36,8 +36,8 @@ class Enemy(pygame.sprite.Sprite):
                         self.rect.left = sprite.rect.right
                         self.velocity.x *= -1
                     elif self.velocity.x > 0:
-                        self.velocity *= -1
                         self.rect.right = sprite.rect.left
+                        self.velocity *= -1
 
     def vertical_collisions(self):
         for sprite in self.collision_sprites.sprites():
@@ -58,15 +58,15 @@ class Enemy(pygame.sprite.Sprite):
     def move(self) -> None:
         for player in self.player_sprite:
             if abs(player.rect.x - self.rect.x) < 300:
-                if self.rect.x - 5 > player.rect.x:
-                    self.velocity.x = -7
-                if self.rect.x + 5 < player.rect.x:
-                    self.velocity.x = 7
                 if self.rect.x == player.rect.x:
                     self.velocity.x = 0
+                elif self.rect.x + 5 > player.rect.x:
+                    self.velocity.x = -7
+                elif self.rect.x - 5 < player.rect.x:
+                    self.velocity.x = 7
 
     def update(self) -> None:
         self.rect.x += self.velocity.x
-        self.move()
         self.horizontal_collisions()
+        self.move()
         self.checkPlayer()

@@ -3,9 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="d5bb3b8c-447e-451a-8a80-c5cc5924bee1" name="Changes" comment="Added animations with a helper animations.py file">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/map.txt" beforeDir="false" afterPath="$PROJECT_DIR$/assets/map.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/settings/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/enemies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/enemies.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/level.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/level.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/player.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +32,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="29nUyzC0yL3L6Cbnxao9TWZAHqo" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
