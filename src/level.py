@@ -118,7 +118,7 @@ class Level:
                 if col == "I":
                     EnemyTile((x, y), self.enemy_collision_sprites)
                 if col == "T":
-                    TreeTile((x, y), self.visible_sprites, col=col)
+                    TreeTile((x, y), self.visible_sprites)
 
                 if col.isnumeric():
                     Tile((x, y), self.visible_sprites, self.collision_sprites, col=col)

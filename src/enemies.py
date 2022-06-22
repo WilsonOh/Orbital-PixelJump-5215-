@@ -14,7 +14,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.Surface((64, 64))
         self.rect = self.image.get_rect(topleft=pos)
         self.image.fill(pygame.Color("black"))
-        self.velocity = pygame.Vector2((7, 0))
+        self.velocity = pygame.Vector2((5, 0))
         self.collision_sprites = collision_sprites
         self.player_sprite = player_sprite
         self.enemy_collision_sprites = enemy_collision_sprites
@@ -57,13 +57,13 @@ class Enemy(pygame.sprite.Sprite):
 
     def move(self) -> None:
         for player in self.player_sprite:
-            if abs(player.rect.x - self.rect.x) < 300:
+            if abs(player.rect.x - self.rect.x) < 200:
                 if self.rect.x == player.rect.x:
                     self.velocity.x = 0
                 elif self.rect.x + 5 > player.rect.x:
-                    self.velocity.x = -7
+                    self.velocity.x = -5
                 elif self.rect.x - 5 < player.rect.x:
-                    self.velocity.x = 7
+                    self.velocity.x = 5
 
     def update(self) -> None:
         self.rect.x += self.velocity.x

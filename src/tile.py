@@ -55,10 +55,10 @@ class TreeTile(Tile):
         col=1
     ):
         super().__init__(position, *groups, col=col)
-        self.tree1 = get_sprite_image("tree1", [128, 128])
-        self.tree2 = get_sprite_image("tree2", [128, 128])
-        self.tree3 = get_sprite_image("tree3", [128, 128])
+        self.tree1 = get_sprite_image("tree1", [256, 256])
+        self.tree2 = get_sprite_image("tree2", [256, 256])
+        self.tree3 = get_sprite_image("tree3", [256, 256])
         self.image = random.choice([self.tree1, self.tree2, self.tree3])
-        self.rect = self.image.get_rect(topleft=position)
+        self.rect = self.image.get_rect(center=position)
 
 
