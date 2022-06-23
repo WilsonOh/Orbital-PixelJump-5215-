@@ -30,6 +30,7 @@ class Player(pygame.sprite.Sprite):
         self.death_count = 0
         self.can_jump = True
         self.can_double_jump = True
+        self.muted = False
 
         # For animations
         self.animation_images = {}
@@ -58,12 +59,9 @@ class Player(pygame.sprite.Sprite):
             self.step_sound_timer -= 1
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_a]:  # and 0 < self.rect.x:
+        if keys[pygame.K_a]:
             self.velocity.x = -PLAYER_HORIZONTAL_VEL
-        elif (
-            keys[pygame.K_d]
-            # and self.rect.x < pygame.display.get_window_size()[0] - self.rect.width
-        ):
+        elif keys[pygame.K_d]:
             self.velocity.x = PLAYER_HORIZONTAL_VEL
         else:
             self.velocity.x = 0
@@ -80,10 +78,26 @@ class Player(pygame.sprite.Sprite):
                         self.jump_sound.play()
                 if event.key == pygame.K_ESCAPE:
                     pause_screen()
+                if event.key == pygame.K_m:
+                    self.toggle_mute()
 
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit(0)
+
+    def toggle_mute(self) -> None:
+        if not self.muted:
+            self.step_sound[0].set_volume(0)
+            self.step_sound[1].set_volume(0)
+            self.jump_sound.set_volume(0)
+            pygame.mixer.music.pause()
+            self.muted = True
+        else:
+            self.step_sound[0].set_volume(0.5)
+            self.step_sound[0].set_volume(0.5)
+            self.jump_sound.set_volume(1)
+            pygame.mixer.music.unpause()
+            self.muted = False
 
     def animation(self):
         if self.velocity.x > 0:
