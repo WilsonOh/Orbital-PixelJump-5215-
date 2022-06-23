@@ -26,10 +26,31 @@ def get_background(
     return background
 
 
+def get_music(asset_name: str) -> pygame.mixer.Sound:
+    asset_path = ASSETS_PATH / "music" / asset_name
+    return pygame.mixer.Sound(asset_path)
+
+
+def get_assets_path() -> str:
+    return str(ASSETS_PATH) + "/"
+
+
 def get_sprite_image(
     asset_name: str, scale: tuple[int, int], convert=True
 ) -> pygame.surface.Surface:
     asset_path = ASSETS_PATH / (asset_name + ".png")
+    if convert:
+        asset = pygame.transform.scale(pygame.image.load(asset_path), scale).convert()
+    else:
+        asset = pygame.transform.scale(pygame.image.load(asset_path), scale)
+    asset.set_colorkey((255, 255, 255))
+    return asset
+
+
+def get_animation_image(
+    asset_name: str, animation_name: str, scale: tuple[int, int], convert=True
+) -> pygame.surface.Surface:
+    asset_path = ASSETS_PATH / animation_name / (asset_name + ".png")
     if convert:
         asset = pygame.transform.scale(pygame.image.load(asset_path), scale).convert()
     else:

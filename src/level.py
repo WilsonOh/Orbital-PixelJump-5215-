@@ -1,12 +1,12 @@
 import pygame
 
+from enemies import Enemy
+from tile import Tile, EnemyTile, TreeTile
 from player import Player
-from settings import load_level_map, load_settings
-from assets import get_background, get_map
-from tile import Tile
+from settings import load_settings
+from assets import get_background, get_map, get_assets_path
 
 settings = load_settings()
-level_map = load_level_map()
 
 LEVEL_MAP = get_map()
 TILE_SIZE = settings["window"]["tile_size"]
@@ -23,7 +23,11 @@ class Level:
         # Drawn every frame
         self.visible_sprites = Camera()
         # Checks for collision every frame
+        self.enemy_sprites = pygame.sprite.Group()
+        self.enemy_collision_sprites = pygame.sprite.Group()
+        self.player_sprite = pygame.sprite.Group()
         self.collision_sprites = pygame.sprite.Group()
+        self.play_bgm(get_assets_path() + "music/music.wav")
         self.setup_level()
         self.main_background = get_background(
             "parallax-mountain-bg",
@@ -32,10 +36,10 @@ class Level:
         )
         self.backgrounds = [
             [
-                0.25,
+                0.15,
                 [
                     100,
-                    50,
+                    0,
                     get_background(
                         "far",
                         (WINDOW_WIDTH, WINDOW_HEIGHT),
@@ -47,7 +51,7 @@ class Level:
                 0.25,
                 [
                     300,
-                    20,
+                    0,
                     get_background(
                         "close",
                         (WINDOW_WIDTH * 2, WINDOW_HEIGHT),
@@ -59,7 +63,7 @@ class Level:
                 0.50,
                 [
                     50,
-                    20,
+                    0,
                     get_background(
                         "trees",
                         (WINDOW_WIDTH * 2, WINDOW_HEIGHT),
@@ -71,7 +75,7 @@ class Level:
                 0.75,
                 [
                     250,
-                    50,
+                    0,
                     get_background(
                         "foreground",
                         (WINDOW_WIDTH * 2, WINDOW_HEIGHT),
@@ -86,25 +90,51 @@ class Level:
             for col_idx, col in enumerate(row):
                 x = col_idx * TILE_SIZE
                 y = row_idx * TILE_SIZE
+                '''
                 if col == "D":
                     Tile((x, y), self.visible_sprites, self.collision_sprites)
                 if col == "G":
                     Tile(
                         (x, y), self.visible_sprites, self.collision_sprites, grass=True
                     )
+                '''
                 if col == "P":
                     self.player = Player(
                         (x, y),
                         self.visible_sprites,
                         self.active_sprites,
+                        self.player_sprite,
                         collision_sprites=self.collision_sprites,
                     )
+                if col == "E":
+                    Enemy(
+                        (x, y),
+                        self.enemy_sprites,
+                        self.visible_sprites,
+                        collision_sprites=self.collision_sprites,
+                        enemy_collision_sprites=self.enemy_collision_sprites,
+                        player_sprite=self.player_sprite,
+                    )
+                if col == "I":
+                    EnemyTile((x, y), self.enemy_collision_sprites)
+                if col == "T":
+                    TreeTile((x, y), self.visible_sprites)
+
+                if col.isnumeric():
+                    Tile((x, y), self.visible_sprites, self.collision_sprites, col=col)
+
+
+    def play_bgm(self, path: str) -> None:
+        pygame.mixer.music.load(path)
+        pygame.mixer.music.set_volume(0.2)
+        pygame.mixer.music.play(-1)
 
     def run(self, clock: pygame.time.Clock):
         self.window.blit(self.main_background, (0, 0))
         self.visible_sprites.draw(self.window, self.backgrounds, clock)
         self.visible_sprites.update(self.player)
         self.active_sprites.update()
+        self.enemy_sprites.update()
 
 
 class Camera(pygame.sprite.Group):
