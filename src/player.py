@@ -3,6 +3,7 @@ import random
 from settings import load_settings
 from assets import get_sprite_image, get_music
 from animations import load_animation, change_action
+from menu import pause_screen
 
 settings = load_settings()
 
@@ -44,7 +45,6 @@ class Player(pygame.sprite.Sprite):
 
         # For audio
         self.jump_sound = get_music("jump.wav")
-        self.jump_sound.set_volume(0.5)
         self.step_sound = [
             get_music("step0.wav"),
             get_music("step1.wav"),
@@ -78,6 +78,9 @@ class Player(pygame.sprite.Sprite):
                         self.velocity.y = -PLAYER_VERTICAL_VEL
                         self.can_double_jump = False
                         self.jump_sound.play()
+                if event.key == pygame.K_ESCAPE:
+                    pause_screen()
+
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit(0)
