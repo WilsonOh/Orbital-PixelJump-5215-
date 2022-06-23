@@ -1,6 +1,6 @@
 import pygame
 
-from enemies import Enemy
+from enemies import Enemy, MushroomEnemy, FroggyEnemy
 from tile import Tile, EnemyTile, TreeTile
 from player import Player
 from settings import load_settings
@@ -107,7 +107,7 @@ class Level:
                         collision_sprites=self.collision_sprites,
                     )
                 if col == "E":
-                    Enemy(
+                    MushroomEnemy(
                         (x, y),
                         self.enemy_sprites,
                         self.visible_sprites,
@@ -115,6 +115,16 @@ class Level:
                         enemy_collision_sprites=self.enemy_collision_sprites,
                         player_sprite=self.player_sprite,
                     )
+                if col == "F":
+                    FroggyEnemy(
+                        (x, y),
+                        self.enemy_sprites,
+                        self.visible_sprites,
+                        collision_sprites=self.collision_sprites,
+                        enemy_collision_sprites=self.enemy_collision_sprites,
+                        player_sprite=self.player_sprite,
+                    )
+
                 if col == "I":
                     EnemyTile((x, y), self.enemy_collision_sprites)
                 if col == "T":
@@ -122,7 +132,6 @@ class Level:
 
                 if col.isnumeric():
                     Tile((x, y), self.visible_sprites, self.collision_sprites, col=col)
-
 
     def play_bgm(self, path: str) -> None:
         pygame.mixer.music.load(path)
