@@ -68,7 +68,7 @@ class PropTile(Tile):
         self.bush2 = get_sprite_image("bush2", [64, 69])
         self.crate1 = get_sprite_image("crate1", [64, 69])
         self.skull1 = get_sprite_image("skull1", [64, 69])
-        self.skull2 = get_sprite_image("skull2", [64, 64])
+        self.skull2 = get_sprite_image("skull2", [64, 69])
         self.shroom1 = get_sprite_image("shroom1", [64, 69])
         self.sign1 = get_sprite_image("sign1", [64, 69])
         self.image = random.choice(
