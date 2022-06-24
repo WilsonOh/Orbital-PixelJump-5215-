@@ -1,5 +1,5 @@
 import pygame
-from assets import get_sprite_image
+from assets import get_sprite_image, get_music
 from settings import load_settings
 
 settings = load_settings()
@@ -11,6 +11,7 @@ WINDOW_HEIGHT = settings["window"]["screen_height"]
 def pause_screen():
     pause_image = get_sprite_image("pause", [WINDOW_WIDTH, WINDOW_HEIGHT])
     window = pygame.display.get_surface()
+    pause_out_sound = get_music("pause_out.wav")
     font = pygame.font.SysFont("arial", int(window.get_height() * 0.05))
     text = font.render(
         "GAME PAUSED, PRESS ESCAPE TO RETURN or q to QUIT", True, pygame.Color("black")
@@ -21,6 +22,7 @@ def pause_screen():
                 quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
+                    pause_out_sound.play()
                     return
                 if event.key == pygame.K_q:
                     quit()
@@ -43,6 +45,7 @@ def menu():
     window = pygame.display.get_surface()
     font = pygame.font.SysFont("arial", int(window.get_height() * 0.05))
     title = font.render("PIXELJUMP", True, pygame.Color("black"))
+    menu_sound = get_music("menu_sound.wav")
 
     option_strings = ["Press ENTER to start the game", "Press ESCAPE to quit the game"]
     options_texts = [
@@ -59,6 +62,7 @@ def menu():
                 if event.key == pygame.K_ESCAPE:
                     quit()
                 if event.key == pygame.K_RETURN:
+                    menu_sound.play()
                     return
         '''
         window.fill(pygame.Color("white"))

@@ -60,6 +60,8 @@ class Player(pygame.sprite.Sprite):
         self.death_music = get_music("ded.wav")
         self.death_music.set_volume(0.2)
 
+        self.pause_in_sound = get_music("pause_in.wav")
+
     def input(self):
         if self.dead:
             return
@@ -86,6 +88,7 @@ class Player(pygame.sprite.Sprite):
                         self.can_double_jump = False
                         self.jump_sound.play()
                 if event.key == pygame.K_ESCAPE:
+                    self.pause_in_sound.play()
                     pause_screen()
                 if event.key == pygame.K_m:
                     self.toggle_mute()
