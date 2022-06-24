@@ -57,6 +57,9 @@ class Player(pygame.sprite.Sprite):
         self.step_sound[0].set_volume(0.5)
         self.step_sound[1].set_volume(0.5)
 
+        self.death_music = get_music("ded.wav")
+        self.death_music.set_volume(0.2)
+
     def input(self):
         if self.dead:
             return
@@ -172,7 +175,7 @@ class Player(pygame.sprite.Sprite):
         font = pygame.font.SysFont("comicsans", 50, bold=True)
         text = font.render("YOU DIED", True, pygame.Color("red"))
         pygame.mixer.music.stop()
-        get_music("ded.wav").play()
+        self.death_music.play()
         self.die.update()
         self.die.draw(window)
         window.blit(

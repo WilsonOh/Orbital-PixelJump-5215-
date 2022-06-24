@@ -1,4 +1,11 @@
 import pygame
+from assets import get_sprite_image
+from settings import load_settings
+
+settings = load_settings()
+
+WINDOW_WIDTH = settings["window"]["screen_width"]
+WINDOW_HEIGHT = settings["window"]["screen_height"]
 
 
 def pause_screen():
@@ -26,6 +33,7 @@ def pause_screen():
 
 
 def menu():
+    menu_image = get_sprite_image("menu", [WINDOW_WIDTH, WINDOW_HEIGHT])
     window = pygame.display.get_surface()
     font = pygame.font.SysFont("arial", int(window.get_height() * 0.05))
     title = font.render("PIXELJUMP", True, pygame.Color("black"))
@@ -46,8 +54,11 @@ def menu():
                     quit()
                 if event.key == pygame.K_RETURN:
                     return
+        '''
         window.fill(pygame.Color("white"))
         window.blit(
             title, (win_center[0] - title_center[0], win_center[1] - title_center[1])
         )
+        '''
+        window.blit(menu_image, [0, 0])
         pygame.display.update()
