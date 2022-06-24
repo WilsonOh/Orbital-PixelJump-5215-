@@ -16,10 +16,10 @@ class Tile(pygame.sprite.Sprite):
         self,
         position: tuple[int, int],
         *groups: pygame.sprite.AbstractGroup,
-        col = 1,
+        col=1,
     ):
         super().__init__(*groups)
-        '''
+        """
         if grass:
             self.image = pygame.transform.scale(
                 pygame.image.load(ASSETS_PATH / "grass.png"), (64, 64)
@@ -28,18 +28,17 @@ class Tile(pygame.sprite.Sprite):
             self.image = pygame.transform.scale(
                 pygame.image.load(ASSETS_PATH / "dirt.png"), (64, 64)
             ).convert()
-        '''
-        self.image = pygame.image.load(get_assets_path() + "TILES/" + str(col) + ".png").convert()
-        self.image.set_colorkey((255,255,255))
+        """
+        self.image = pygame.image.load(
+            get_assets_path() + "TILES/" + str(col) + ".png"
+        ).convert()
+        self.image.set_colorkey((255, 255, 255))
         self.rect = self.image.get_rect(topleft=position)
 
 
 class EnemyTile(Tile):
     def __init__(
-        self,
-        position: tuple[int, int],
-        *groups: pygame.sprite.AbstractGroup,
-        col=1
+        self, position: tuple[int, int], *groups: pygame.sprite.AbstractGroup, col=1
     ):
         super().__init__(position, *groups, col=col)
         self.image = pygame.Surface((TILE_SIZE, TILE_SIZE))
@@ -49,10 +48,7 @@ class EnemyTile(Tile):
 
 class TreeTile(Tile):
     def __init__(
-        self,
-        position: tuple[int, int],
-        *groups: pygame.sprite.AbstractGroup,
-        col=1
+        self, position: tuple[int, int], *groups: pygame.sprite.AbstractGroup, col=1
     ):
         super().__init__(position, *groups, col=col)
         self.tree1 = get_sprite_image("tree1", [256, 256])
@@ -60,5 +56,3 @@ class TreeTile(Tile):
         self.tree3 = get_sprite_image("tree3", [256, 256])
         self.image = random.choice([self.tree1, self.tree2, self.tree3])
         self.rect = self.image.get_rect(center=position)
-
-

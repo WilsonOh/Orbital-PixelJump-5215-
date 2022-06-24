@@ -5,7 +5,7 @@ def pause_screen():
     window = pygame.display.get_surface()
     font = pygame.font.SysFont("arial", int(window.get_height() * 0.05))
     text = font.render(
-        "GAME PAUSED, PRESS ESCAPE TO RETURN", True, pygame.Color("black")
+        "GAME PAUSED, PRESS ESCAPE TO RETURN or q to QUIT", True, pygame.Color("black")
     )
     while True:
         for event in pygame.event.get():
@@ -14,6 +14,8 @@ def pause_screen():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     return
+                if event.key == pygame.K_q:
+                    quit()
         window.fill(pygame.Color("white"))
         window.blit(
             text,
