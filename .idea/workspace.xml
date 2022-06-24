@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d5bb3b8c-447e-451a-8a80-c5cc5924bee1" name="Changes" comment="Added simple background for pause" />
+    <list default="true" id="d5bb3b8c-447e-451a-8a80-c5cc5924bee1" name="Changes" comment="Added spike images">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/map.txt" beforeDir="false" afterPath="$PROJECT_DIR$/assets/map.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/level.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/level.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spikes.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/spikes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tile.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tile.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -188,7 +194,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656070548537</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Added spike images">
+      <created>1656071149624</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1656071149624</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -224,6 +237,7 @@
     <MESSAGE value="Trying" />
     <MESSAGE value="Added simple background for menu" />
     <MESSAGE value="Added simple background for pause" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added simple background for pause" />
+    <MESSAGE value="Added spike images" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added spike images" />
   </component>
 </project>

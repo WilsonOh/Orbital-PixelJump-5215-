@@ -2,6 +2,7 @@ import pygame
 from enemies import Enemy
 from assets import get_sprite_image
 
+
 class Spike(Enemy):
     def __init__(
         self,
