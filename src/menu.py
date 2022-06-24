@@ -56,8 +56,8 @@ def menu():
     ]
     win_center = window.get_rect().center
     title_center = title.get_rect().center
+    menu_music.play()
     while True:
-        menu_music.play()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit()

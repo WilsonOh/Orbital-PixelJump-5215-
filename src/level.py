@@ -40,7 +40,7 @@ class Level:
                 0.15,
                 [
                     100,
-                    0,
+                    100,
                     get_background(
                         "far",
                         (WINDOW_WIDTH, WINDOW_HEIGHT),
@@ -52,7 +52,7 @@ class Level:
                 0.25,
                 [
                     300,
-                    0,
+                    100,
                     get_background(
                         "close",
                         (WINDOW_WIDTH * 2, WINDOW_HEIGHT),
@@ -64,7 +64,7 @@ class Level:
                 0.50,
                 [
                     50,
-                    0,
+                    100,
                     get_background(
                         "trees",
                         (WINDOW_WIDTH * 2, WINDOW_HEIGHT),
@@ -76,7 +76,7 @@ class Level:
                 0.75,
                 [
                     250,
-                    0,
+                    250,
                     get_background(
                         "foreground",
                         (WINDOW_WIDTH * 2, WINDOW_HEIGHT),
@@ -130,7 +130,7 @@ class Level:
 
                 if col == "S":
                     Spike(
-                        (x, y + 40),
+                        (x, y + 30),
                         self.enemy_sprites,
                         self.visible_sprites,
                         collision_sprites=self.collision_sprites,
