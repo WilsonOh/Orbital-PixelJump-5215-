@@ -53,7 +53,8 @@ class Enemy(pygame.sprite.Sprite):
     def checkPlayer(self):
         for player in self.player_sprite:
             if self.rect.colliderect(player.rect):
-                self.kill()
+                player.player_die()
+                self.velocity.x = 0
 
     def move(self) -> None:
         for player in self.player_sprite:
