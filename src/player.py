@@ -191,7 +191,7 @@ class Player(pygame.sprite.Sprite):
             )
             curr = pygame.time.get_ticks()
             pygame.display.update()
-            clock.tick(30)
+            clock.tick(10)
         self.death_music.stop()
         self.dead = False
         self.rect.topleft = self.orig_pos
