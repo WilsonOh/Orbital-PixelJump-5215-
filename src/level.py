@@ -5,6 +5,7 @@ from tile import Tile, EnemyTile, TreeTile
 from player import Player
 from settings import load_settings
 from assets import get_background, get_map, get_assets_path
+from spikes import Spike
 
 settings = load_settings()
 
@@ -90,14 +91,14 @@ class Level:
             for col_idx, col in enumerate(row):
                 x = col_idx * TILE_SIZE
                 y = row_idx * TILE_SIZE
-                '''
+                """
                 if col == "D":
                     Tile((x, y), self.visible_sprites, self.collision_sprites)
                 if col == "G":
                     Tile(
                         (x, y), self.visible_sprites, self.collision_sprites, grass=True
                     )
-                '''
+                """
                 if col == "P":
                     self.player = Player(
                         (x, y),
@@ -120,9 +121,18 @@ class Level:
                 if col == "T":
                     TreeTile((x, y), self.visible_sprites)
 
+                if col == "S":
+                    Spike(
+                        (x, y + 40),
+                        self.enemy_sprites,
+                        self.visible_sprites,
+                        collision_sprites=self.collision_sprites,
+                        enemy_collision_sprites=self.enemy_collision_sprites,
+                        player_sprite=self.player_sprite,
+                    )
+
                 if col.isnumeric():
                     Tile((x, y), self.visible_sprites, self.collision_sprites, col=col)
-
 
     def play_bgm(self, path: str) -> None:
         pygame.mixer.music.load(path)
@@ -157,8 +167,9 @@ class Camera(pygame.sprite.Group):
             if sprite.rect is not None and sprite.image is not None:
                 sprite_topleft = pygame.Vector2(sprite.rect.topleft)
                 surface.blit(sprite.image, sprite_topleft - self.offset)
-        font = pygame.font.SysFont("Arial", 50, True)
-        text = font.render(f"{clock.get_fps():.2f}", True, pygame.Color("red"))
+        font_size = int(pygame.display.get_surface().get_width() * 0.03)
+        font = pygame.font.SysFont("Arial", font_size, True)
+        text = font.render(f"FPS: {clock.get_fps():.2f}", True, pygame.Color("red"))
         surface.blit(text, (0, 0))
 
     def update(self, player: Player) -> None:
