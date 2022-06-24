@@ -28,12 +28,12 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=position)
         self.velocity = pygame.Vector2()
         self.collision_sprites = collision_sprites
-        self.death_count = 0
         self.can_jump = True
         self.can_double_jump = True
         self.muted = False
         self.die = pygame.sprite.Group(Fade())
         self.dead = False
+        self.orig_pos = position
 
         # For animations
         self.animation_images = {}
@@ -169,6 +169,8 @@ class Player(pygame.sprite.Sprite):
             self.player_die()
 
     def player_die(self) -> None:
+        curr = pygame.time.get_ticks()
+        end = curr + (3 * 1000)
         self.dead = True
         self.velocity = pygame.Vector2((0, 0))
         window = pygame.display.get_surface()
@@ -176,19 +178,24 @@ class Player(pygame.sprite.Sprite):
         text = font.render("YOU DIED", True, pygame.Color("red"))
         pygame.mixer.music.stop()
         self.death_music.play()
-        self.die.update()
-        self.die.draw(window)
-        window.blit(
-            text,
-            (
-                window.get_width() // 2 - text.get_width() // 2,
-                window.get_height() // 2 - text.get_height() // 2,
-            ),
-        )
-        self.death_count += 1
-        if self.death_count > 3.5 * FPS:
-            pygame.quit()
-            quit()
+        clock = pygame.time.Clock()
+        while curr < end:
+            self.die.update()
+            self.die.draw(window)
+            window.blit(
+                text,
+                (
+                    window.get_width() // 2 - text.get_width() // 2,
+                    window.get_height() // 2 - text.get_height() // 2,
+                ),
+            )
+            curr = pygame.time.get_ticks()
+            pygame.display.update()
+            clock.tick(30)
+        self.death_music.stop()
+        self.dead = False
+        self.rect.topleft = self.orig_pos
+        pygame.mixer.music.play()
 
     def update(self):
         self.input()
