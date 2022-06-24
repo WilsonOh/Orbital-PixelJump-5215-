@@ -161,7 +161,7 @@ class FroggyEnemy(Enemy):
                          player_sprite=player_sprite)
         self.image = get_sprite_image("froggy", [64, 64])
         self.rect = self.image.get_rect(topleft=pos)
-        self.speed = 6
+        self.speed = 5
         self.velocity = pygame.Vector2((self.speed, 0))
         self.collision_sprites = collision_sprites
         self.player_sprite = player_sprite

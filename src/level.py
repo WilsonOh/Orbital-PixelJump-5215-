@@ -1,7 +1,7 @@
 import pygame
 
 from enemies import Enemy, MushroomEnemy, FroggyEnemy
-from tile import Tile, EnemyTile, TreeTile
+from tile import Tile, EnemyTile, TreeTile, PropTile
 from player import Player
 from settings import load_settings
 from assets import get_background, get_map, get_assets_path
