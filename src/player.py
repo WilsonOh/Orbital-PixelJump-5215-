@@ -4,6 +4,7 @@ from settings import load_settings
 from assets import get_sprite_image, get_music
 from animations import load_animation, change_action
 from menu import pause_screen
+from die import Fade
 
 settings = load_settings()
 
@@ -31,6 +32,8 @@ class Player(pygame.sprite.Sprite):
         self.can_jump = True
         self.can_double_jump = True
         self.muted = False
+        self.die = pygame.sprite.Group(Fade())
+        self.dead = False
 
         # For animations
         self.animation_images = {}
@@ -55,6 +58,9 @@ class Player(pygame.sprite.Sprite):
         self.step_sound[1].set_volume(0.5)
 
     def input(self):
+        if self.dead:
+            return
+
         if self.step_sound_timer > 0:
             self.step_sound_timer -= 1
 
@@ -156,21 +162,30 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.velocity.y
 
     def check_alive(self):
+        if self.rect.y > pygame.display.get_window_size()[1] * 2:
+            self.player_die()
+
+    def player_die(self) -> None:
+        self.dead = True
+        self.velocity = pygame.Vector2((0, 0))
         window = pygame.display.get_surface()
         font = pygame.font.SysFont("comicsans", 50, bold=True)
         text = font.render("YOU DIED", True, pygame.Color("red"))
-        if self.rect.y > pygame.display.get_window_size()[1] * 2:
-            window.blit(
-                text,
-                (
-                    window.get_width() // 2 - text.get_width() // 2,
-                    window.get_height() // 2 - text.get_height() // 2,
-                ),
-            )
-            self.death_count += 1
-            if self.death_count > 1.5 * FPS:
-                pygame.quit()
-                quit()
+        pygame.mixer.music.stop()
+        get_music("ded.wav").play()
+        self.die.update()
+        self.die.draw(window)
+        window.blit(
+            text,
+            (
+                window.get_width() // 2 - text.get_width() // 2,
+                window.get_height() // 2 - text.get_height() // 2,
+            ),
+        )
+        self.death_count += 1
+        if self.death_count > 3.5 * FPS:
+            pygame.quit()
+            quit()
 
     def update(self):
         self.input()
