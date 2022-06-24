@@ -9,7 +9,7 @@ def get_background(
     background_name: str,
     scale: tuple[int, int],
     *,
-    colorkey: Optional[tuple[int, int, int]] = None,
+    colorkey: tuple[int, int, int] | None = None,
     convert=True,
 ) -> pygame.surface.Surface:
     backgrounds_path = ASSETS_PATH / "layers/"

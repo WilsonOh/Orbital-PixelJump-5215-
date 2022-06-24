@@ -16,10 +16,10 @@ class Tile(pygame.sprite.Sprite):
         self,
         position: tuple[int, int],
         *groups: pygame.sprite.AbstractGroup,
-        col = 1,
+        col=1,
     ):
         super().__init__(*groups)
-        '''
+        """
         if grass:
             self.image = pygame.transform.scale(
                 pygame.image.load(ASSETS_PATH / "grass.png"), (64, 64)
@@ -28,18 +28,17 @@ class Tile(pygame.sprite.Sprite):
             self.image = pygame.transform.scale(
                 pygame.image.load(ASSETS_PATH / "dirt.png"), (64, 64)
             ).convert()
-        '''
-        self.image = pygame.image.load(get_assets_path() + "TILES/" + str(col) + ".png").convert()
-        self.image.set_colorkey((255,255,255))
+        """
+        self.image = pygame.image.load(
+            get_assets_path() + "TILES/" + str(col) + ".png"
+        ).convert()
+        self.image.set_colorkey((255, 255, 255))
         self.rect = self.image.get_rect(topleft=position)
 
 
 class EnemyTile(Tile):
     def __init__(
-        self,
-        position: tuple[int, int],
-        *groups: pygame.sprite.AbstractGroup,
-        col=1
+        self, position: tuple[int, int], *groups: pygame.sprite.AbstractGroup, col=1
     ):
         super().__init__(position, *groups, col=col)
         self.image = pygame.Surface((TILE_SIZE, TILE_SIZE))
@@ -49,10 +48,7 @@ class EnemyTile(Tile):
 
 class TreeTile(Tile):
     def __init__(
-        self,
-        position: tuple[int, int],
-        *groups: pygame.sprite.AbstractGroup,
-        col=1
+        self, position: tuple[int, int], *groups: pygame.sprite.AbstractGroup, col=1
     ):
         super().__init__(position, *groups, col=col)
         self.tree1 = get_sprite_image("tree1", [256, 273])
@@ -65,10 +61,7 @@ class TreeTile(Tile):
 
 class PropTile(Tile):
     def __init__(
-        self,
-        position: tuple[int, int],
-        *groups: pygame.sprite.AbstractGroup,
-        col=1
+        self, position: tuple[int, int], *groups: pygame.sprite.AbstractGroup, col=1
     ):
         super().__init__(position, *groups, col=col)
         self.bush1 = get_sprite_image("bush1", [64, 69])
@@ -78,7 +71,15 @@ class PropTile(Tile):
         self.skull2 = get_sprite_image("skull2", [64, 64])
         self.shroom1 = get_sprite_image("shroom1", [64, 69])
         self.sign1 = get_sprite_image("sign1", [64, 69])
-        self.image = random.choice([self.bush1, self.bush2, self.crate1, self.skull1, self.skull2, self.shroom1, self.shroom1])
+        self.image = random.choice(
+            [
+                self.bush1,
+                self.bush2,
+                self.crate1,
+                self.skull1,
+                self.skull2,
+                self.shroom1,
+                self.shroom1,
+            ]
+        )
         self.rect = self.image.get_rect(topleft=position)
-
-
