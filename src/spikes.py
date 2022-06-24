@@ -19,11 +19,12 @@ class Spike(Enemy):
             enemy_collision_sprites=enemy_collision_sprites,
             player_sprite=player_sprite,
         )
-        self.image = get_sprite_image("spikes", [60, 40])
+        self.image = get_sprite_image("spikes1", [60, 40])
 
     def checkPlayer(self):
         for player in self.player_sprite:
             if self.rect.colliderect(player.rect):
+                self.hit_sound.play()
                 player.player_die()
 
     def update(self):

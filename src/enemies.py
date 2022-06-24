@@ -1,6 +1,7 @@
 import pygame
-from assets import get_sprite_image
+from assets import get_sprite_image, get_music
 from animations import load_animation, change_action
+
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(
@@ -20,6 +21,8 @@ class Enemy(pygame.sprite.Sprite):
         self.collision_sprites = collision_sprites
         self.player_sprite = player_sprite
         self.enemy_collision_sprites = enemy_collision_sprites
+
+        self.hit_sound = get_music("hit.wav")
 
     def horizontal_collisions(self):
         for sprite in self.collision_sprites.sprites():
@@ -55,6 +58,7 @@ class Enemy(pygame.sprite.Sprite):
     def checkPlayer(self):
         for player in self.player_sprite:
             if self.rect.colliderect(player.rect):
+                self.hit_sound.play()
                 player.player_die()
 
     def move(self) -> None:
@@ -95,6 +99,8 @@ class MushroomEnemy(Enemy):
         self.collision_sprites = collision_sprites
         self.player_sprite = player_sprite
         self.enemy_collision_sprites = enemy_collision_sprites
+
+        self.hit_sound = get_music("hit1.wav")
 
         # For animations
         self.animation_images = {}
@@ -166,6 +172,7 @@ class FroggyEnemy(Enemy):
         self.collision_sprites = collision_sprites
         self.player_sprite = player_sprite
         self.enemy_collision_sprites = enemy_collision_sprites
+        self.hit_sound = get_music("hit1.wav")
 
         # For animations
         self.animation_images = {}

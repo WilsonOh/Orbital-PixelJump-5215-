@@ -61,6 +61,7 @@ class Player(pygame.sprite.Sprite):
         self.death_music.set_volume(0.2)
 
         self.pause_in_sound = get_music("pause_in.wav")
+        self.falling_sound = get_music("falling.wav")
 
     def input(self):
         if self.dead:
@@ -169,6 +170,7 @@ class Player(pygame.sprite.Sprite):
 
     def check_alive(self):
         if self.rect.y > pygame.display.get_window_size()[1] * 2:
+            self.falling_sound.play()
             self.player_die()
 
     def player_die(self) -> None:

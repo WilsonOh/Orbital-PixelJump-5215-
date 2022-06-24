@@ -1,5 +1,5 @@
 import pygame
-from assets import get_sprite_image, get_music
+from assets import get_sprite_image, get_music, get_assets_path
 from settings import load_settings
 
 settings = load_settings()
@@ -46,6 +46,8 @@ def menu():
     font = pygame.font.SysFont("arial", int(window.get_height() * 0.05))
     title = font.render("PIXELJUMP", True, pygame.Color("black"))
     menu_sound = get_music("menu_sound.wav")
+    menu_music = get_music("100_victories.wav")
+    menu_music.set_volume(0.2)
 
     option_strings = ["Press ENTER to start the game", "Press ESCAPE to quit the game"]
     options_texts = [
@@ -55,6 +57,7 @@ def menu():
     win_center = window.get_rect().center
     title_center = title.get_rect().center
     while True:
+        menu_music.play()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit()
@@ -62,7 +65,8 @@ def menu():
                 if event.key == pygame.K_ESCAPE:
                     quit()
                 if event.key == pygame.K_RETURN:
-                    menu_sound.play()
+                    pygame.mixer.Channel(1).play(menu_sound)
+                    menu_music.fadeout(1000)
                     return
         '''
         window.fill(pygame.Color("white"))
