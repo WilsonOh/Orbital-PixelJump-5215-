@@ -1,6 +1,6 @@
 import pygame
 from enemies import Enemy
-
+from assets import get_sprite_image
 
 class Spike(Enemy):
     def __init__(
@@ -18,7 +18,7 @@ class Spike(Enemy):
             enemy_collision_sprites=enemy_collision_sprites,
             player_sprite=player_sprite,
         )
-        self.image = pygame.Surface((80, 40))
+        self.image = get_sprite_image("spikes", [60, 40])
 
     def checkPlayer(self):
         for player in self.player_sprite:
