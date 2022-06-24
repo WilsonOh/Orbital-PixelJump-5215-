@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d5bb3b8c-447e-451a-8a80-c5cc5924bee1" name="Changes" comment="checkout">
+    <list default="true" id="d5bb3b8c-447e-451a-8a80-c5cc5924bee1" name="Changes" comment="Added simple background for menu">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enemies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/enemies.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/player.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,7 +177,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655916429026</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Added simple background for menu">
+      <created>1656069569220</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1656069569220</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -213,6 +218,7 @@
     <MESSAGE value="Added animations with a helper animations.py file" />
     <MESSAGE value="Fixed bug with enemy collision" />
     <MESSAGE value="Trying" />
-    <option name="LAST_COMMIT_MESSAGE" value="Trying" />
+    <MESSAGE value="Added simple background for menu" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added simple background for menu" />
   </component>
 </project>

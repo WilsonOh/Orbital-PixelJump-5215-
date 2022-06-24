@@ -9,6 +9,7 @@ WINDOW_HEIGHT = settings["window"]["screen_height"]
 
 
 def pause_screen():
+    pause_image = get_sprite_image("pause", [WINDOW_WIDTH, WINDOW_HEIGHT])
     window = pygame.display.get_surface()
     font = pygame.font.SysFont("arial", int(window.get_height() * 0.05))
     text = font.render(
@@ -22,6 +23,7 @@ def pause_screen():
                 if event.key == pygame.K_ESCAPE:
                     return
         window.fill(pygame.Color("white"))
+        '''
         window.blit(
             text,
             (
@@ -29,6 +31,8 @@ def pause_screen():
                 int(window.get_height() // 2 - text.get_height() // 2),
             ),
         )
+        '''
+        window.blit(pause_image, [0, 0])
         pygame.display.update()
 
 
