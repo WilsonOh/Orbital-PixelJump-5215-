@@ -19,7 +19,7 @@ class Spike(Enemy):
             enemy_collision_sprites=enemy_collision_sprites,
             player_sprite=player_sprite,
         )
-        self.image = get_sprite_image("spikes1", [60, 40])
+        self.image = get_sprite_image("spikes1", [60, 42])
 
     def checkPlayer(self):
         for player in self.player_sprite:
