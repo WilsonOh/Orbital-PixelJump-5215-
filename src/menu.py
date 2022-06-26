@@ -4,12 +4,12 @@ from settings import load_settings
 
 settings = load_settings()
 
-WINDOW_WIDTH = settings["window"]["screen_width"]
-WINDOW_HEIGHT = settings["window"]["screen_height"]
+WINDOW_WIDTH = int(settings["window"]["screen_width"])
+WINDOW_HEIGHT = int(settings["window"]["screen_height"])
 
 
 def pause_screen():
-    pause_image = get_sprite_image("pause", [WINDOW_WIDTH, WINDOW_HEIGHT])
+    pause_image = get_sprite_image("pause", (WINDOW_WIDTH, WINDOW_HEIGHT))
     window = pygame.display.get_surface()
     pause_out_sound = get_music("pause_out.wav")
     font = pygame.font.SysFont("arial", int(window.get_height() * 0.05))
@@ -27,7 +27,7 @@ def pause_screen():
                 if event.key == pygame.K_q:
                     quit()
         window.fill(pygame.Color("white"))
-        '''
+        """
         window.blit(
             text,
             (
@@ -35,13 +35,13 @@ def pause_screen():
                 int(window.get_height() // 2 - text.get_height() // 2),
             ),
         )
-        '''
+        """
         window.blit(pause_image, [0, 0])
         pygame.display.update()
 
 
 def menu():
-    menu_image = get_sprite_image("menu", [WINDOW_WIDTH, WINDOW_HEIGHT])
+    menu_image = get_sprite_image("menu", (WINDOW_WIDTH, WINDOW_HEIGHT))
     window = pygame.display.get_surface()
     font = pygame.font.SysFont("arial", int(window.get_height() * 0.05))
     title = font.render("PIXELJUMP", True, pygame.Color("black"))
@@ -68,11 +68,33 @@ def menu():
                     pygame.mixer.Channel(1).play(menu_sound)
                     menu_music.fadeout(1000)
                     return
-        '''
+        """
         window.fill(pygame.Color("white"))
         window.blit(
             title, (win_center[0] - title_center[0], win_center[1] - title_center[1])
         )
-        '''
+        """
         window.blit(menu_image, [0, 0])
+        pygame.display.update()
+
+
+def win_screen():
+    window = pygame.display.get_surface()
+    font = pygame.font.SysFont("arial", int(window.get_height() * 0.05))
+    title = font.render(
+        "YOU WIN! Press Q to exit the game", True, pygame.Color("black")
+    )
+    win_center = window.get_rect().center
+    title_center = title.get_rect().center
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    quit()
+        window.fill(pygame.Color("yellow"))
+        window.blit(
+            title, (win_center[0] - title_center[0], win_center[1] - title_center[1])
+        )
         pygame.display.update()

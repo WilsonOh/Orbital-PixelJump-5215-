@@ -1,5 +1,8 @@
-import pygame
+import os
 
+os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
+
+import pygame
 from level import Level
 from settings import load_settings
 from menu import menu

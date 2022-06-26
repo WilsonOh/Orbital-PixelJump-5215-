@@ -3,7 +3,7 @@ import random
 from settings import load_settings
 from assets import get_sprite_image, get_music
 from animations import load_animation, change_action
-from menu import pause_screen
+from menu import pause_screen, win_screen
 from die import Fade
 
 settings = load_settings()
@@ -21,6 +21,7 @@ class Player(pygame.sprite.Sprite):
         self,
         position: tuple[int, int],
         *groups: pygame.sprite.Group,
+        target: pygame.sprite.Sprite,
         collision_sprites: pygame.sprite.Group
     ):
         super().__init__(*groups)
@@ -28,6 +29,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=position)
         self.velocity = pygame.Vector2()
         self.collision_sprites = collision_sprites
+        self.target = target
         self.can_jump = True
         self.can_double_jump = True
         self.muted = False
@@ -111,6 +113,10 @@ class Player(pygame.sprite.Sprite):
             self.jump_sound.set_volume(1)
             pygame.mixer.music.unpause()
             self.muted = False
+
+    def check_win(self) -> None:
+        if self.rect.colliderect(self.target.rect):
+            win_screen()
 
     def animation(self):
         if self.velocity.x > 0:
@@ -211,3 +217,4 @@ class Player(pygame.sprite.Sprite):
         self.apply_gravity()
         self.vertical_collisions()
         self.check_alive()
+        self.check_win()

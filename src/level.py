@@ -140,13 +140,22 @@ class Level:
                 if col == "#":
                     PropTile((x, y), self.visible_sprites)
 
+                if col == "$":
+                    self.target = Target((x, y))
+
                 if col.isnumeric():
-                    Tile((x, y), self.visible_sprites, self.collision_sprites, col=col)
+                    Tile(
+                        (x, y),
+                        self.visible_sprites,
+                        self.collision_sprites,
+                        col=int(col),
+                    )
         self.player = Player(
             (p_x, p_y),
             self.visible_sprites,
             self.active_sprites,
             self.player_sprite,
+            target=self.target,
             collision_sprites=self.collision_sprites,
         )
 
@@ -197,3 +206,12 @@ class Camera(pygame.sprite.Group):
             self.offset.y += (
                 (player.rect.y - self.offset.y) - (WINDOW_HEIGHT // 2 + TILE_SIZE // 2)
             ) // 20
+
+
+class Target(pygame.sprite.Sprite):
+    def __init__(
+        self, pos: tuple[int, int], *groups: pygame.sprite.AbstractGroup
+    ) -> None:
+        super().__init__(*groups)
+        self.image = pygame.Surface((TILE_SIZE, TILE_SIZE))
+        self.rect = self.image.get_rect(topleft=pos)
