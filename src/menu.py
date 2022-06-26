@@ -1,5 +1,6 @@
 import pygame
 from assets import get_sprite_image, get_music, get_assets_path
+import sys
 from settings import load_settings
 
 settings = load_settings()
@@ -19,13 +20,13 @@ def pause_screen():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                quit()
+                sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     pause_out_sound.play()
                     return
                 if event.key == pygame.K_q:
-                    quit()
+                    sys.exit()
         window.fill(pygame.Color("white"))
         """
         window.blit(
@@ -60,10 +61,10 @@ def menu():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                quit()
+                sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    quit()
+                    sys.exit()
                 if event.key == pygame.K_RETURN:
                     pygame.mixer.Channel(1).play(menu_sound)
                     menu_music.fadeout(1000)
@@ -89,10 +90,10 @@ def win_screen():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                quit()
+                sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
-                    quit()
+                    sys.exit()
         window.fill(pygame.Color("yellow"))
         window.blit(
             title, (win_center[0] - title_center[0], win_center[1] - title_center[1])

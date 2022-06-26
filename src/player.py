@@ -1,5 +1,6 @@
 import pygame
 import random
+import sys
 from settings import load_settings
 from assets import get_sprite_image, get_music
 from animations import load_animation, change_action
@@ -98,7 +99,7 @@ class Player(pygame.sprite.Sprite):
 
             if event.type == pygame.QUIT:
                 pygame.quit()
-                quit(0)
+                sys.exit()
 
     def toggle_mute(self) -> None:
         if not self.muted:
