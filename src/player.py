@@ -61,7 +61,7 @@ class Player(pygame.sprite.Sprite):
         self.step_sound[1].set_volume(0.5)
 
         self.death_music = get_music("ded.wav")
-        self.death_music.set_volume(0.2)
+        self.death_music.set_volume(0.8)
 
         self.pause_in_sound = get_music("pause_in.wav")
         self.falling_sound = get_music("falling.wav")
