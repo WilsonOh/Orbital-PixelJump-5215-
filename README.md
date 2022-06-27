@@ -13,5 +13,16 @@ The most reliable way is to run the program from source, which will be explained
 
 [1] Create a `venv` by running `python3 -m venv venv`
 
+### Configuring Game Settings
+All the configurable settings are stored in the `settings/settings.json` file in the game folder.<br>
+Since the current version of `PIXELJUMP` does not support in-game settings configuration yet, the only way to adjust the game settings is to edit the `settings.json` file.
+#### Screen Resolution
+The screen resolution of the game can be changed by adjusting the `screen_width` and `screen_height` keys
+#### FPS
+It is not reccomended to change the FPS as it may cause some unwanted behaviours
+#### Player velocity and gravity
+Feel free to mess around with the velocity and gravity of the player :smile:
+
+
 ### Project Poster
 ![project_poster](https://drive.google.com/uc?export=view&id=1PGN96EeY3W1sAmu5yI9t0f8UK_mXxqME)
