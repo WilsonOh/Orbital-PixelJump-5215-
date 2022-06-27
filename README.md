@@ -8,7 +8,7 @@
 
 ## Running the game
 ### Run the packaged executable
-Go to `releases` and follow the instructions for your OS.<br>
+Go to [releases](https://github.com/WilsonOh/Orbital21-22-PixelJump-5215/releases/tag/v0.5.0) and follow the instructions for your OS.<br>
 The packaged executables are only tested on limited hardware so there may be some problems that we have not faced.<br>
 The most reliable way is to run the program from source, which will be explained below.
 ### Running from source
@@ -32,4 +32,4 @@ Feel free to mess around with the velocity and gravity of the player :smile:
 
 
 ### Project Poster
-![project_poster](https://drive.google.com/file/d/1aqh3d5f08MciOXuNbmsdHS0T8P3vGBgA/view?usp=sharing)
+![project_poster](https://drive.google.com/uc?export=view&id=1aqh3d5f08MciOXuNbmsdHS0T8P3vGBgA)
