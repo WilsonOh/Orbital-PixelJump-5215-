@@ -2,8 +2,8 @@
 
 ## Running the game
 ### Run the packaged executable
-Go to `releases` and follow the instructions for your OS
-The packaged executables are only tested on limited hardware so there may be some problems that we have not faced.
+Go to `releases` and follow the instructions for your OS.<br>
+The packaged executables are only tested on limited hardware so there may be some problems that we have not faced.<br>
 The most reliable way is to run the program from source, which will be explained below.
 ### Running from source
 1. Make sure you have `python3.10` installed. You can download and install it from https://www.python.org/downloads/
