@@ -32,4 +32,4 @@ Feel free to mess around with the velocity and gravity of the player :smile:
 
 
 ### Project Poster
-![project_poster](https://drive.google.com/uc?export=view&id=1PGN96EeY3W1sAmu5yI9t0f8UK_mXxqME)
+![project_poster](https://drive.google.com/file/d/1aqh3d5f08MciOXuNbmsdHS0T8P3vGBgA/view?usp=sharing)
