@@ -1,5 +1,11 @@
 # NUS Orbital 21/22 Team PixelJump (5215)
 
+## Game Instructions
+- A and D to move left/right
+- Spacebar to jump/double-jump
+- M to mute all sounds and music
+- Escape to pause the game
+
 ## Running the game
 ### Run the packaged executable
 Go to `releases` and follow the instructions for your OS.<br>
