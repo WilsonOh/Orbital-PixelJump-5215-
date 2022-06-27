@@ -17,7 +17,8 @@ The most reliable way is to run the program from source, which will be explained
 All the configurable settings are stored in the `settings/settings.json` file in the game folder.<br>
 Since the current version of `PIXELJUMP` does not support in-game settings configuration yet, the only way to adjust the game settings is to edit the `settings.json` file.
 #### Screen Resolution
-The screen resolution of the game can be changed by adjusting the `screen_width` and `screen_height` keys
+The game is in `1920x1080` by default as it was the resolution we had in mind when designing the game but you can change it to your liking.<br>
+The screen resolution of the game can be changed by adjusting the `screen_width` and `screen_height` keys in `settings.json`
 #### FPS
 It is not reccomended to change the FPS as it may cause some unwanted behaviours
 #### Player velocity and gravity
