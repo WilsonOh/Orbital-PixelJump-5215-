@@ -10,7 +10,7 @@
 ### Run the packaged executable
 Go to [releases](https://github.com/WilsonOh/Orbital21-22-PixelJump-5215/releases/tag/v0.5.0) and follow the instructions for your OS.<br>
 The packaged executables are only tested on limited hardware so there may be some problems that we have not faced.<br>
-The most reliable way is to run the program from source, which will be explained below.
+If the executable packages do not work, then the most reliable way is to run the program from source, which will be explained below.
 ### Running from source
 1. Make sure you have `python3.10` installed. You can download and install it from https://www.python.org/downloads/
 2. Clone the repo and `cd` into it
