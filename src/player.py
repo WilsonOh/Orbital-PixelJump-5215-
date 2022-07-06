@@ -34,6 +34,8 @@ class Player(pygame.sprite.Sprite):
         self.die = pygame.sprite.Group(Fade())
         self.dead = False
         self.orig_pos = position
+        self.can_rocket = False
+        self.rocket_timer = 50
 
         # For animations
         self.animation_images = {}
@@ -77,6 +79,12 @@ class Player(pygame.sprite.Sprite):
             self.velocity.x = PLAYER_HORIZONTAL_VEL
         else:
             self.velocity.x = 0
+
+        if keys[pygame.K_SPACE]:
+            if self.can_rocket and self.rocket_timer > 0:
+                self.velocity.y = -5
+                self.rocket_timer -= 1
+
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
@@ -88,6 +96,8 @@ class Player(pygame.sprite.Sprite):
                         self.velocity.y = -PLAYER_VERTICAL_VEL
                         self.can_double_jump = False
                         self.jump_sound.play()
+                    elif not self.can_double_jump and not self.can_jump:
+                        self.can_rocket = True
                 if event.key == pygame.K_ESCAPE:
                     self.pause_in_sound.play()
                     pause_screen()
@@ -159,6 +169,8 @@ class Player(pygame.sprite.Sprite):
                         self.velocity.y = 0
                         self.can_jump = True
                         self.can_double_jump = True
+                        self.can_rocket = False
+                        self.rocket_timer = 50
                         if self.velocity.x != 0:
                             if self.step_sound_timer == 0:
                                 self.step_sound_timer = 30
