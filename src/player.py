@@ -5,6 +5,8 @@ from assets import get_sprite_image, get_music
 from animations import load_animation, change_action
 from menu import pause_screen
 from die import Fade
+from particles import Particles
+
 
 settings = load_settings()
 
@@ -21,7 +23,8 @@ class Player(pygame.sprite.Sprite):
         self,
         position: tuple[int, int],
         *groups: pygame.sprite.Group,
-        collision_sprites: pygame.sprite.Group
+        collision_sprites: pygame.sprite.Group,
+        particle_sprites: pygame.sprite.Group
     ):
         super().__init__(*groups)
         self.image = get_sprite_image("KNIGHT", (TILE_SIZE, TILE_SIZE), convert=False)
@@ -37,13 +40,15 @@ class Player(pygame.sprite.Sprite):
         self.can_rocket = False
         self.rocket_timer = 50
 
+        self.particle_sprites = particle_sprites
+
         # For animations
         self.animation_images = {}
         self.animation_database = {
             "idle": load_animation("idle", [7, 7, 40], self.animation_images),
             "running": load_animation(
-                "running", [7, 7, 7, 7, 7, 7, 7, 7], self.animation_images
-            ),
+                "running", [7, 7, 7, 7, 7, 7, 7, 7], self.animation_images),
+            "jumping": load_animation("jumping", [7], self.animation_images)
         }
         self.player_action = "idle"
         self.player_frame = 0
@@ -84,6 +89,7 @@ class Player(pygame.sprite.Sprite):
             if self.can_rocket and self.rocket_timer > 0:
                 self.velocity.y = -5
                 self.rocket_timer -= 1
+                Particles(self.rect.bottomleft, [0, 0], self.particle_sprites)
 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -129,7 +135,7 @@ class Player(pygame.sprite.Sprite):
             )
             self.player_flip = False
 
-        if self.velocity.x == 0:
+        if self.velocity.x == 0 and self.velocity.y == 0:
             self.player_action, self.player_frame = change_action(
                 self.player_action, self.player_frame, "idle"
             )
@@ -139,6 +145,11 @@ class Player(pygame.sprite.Sprite):
                 self.player_action, self.player_frame, "running"
             )
             self.player_flip = True
+
+        if self.can_rocket:
+            self.player_action, self.player_frame = change_action(
+                self.player_action, self.player_frame, "jumping"
+            )
 
     def animating_image(self):
         self.player_frame += 1

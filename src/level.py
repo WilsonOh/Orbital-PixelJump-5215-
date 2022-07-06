@@ -28,6 +28,7 @@ class Level:
         self.enemy_collision_sprites = pygame.sprite.Group()
         self.player_sprite = pygame.sprite.Group()
         self.collision_sprites = pygame.sprite.Group()
+        self.particle_sprites = pygame.sprite.Group()
         self.play_bgm(get_assets_path() + "music/music.wav")
         self.setup_level()
         self.main_background = get_background(
@@ -147,6 +148,7 @@ class Level:
             self.visible_sprites,
             self.active_sprites,
             self.player_sprite,
+            particle_sprites=self.particle_sprites,
             collision_sprites=self.collision_sprites,
         )
 
@@ -155,12 +157,18 @@ class Level:
         pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play(-1)
 
+    def update_sprite(self):
+        for particles in self.particle_sprites:
+            self.visible_sprites.add(particles)
+            self.particle_sprites.remove(particles)
+
     def run(self, clock: pygame.time.Clock):
         self.window.blit(self.main_background, (0, 0))
         self.visible_sprites.draw(self.window, self.backgrounds, clock)
         self.visible_sprites.update(self.player)
         self.active_sprites.update()
         self.enemy_sprites.update()
+        self.update_sprite()
 
 
 class Camera(pygame.sprite.Group):
@@ -197,3 +205,4 @@ class Camera(pygame.sprite.Group):
             self.offset.y += (
                 (player.rect.y - self.offset.y) - (WINDOW_HEIGHT // 2 + TILE_SIZE // 2)
             ) // 20
+
