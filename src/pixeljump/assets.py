@@ -1,8 +1,7 @@
-from typing import Optional
 import pygame
 from pathlib import Path
 
-ASSETS_PATH = Path(__file__).parents[1].resolve() / "assets/"
+ASSETS_PATH = Path(__file__).parent.resolve() / "assets/"
 
 
 def get_background(

@@ -1,6 +1,6 @@
 import pygame
-from assets import get_sprite_image, get_music
-from animations import load_animation, change_action
+from pixeljump.assets import get_sprite_image, get_music
+from pixeljump.animations import load_animation, change_action
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -57,6 +57,7 @@ class Enemy(pygame.sprite.Sprite):
 
     def checkPlayer(self):
         for player in self.player_sprite:
+            assert player.rect is not None
             if self.rect.colliderect(player.rect):
                 self.hit_sound.play()
                 player.player_die()
@@ -72,7 +73,7 @@ class Enemy(pygame.sprite.Sprite):
                     self.velocity.x = self.speed
 
     def update(self) -> None:
-        self.rect.x += self.velocity.x
+        self.rect.x += int(self.velocity.x)
         self.horizontal_collisions()
         # self.move()
         self.checkPlayer()
@@ -80,19 +81,21 @@ class Enemy(pygame.sprite.Sprite):
 
 class MushroomEnemy(Enemy):
     def __init__(
-            self,
-            pos: tuple[int, int],
-            *groups: pygame.sprite.AbstractGroup,
-            collision_sprites: pygame.sprite.Group,
-            enemy_collision_sprites: pygame.sprite.Group,
-            player_sprite: pygame.sprite.Group,
+        self,
+        pos: tuple[int, int],
+        *groups: pygame.sprite.AbstractGroup,
+        collision_sprites: pygame.sprite.Group,
+        enemy_collision_sprites: pygame.sprite.Group,
+        player_sprite: pygame.sprite.Group,
     ) -> None:
-        super().__init__(pos,
-                         *groups,
-                         collision_sprites=collision_sprites,
-                         enemy_collision_sprites=enemy_collision_sprites,
-                         player_sprite=player_sprite)
-        self.image = get_sprite_image("mushroom", [64, 64])
+        super().__init__(
+            pos,
+            *groups,
+            collision_sprites=collision_sprites,
+            enemy_collision_sprites=enemy_collision_sprites,
+            player_sprite=player_sprite,
+        )
+        self.image = get_sprite_image("mushroom", (64, 64))
         self.rect = self.image.get_rect(topleft=pos)
         self.speed = 3
         self.velocity = pygame.Vector2((self.speed, 0))
@@ -106,11 +109,11 @@ class MushroomEnemy(Enemy):
         self.animation_images = {}
         self.animation_database = {
             "walking": load_animation(
-                "mushroom_walking", [7, 7, 7, 7, 7, 7, 7, 7, 7, 7], self.animation_images
+                "mushroom_walking",
+                [7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
+                self.animation_images,
             ),
-            "idle": load_animation(
-                "mushroom_idle", [10], self.animation_images
-            ),
+            "idle": load_animation("mushroom_idle", [10], self.animation_images),
         }
         self.enemy_action = "idle"
         self.enemy_frame = 0
@@ -145,7 +148,7 @@ class MushroomEnemy(Enemy):
     def update(self) -> None:
         self.animation()
         self.animating_image()
-        self.rect.x += self.velocity.x
+        self.rect.x += int(self.velocity.x)
         self.horizontal_collisions()
         self.move()
         self.checkPlayer()
@@ -153,19 +156,21 @@ class MushroomEnemy(Enemy):
 
 class FroggyEnemy(Enemy):
     def __init__(
-            self,
-            pos: tuple[int, int],
-            *groups: pygame.sprite.AbstractGroup,
-            collision_sprites: pygame.sprite.Group,
-            enemy_collision_sprites: pygame.sprite.Group,
-            player_sprite: pygame.sprite.Group,
+        self,
+        pos: tuple[int, int],
+        *groups: pygame.sprite.AbstractGroup,
+        collision_sprites: pygame.sprite.Group,
+        enemy_collision_sprites: pygame.sprite.Group,
+        player_sprite: pygame.sprite.Group,
     ) -> None:
-        super().__init__(pos,
-                         *groups,
-                         collision_sprites=collision_sprites,
-                         enemy_collision_sprites=enemy_collision_sprites,
-                         player_sprite=player_sprite)
-        self.image = get_sprite_image("froggy", [64, 64])
+        super().__init__(
+            pos,
+            *groups,
+            collision_sprites=collision_sprites,
+            enemy_collision_sprites=enemy_collision_sprites,
+            player_sprite=player_sprite,
+        )
+        self.image = get_sprite_image("froggy", (64, 64))
         self.rect = self.image.get_rect(topleft=pos)
         self.speed = 5
         self.velocity = pygame.Vector2((self.speed, 0))
@@ -180,9 +185,7 @@ class FroggyEnemy(Enemy):
             "walking": load_animation(
                 "froggy_walking", [7, 7, 7, 7, 7, 7, 7, 7, 7, 7], self.animation_images
             ),
-            "idle": load_animation(
-                "froggy_idle", [7, 7, 7, 7], self.animation_images
-            ),
+            "idle": load_animation("froggy_idle", [7, 7, 7, 7], self.animation_images),
         }
         self.enemy_action = "idle"
         self.enemy_frame = 0
@@ -217,15 +220,7 @@ class FroggyEnemy(Enemy):
     def update(self) -> None:
         self.animation()
         self.animating_image()
-        self.rect.x += self.velocity.x
+        self.rect.x += int(self.velocity.x)
         self.horizontal_collisions()
         self.move()
         self.checkPlayer()
-
-
-
-
-
-
-
-

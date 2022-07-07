@@ -1,11 +1,10 @@
+from pixeljump.assets import get_assets_path, get_background, get_map
+from pixeljump.enemies import FroggyEnemy, MushroomEnemy
+from pixeljump.player import Player
+from pixeljump.settings import load_settings
+from pixeljump.spikes import Spike
+from pixeljump.tile import EnemyTile, PropTile, Tile, TreeTile
 import pygame
-
-from enemies import Enemy, MushroomEnemy, FroggyEnemy
-from tile import Tile, EnemyTile, TreeTile, PropTile
-from player import Player
-from settings import load_settings
-from assets import get_background, get_map, get_assets_path
-from spikes import Spike
 
 settings = load_settings()
 

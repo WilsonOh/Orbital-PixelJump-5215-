@@ -13,6 +13,3 @@ class Fade(pygame.sprite.Sprite):
         self.image.fill((0, 0, 0, self.alpha))
         if self.alpha < 255 - self.direction:
             self.alpha += self.direction
-        # if self.alpha > 255 or self.alpha < 0:
-        #     self.direction *= -1
-        #     self.alpha += self.direction

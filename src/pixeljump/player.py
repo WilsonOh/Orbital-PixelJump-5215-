@@ -1,11 +1,11 @@
 import pygame
 import random
 import sys
-from settings import load_settings
-from assets import get_sprite_image, get_music
-from animations import load_animation, change_action
-from menu import pause_screen, win_screen
-from die import Fade
+from pixeljump.settings import load_settings
+from pixeljump.assets import get_sprite_image, get_music
+from pixeljump.animations import load_animation, change_action
+from pixeljump.menu import pause_screen, win_screen
+from pixeljump.die import Fade
 
 settings = load_settings()
 
@@ -176,6 +176,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.velocity.y
 
     def check_alive(self):
+        assert self.rect is not None
         if self.rect.y > pygame.display.get_window_size()[1] * 2:
             self.falling_sound.play()
             self.player_die()

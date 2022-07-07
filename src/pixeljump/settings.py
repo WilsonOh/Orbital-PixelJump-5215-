@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-root_dir = Path(__file__).parents[1].resolve()
+root_dir = Path(__file__).parent.resolve()
 SETTINGS_PATH = root_dir / "settings/settings.json"
 LEVEL_MAP_PATH = root_dir / "settings/level_map.json"
 

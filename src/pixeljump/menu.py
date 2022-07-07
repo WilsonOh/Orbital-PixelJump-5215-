@@ -1,7 +1,8 @@
-import pygame
-from assets import get_sprite_image, get_music, get_assets_path
 import sys
-from settings import load_settings
+
+from pixeljump.assets import get_music, get_sprite_image
+from pixeljump.settings import load_settings
+import pygame
 
 settings = load_settings()
 
@@ -13,10 +14,6 @@ def pause_screen():
     pause_image = get_sprite_image("pause", (WINDOW_WIDTH, WINDOW_HEIGHT))
     window = pygame.display.get_surface()
     pause_out_sound = get_music("pause_out.wav")
-    font = pygame.font.SysFont("arial", int(window.get_height() * 0.05))
-    text = font.render(
-        "GAME PAUSED, PRESS ESCAPE TO RETURN or q to QUIT", True, pygame.Color("black")
-    )
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -28,15 +25,6 @@ def pause_screen():
                 if event.key == pygame.K_q:
                     sys.exit()
         window.fill(pygame.Color("white"))
-        """
-        window.blit(
-            text,
-            (
-                int(window.get_width() // 2 - text.get_width() // 2),
-                int(window.get_height() // 2 - text.get_height() // 2),
-            ),
-        )
-        """
         window.blit(pause_image, [0, 0])
         pygame.display.update()
 
@@ -44,19 +32,10 @@ def pause_screen():
 def menu():
     menu_image = get_sprite_image("menu", (WINDOW_WIDTH, WINDOW_HEIGHT))
     window = pygame.display.get_surface()
-    font = pygame.font.SysFont("arial", int(window.get_height() * 0.05))
-    title = font.render("PIXELJUMP", True, pygame.Color("black"))
     menu_sound = get_music("menu_sound.wav")
     menu_music = get_music("100_victories.wav")
     menu_music.set_volume(0.2)
 
-    option_strings = ["Press ENTER to start the game", "Press ESCAPE to quit the game"]
-    options_texts = [
-        font.render(option_string, True, pygame.Color("red"))
-        for option_string in option_strings
-    ]
-    win_center = window.get_rect().center
-    title_center = title.get_rect().center
     menu_music.play()
     while True:
         for event in pygame.event.get():
@@ -69,12 +48,6 @@ def menu():
                     pygame.mixer.Channel(1).play(menu_sound)
                     menu_music.fadeout(1000)
                     return
-        """
-        window.fill(pygame.Color("white"))
-        window.blit(
-            title, (win_center[0] - title_center[0], win_center[1] - title_center[1])
-        )
-        """
         window.blit(menu_image, [0, 0])
         pygame.display.update()
 

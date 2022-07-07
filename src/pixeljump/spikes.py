@@ -1,6 +1,7 @@
 import pygame
-from enemies import Enemy
-from assets import get_sprite_image
+from pixeljump.enemies import Enemy
+from pixeljump.assets import get_sprite_image
+from pixeljump.player import Player
 
 
 class Spike(Enemy):
@@ -19,10 +20,11 @@ class Spike(Enemy):
             enemy_collision_sprites=enemy_collision_sprites,
             player_sprite=player_sprite,
         )
-        self.image = get_sprite_image("spikes1", [60, 42])
+        self.image = get_sprite_image("spikes1", (60, 42))
 
     def checkPlayer(self):
         for player in self.player_sprite:
+            assert player.rect is not None
             if self.rect.colliderect(player.rect):
                 self.hit_sound.play()
                 player.player_die()

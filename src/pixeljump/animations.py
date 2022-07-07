@@ -1,6 +1,5 @@
-import pygame
-from assets import get_animation_image
-from settings import load_settings
+from pixeljump.assets import get_animation_image
+from pixeljump.settings import load_settings
 
 settings = load_settings()
 
@@ -17,7 +16,7 @@ def load_animation(animation_name: str, frame_duration, animation_images):
             animation_frame_id, animation_name, (TILE_SIZE, TILE_SIZE), False
         )
         animation_images[animation_frame_id] = animation_image.copy()
-        for i in range(frame):
+        for _ in range(frame):
             animation_frame_data.append(animation_frame_id)
         n += 1
     return animation_frame_data
