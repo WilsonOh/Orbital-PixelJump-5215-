@@ -58,6 +58,6 @@ def get_animation_image(
     return asset
 
 
-def get_map() -> list[list[str]]:
-    with open(ASSETS_PATH / "map.txt") as f:
+def get_map(map: str) -> list[list[str]]:
+    with open(ASSETS_PATH / "maps" / f"{map}.txt") as f:
         return [list(row) for row in f.readlines()]

@@ -1,11 +1,12 @@
 import pygame
 import random
-import sys
 from pixeljump.settings import load_settings
 from pixeljump.assets import get_sprite_image, get_music
 from pixeljump.animations import load_animation, change_action
 from pixeljump.menu import pause_screen, win_screen
 from pixeljump.die import Fade
+from pixeljump.particles import Particles
+
 
 settings = load_settings()
 
@@ -23,7 +24,8 @@ class Player(pygame.sprite.Sprite):
         position: tuple[int, int],
         *groups: pygame.sprite.Group,
         target: pygame.sprite.Sprite,
-        collision_sprites: pygame.sprite.Group
+        collision_sprites: pygame.sprite.Group,
+        particle_sprites: pygame.sprite.Group
     ):
         super().__init__(*groups)
         self.image = get_sprite_image("KNIGHT", (TILE_SIZE, TILE_SIZE), convert=False)
@@ -37,14 +39,19 @@ class Player(pygame.sprite.Sprite):
         self.die = pygame.sprite.Group(Fade())
         self.dead = False
         self.orig_pos = position
+        self.can_rocket = False
+        self.rocket_timer = 50
+
+        self.particle_sprites = particle_sprites
 
         # For animations
-        self.animation_images: dict[str, pygame.Surface] = {}
+        self.animation_images = {}
         self.animation_database = {
             "idle": load_animation("idle", [7, 7, 40], self.animation_images),
             "running": load_animation(
                 "running", [7, 7, 7, 7, 7, 7, 7, 7], self.animation_images
             ),
+            "jumping": load_animation("jumping", [7], self.animation_images),
         }
         self.player_action = "idle"
         self.player_frame = 0
@@ -61,7 +68,7 @@ class Player(pygame.sprite.Sprite):
         self.step_sound[1].set_volume(0.5)
 
         self.death_music = get_music("ded.wav")
-        self.death_music.set_volume(0.8)
+        self.death_music.set_volume(0.2)
 
         self.pause_in_sound = get_music("pause_in.wav")
         self.falling_sound = get_music("falling.wav")
@@ -80,6 +87,13 @@ class Player(pygame.sprite.Sprite):
             self.velocity.x = PLAYER_HORIZONTAL_VEL
         else:
             self.velocity.x = 0
+
+        if keys[pygame.K_SPACE]:
+            if self.can_rocket and self.rocket_timer > 0:
+                self.velocity.y = -5
+                self.rocket_timer -= 1
+                Particles(self.rect.bottomleft, (0, 0), self.particle_sprites)
+
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
@@ -91,6 +105,8 @@ class Player(pygame.sprite.Sprite):
                         self.velocity.y = -PLAYER_VERTICAL_VEL
                         self.can_double_jump = False
                         self.jump_sound.play()
+                    elif not self.can_double_jump and not self.can_jump:
+                        self.can_rocket = True
                 if event.key == pygame.K_ESCAPE:
                     self.pause_in_sound.play()
                     pause_screen()
@@ -99,7 +115,7 @@ class Player(pygame.sprite.Sprite):
 
             if event.type == pygame.QUIT:
                 pygame.quit()
-                sys.exit()
+                quit(0)
 
     def toggle_mute(self) -> None:
         if not self.muted:
@@ -116,6 +132,7 @@ class Player(pygame.sprite.Sprite):
             self.muted = False
 
     def check_win(self) -> None:
+        assert self.target.rect is not None
         if self.rect.colliderect(self.target.rect):
             win_screen()
 
@@ -126,7 +143,7 @@ class Player(pygame.sprite.Sprite):
             )
             self.player_flip = False
 
-        if self.velocity.x == 0:
+        if self.velocity.x == 0 and self.velocity.y == 0:
             self.player_action, self.player_frame = change_action(
                 self.player_action, self.player_frame, "idle"
             )
@@ -136,6 +153,11 @@ class Player(pygame.sprite.Sprite):
                 self.player_action, self.player_frame, "running"
             )
             self.player_flip = True
+
+        if self.can_rocket:
+            self.player_action, self.player_frame = change_action(
+                self.player_action, self.player_frame, "jumping"
+            )
 
     def animating_image(self):
         self.player_frame += 1
@@ -166,6 +188,8 @@ class Player(pygame.sprite.Sprite):
                         self.velocity.y = 0
                         self.can_jump = True
                         self.can_double_jump = True
+                        self.can_rocket = False
+                        self.rocket_timer = 50
                         if self.velocity.x != 0:
                             if self.step_sound_timer == 0:
                                 self.step_sound_timer = 30
@@ -176,7 +200,6 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.velocity.y
 
     def check_alive(self):
-        assert self.rect is not None
         if self.rect.y > pygame.display.get_window_size()[1] * 2:
             self.falling_sound.play()
             self.player_die()
@@ -214,7 +237,7 @@ class Player(pygame.sprite.Sprite):
         self.input()
         self.animation()
         self.animating_image()
-        self.rect.x += self.velocity.x
+        self.rect.x += int(self.velocity.x)
         self.horizontal_collisions()
         self.apply_gravity()
         self.vertical_collisions()

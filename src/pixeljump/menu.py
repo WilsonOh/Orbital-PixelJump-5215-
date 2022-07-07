@@ -56,7 +56,9 @@ def win_screen():
     window = pygame.display.get_surface()
     font = pygame.font.SysFont("arial", int(window.get_height() * 0.05))
     title = font.render(
-        "YOU WIN! Press Q to exit the game", True, pygame.Color("black")
+        "YOU WIN! Press Enter to continue or Q to exit the game",
+        True,
+        pygame.Color("black"),
     )
     win_center = window.get_rect().center
     title_center = title.get_rect().center
@@ -67,6 +69,16 @@ def win_screen():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     sys.exit()
+                if event.key == pygame.K_RETURN:
+                    from pixeljump.level import Level
+
+                    clock = pygame.time.Clock()
+                    level = Level("map_empty")
+                    while True:
+                        level.run(clock)
+                        pygame.display.update()
+                        clock.tick_busy_loop(60)
+
         window.fill(pygame.Color("yellow"))
         window.blit(
             title, (win_center[0] - title_center[0], win_center[1] - title_center[1])

@@ -1,23 +1,24 @@
-from pixeljump.assets import get_assets_path, get_background, get_map
-from pixeljump.enemies import FroggyEnemy, MushroomEnemy
+import pygame
+
+from pixeljump.enemies import MushroomEnemy, FroggyEnemy
+from pixeljump.tile import Tile, EnemyTile, TreeTile, PropTile
 from pixeljump.player import Player
 from pixeljump.settings import load_settings
+from pixeljump.assets import get_background, get_map, get_assets_path
 from pixeljump.spikes import Spike
-from pixeljump.tile import EnemyTile, PropTile, Tile, TreeTile
-import pygame
 
 settings = load_settings()
 
-LEVEL_MAP = get_map()
 TILE_SIZE = settings["window"]["tile_size"]
 WINDOW_WIDTH = settings["window"]["screen_width"]
 WINDOW_HEIGHT = settings["window"]["screen_height"]
 
 
 class Level:
-    def __init__(self):
+    def __init__(self, map: str):
         self.player: Player
         self.window = pygame.display.get_surface()
+        self.map = get_map(map)
         # Updated every frame
         self.active_sprites = pygame.sprite.Group()
         # Drawn every frame
@@ -27,6 +28,7 @@ class Level:
         self.enemy_collision_sprites = pygame.sprite.Group()
         self.player_sprite = pygame.sprite.Group()
         self.collision_sprites = pygame.sprite.Group()
+        self.particle_sprites = pygame.sprite.Group()
         self.play_bgm(get_assets_path() + "music/music.wav")
         self.setup_level()
         self.main_background = get_background(
@@ -41,7 +43,9 @@ class Level:
                     100,
                     100,
                     get_background(
-                        "far", (WINDOW_WIDTH, WINDOW_HEIGHT), colorkey=(255, 255, 255)
+                        "far",
+                        (WINDOW_WIDTH, WINDOW_HEIGHT),
+                        colorkey=(255, 255, 255),
                     ),
                 ],
             ],
@@ -86,18 +90,10 @@ class Level:
     def setup_level(self):
         p_x = 0
         p_y = 0
-        for row_idx, row in enumerate(LEVEL_MAP):
+        for row_idx, row in enumerate(self.map):
             for col_idx, col in enumerate(row):
                 x = col_idx * TILE_SIZE
                 y = row_idx * TILE_SIZE
-                """
-                if col == "D":
-                    Tile((x, y), self.visible_sprites, self.collision_sprites)
-                if col == "G":
-                    Tile(
-                        (x, y), self.visible_sprites, self.collision_sprites, grass=True
-                    )
-                """
                 if col == "P":
                     p_x = x
                     p_y = y
@@ -134,11 +130,12 @@ class Level:
                         enemy_collision_sprites=self.enemy_collision_sprites,
                         player_sprite=self.player_sprite,
                     )
-                if col == "#":
-                    PropTile((x, y), self.visible_sprites)
 
                 if col == "$":
                     self.target = Target((x, y))
+
+                if col == "#":
+                    PropTile((x, y), self.visible_sprites)
 
                 if col.isnumeric():
                     Tile(
@@ -153,6 +150,7 @@ class Level:
             self.active_sprites,
             self.player_sprite,
             target=self.target,
+            particle_sprites=self.particle_sprites,
             collision_sprites=self.collision_sprites,
         )
 
@@ -161,12 +159,18 @@ class Level:
         pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play(-1)
 
+    def update_sprite(self):
+        for particles in self.particle_sprites:
+            self.visible_sprites.add(particles)
+            self.particle_sprites.remove(particles)
+
     def run(self, clock: pygame.time.Clock):
         self.window.blit(self.main_background, (0, 0))
         self.visible_sprites.draw(self.window, self.backgrounds, clock)
         self.visible_sprites.update(self.player)
         self.active_sprites.update()
         self.enemy_sprites.update()
+        self.update_sprite()
 
 
 class Camera(pygame.sprite.Group):
