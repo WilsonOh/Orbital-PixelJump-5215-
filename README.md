@@ -1,5 +1,7 @@
 # NUS Orbital 21/22 Team PixelJump (5215)
 
+![Tests](https://github.com/WilsonOh/Orbital21-22-PixelJump-5215/actions/workflows/tests.yml/badge.svg)
+
 ## Game Instructions
 - A and D to move left/right
 - Spacebar to jump/double-jump
