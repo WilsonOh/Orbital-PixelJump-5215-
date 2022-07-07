@@ -16,7 +16,7 @@ pyinstaller = "^5.1"
 pytest = "^7.1.2"
 
 [tool.poetry.scripts]
-simpletyper = 'simpletyper.main:main'
+pixeljump = 'pixeljump.main:main'
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
