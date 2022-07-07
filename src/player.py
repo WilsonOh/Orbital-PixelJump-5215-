@@ -89,7 +89,7 @@ class Player(pygame.sprite.Sprite):
             if self.can_rocket and self.rocket_timer > 0:
                 self.velocity.y = -5
                 self.rocket_timer -= 1
-                Particles(self.rect.bottomleft, [0, 0], self.particle_sprites)
+                Particles(self.rect.bottomleft, (0, 0), self.particle_sprites)
 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:

@@ -1,6 +1,7 @@
 import pygame
 from settings import load_settings
 from animations import load_animation, change_action
+from assets import get_sprite_image
 
 
 settings = load_settings()
@@ -19,8 +20,7 @@ class Particles(pygame.sprite.Sprite):
         self.pos = pos
         self.velocity = pygame.Vector2((velocity[0], velocity[1]))
         self.gravity = GRAVITY
-        self.image = pygame.Surface((8, 8))
-        self.image.fill(pygame.Color("black"))
+        self.image = get_sprite_image("particle", (8, 8))
         self.rect = self.image.get_rect(topleft=pos)
 
         # For animations
@@ -41,11 +41,12 @@ class Particles(pygame.sprite.Sprite):
         particle_image = self.animation_images[particle_img_id]
         self.image = particle_image
 
-    def update(self):
+    def update(self) -> None:
         self.animating_image()
         self.rect.x += self.velocity.x
         self.velocity.y += GRAVITY
         self.rect.y += self.velocity.y
+
 
 
 

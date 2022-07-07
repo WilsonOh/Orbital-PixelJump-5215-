@@ -148,7 +148,7 @@ class Level:
             self.visible_sprites,
             self.active_sprites,
             self.player_sprite,
-            particle_sprites=self.particle_sprites,
+            particle_sprites=self.visible_sprites,
             collision_sprites=self.collision_sprites,
         )
 
@@ -158,17 +158,17 @@ class Level:
         pygame.mixer.music.play(-1)
 
     def update_sprite(self):
-        for particles in self.particle_sprites:
+        for particles in self.player.particle_sprites:
             self.visible_sprites.add(particles)
             self.particle_sprites.remove(particles)
 
     def run(self, clock: pygame.time.Clock):
+        #self.update_sprite()
         self.window.blit(self.main_background, (0, 0))
         self.visible_sprites.draw(self.window, self.backgrounds, clock)
         self.visible_sprites.update(self.player)
         self.active_sprites.update()
         self.enemy_sprites.update()
-        self.update_sprite()
 
 
 class Camera(pygame.sprite.Group):
