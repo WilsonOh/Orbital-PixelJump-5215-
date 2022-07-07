@@ -1,6 +1,6 @@
 import pygame
 from pathlib import Path
-from settings import load_settings
+from pixeljump.settings import load_settings
 
 ASSETS_PATH = Path(__file__).parent.resolve() / "assets/"
 settings = load_settings()
