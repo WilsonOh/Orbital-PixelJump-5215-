@@ -2,16 +2,20 @@ import pygame
 from abc import ABC, abstractmethod
 
 from pixeljump.player import Player
-from pixeljump.assets import get_background, get_assets_path
 from pixeljump.camera import Camera
 from pixeljump.background import Background
+
+from pixeljump.settings import load_settings
+
+settings = load_settings()
+
+FPS = settings["window"]["fps"]
 
 
 class Level(ABC):
     def __init__(self):
         self.player: Player
         self.window = pygame.display.get_surface()
-        self.map: list[list[str]]
         # Updated every frame
         self.active_sprites = pygame.sprite.Group()
         # Drawn every frame
@@ -22,11 +26,8 @@ class Level(ABC):
         self.player_sprite = pygame.sprite.Group()
         self.collision_sprites = pygame.sprite.Group()
         self.particle_sprites = pygame.sprite.Group()
-        self.play_bgm(get_assets_path() + "music/music.wav")
         self.setup_level()
-        self.main_background = get_background(
-            "parallax-mountain-bg",
-        )
+        self.main_background: pygame.surface.Surface
         self.backgrounds: list[Background]
 
     @abstractmethod
@@ -38,10 +39,15 @@ class Level(ABC):
         pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play(-1)
 
-    @abstractmethod
-    def update_sprite(self):
-        pass
-
-    @abstractmethod
-    def run(self, clock: pygame.time.Clock):
-        pass
+    def run(self):
+        clock = pygame.time.Clock()
+        while True:
+            self.window.blit(self.main_background, (0, 0))
+            self.visible_sprites.draw(self.window, self.backgrounds, clock)
+            self.visible_sprites.update_player_pos(self.player)
+            self.active_sprites.update()
+            self.enemy_sprites.update()
+            pygame.display.update()
+            clock.tick_busy_loop(FPS)
+            if self.player.end_act:
+                break

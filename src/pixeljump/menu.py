@@ -29,7 +29,7 @@ def pause_screen():
         pygame.display.update()
 
 
-def menu():
+def show_menu() -> int:
     menu_image = get_sprite_image("menu", (WINDOW_WIDTH, WINDOW_HEIGHT))
     window = pygame.display.get_surface()
     menu_sound = get_music("menu_sound.wav")
@@ -47,7 +47,11 @@ def menu():
                 if event.key == pygame.K_RETURN:
                     pygame.mixer.Channel(1).play(menu_sound)
                     menu_music.fadeout(1000)
-                    return
+                    return 0
+                if event.key == pygame.K_1:
+                    return 1
+                if event.key == pygame.K_2:
+                    return 2
         window.blit(menu_image, [0, 0])
         pygame.display.update()
 
@@ -70,14 +74,7 @@ def win_screen():
                 if event.key == pygame.K_q:
                     sys.exit()
                 if event.key == pygame.K_RETURN:
-                    clock = pygame.time.Clock()
-                    from pixeljump.levels.act2 import ActTwo
-
-                    level = ActTwo()
-                    while True:
-                        level.run(clock)
-                        clock.tick_busy_loop(60)
-                        pygame.display.update()
+                    return
 
         window.fill(pygame.Color("yellow"))
         window.blit(

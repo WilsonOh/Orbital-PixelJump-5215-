@@ -36,6 +36,7 @@ class Particles(pygame.sprite.Sprite):
         self.particle_frame += 1
         if self.particle_frame >= len(self.animation_database[self.particle_action]):
             self.kill()
+            return
         particle_img_id = self.animation_database[self.particle_action][
             self.particle_frame
         ]

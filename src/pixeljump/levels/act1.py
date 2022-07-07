@@ -6,9 +6,8 @@ from pixeljump.enemies import MushroomEnemy, FroggyEnemy
 from pixeljump.tile import Tile, EnemyTile, TreeTile, PropTile
 from pixeljump.player import Player
 from pixeljump.settings import load_settings
-from pixeljump.assets import get_background, get_map, get_assets_path
+from pixeljump.assets import select_background_act, get_map, get_assets_path
 from pixeljump.spikes import Spike
-from pixeljump.camera import Camera
 from pixeljump.target import Target
 
 settings = load_settings()
@@ -17,52 +16,41 @@ TILE_SIZE = settings["window"]["tile_size"]
 WINDOW_WIDTH = settings["window"]["screen_width"]
 WINDOW_HEIGHT = settings["window"]["screen_height"]
 
+get_background = select_background_act(1)
+
 
 class ActOne(Level):
     def __init__(self):
-        self.player: Player
-        self.window = pygame.display.get_surface()
-        self.map = get_map("map")
-        # Updated every frame
-        self.active_sprites = pygame.sprite.Group()
-        # Drawn every frame
-        self.visible_sprites = Camera()
-        # Checks for collision every frame
-        self.enemy_sprites = pygame.sprite.Group()
-        self.enemy_collision_sprites = pygame.sprite.Group()
-        self.player_sprite = pygame.sprite.Group()
-        self.collision_sprites = pygame.sprite.Group()
-        self.particle_sprites = pygame.sprite.Group()
+        super().__init__()
         self.play_bgm(get_assets_path() + "music/music.wav")
-        self.setup_level()
-        self.main_background = get_background("act1/parallax-mountain-bg", scale=(1, 1))
+        self.main_background = get_background("parallax-mountain-bg", scale=(1, 1))
         self.backgrounds = [
             Background(
                 scaling=0.15,
                 pos=(100, 100),
-                image=get_background("act1/far", scale=(1, 1)),
+                image=get_background("far", scale=(1, 1)),
             ),
             Background(
                 scaling=0.25,
                 pos=(300, 100),
-                image=get_background("act1/close", scale=(2, 1)),
+                image=get_background("close", scale=(2, 1)),
             ),
             Background(
                 scaling=0.50,
                 pos=(50, 100),
-                image=get_background("act1/trees", scale=(2, 1)),
+                image=get_background("trees", scale=(2, 1)),
             ),
             Background(
                 scaling=0.75,
                 pos=(250, 250),
-                image=get_background("act1/foreground", scale=(2, 1)),
+                image=get_background("foreground", scale=(2, 1)),
             ),
         ]
 
     def setup_level(self):
         p_x = 0
         p_y = 0
-        for row_idx, row in enumerate(self.map):
+        for row_idx, row in enumerate(get_map("map")):
             for col_idx, col in enumerate(row):
                 x = col_idx * TILE_SIZE
                 y = row_idx * TILE_SIZE
@@ -122,24 +110,13 @@ class ActOne(Level):
             self.active_sprites,
             self.player_sprite,
             target=self.target,
-            particle_sprites=self.particle_sprites,
+            act=1,
             collision_sprites=self.collision_sprites,
+            visible_sprites=self.visible_sprites,
+            active_sprites=self.active_sprites,
         )
 
     def play_bgm(self, path: str) -> None:
         pygame.mixer.music.load(path)
         pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play(-1)
-
-    def update_sprite(self):
-        for particles in self.particle_sprites:
-            self.visible_sprites.add(particles)
-            self.particle_sprites.remove(particles)
-
-    def run(self, clock: pygame.time.Clock):
-        self.window.blit(self.main_background, (0, 0))
-        self.visible_sprites.draw(self.window, self.backgrounds, clock)
-        self.visible_sprites.update(self.player)
-        self.active_sprites.update()
-        self.enemy_sprites.update()
-        self.update_sprite()

@@ -6,7 +6,7 @@ from pixeljump.enemies import MushroomEnemy, FroggyEnemy
 from pixeljump.tile import Tile, EnemyTile, TreeTile, PropTile
 from pixeljump.player import Player
 from pixeljump.settings import load_settings
-from pixeljump.assets import get_background, get_map, get_assets_path
+from pixeljump.assets import select_background_act, get_map, get_assets_path
 from pixeljump.spikes import Spike
 from pixeljump.camera import Camera
 from pixeljump.target import Target
@@ -16,6 +16,8 @@ settings = load_settings()
 TILE_SIZE = settings["window"]["tile_size"]
 WINDOW_WIDTH = settings["window"]["screen_width"]
 WINDOW_HEIGHT = settings["window"]["screen_height"]
+
+get_background = select_background_act(2)
 
 
 class ActTwo(Level):
@@ -35,13 +37,13 @@ class ActTwo(Level):
         self.particle_sprites = pygame.sprite.Group()
         self.play_bgm(get_assets_path() + "music/BossBattle.wav")
         self.setup_level()
-        self.main_background = get_background("act2/background_sky", scale=(1, 1))
+        self.main_background = get_background("background_sky", scale=(1, 1))
         self.backgrounds = [
             Background(
-                scaling=0.15, pos=(300, 100), image=get_background("act2/far_clouds")
+                scaling=0.15, pos=(300, 100), image=get_background("far_clouds")
             ),
             Background(
-                scaling=0.50, pos=(100, 100), image=get_background("act2/close_clouds")
+                scaling=0.50, pos=(100, 100), image=get_background("close_clouds")
             ),
         ]
 
@@ -108,8 +110,10 @@ class ActTwo(Level):
             self.active_sprites,
             self.player_sprite,
             target=self.target,
-            particle_sprites=self.particle_sprites,
+            act=2,
             collision_sprites=self.collision_sprites,
+            visible_sprites=self.visible_sprites,
+            active_sprites=self.active_sprites,
         )
 
     def play_bgm(self, path: str) -> None:
@@ -121,11 +125,3 @@ class ActTwo(Level):
         for particles in self.particle_sprites:
             self.visible_sprites.add(particles)
             self.particle_sprites.remove(particles)
-
-    def run(self, clock: pygame.time.Clock):
-        self.window.blit(self.main_background, (0, 0))
-        self.visible_sprites.draw(self.window, self.backgrounds, clock)
-        self.visible_sprites.update(self.player)
-        self.active_sprites.update()
-        self.enemy_sprites.update()
-        self.update_sprite()

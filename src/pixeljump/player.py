@@ -23,15 +23,19 @@ class Player(pygame.sprite.Sprite):
         self,
         position: tuple[int, int],
         *groups: pygame.sprite.Group,
+        act: int,
         target: pygame.sprite.Sprite,
         collision_sprites: pygame.sprite.Group,
-        particle_sprites: pygame.sprite.Group
+        visible_sprites: pygame.sprite.Group,
+        active_sprites: pygame.sprite.Group
     ):
         super().__init__(*groups)
         self.image = get_sprite_image("KNIGHT", (TILE_SIZE, TILE_SIZE), convert=False)
         self.rect = self.image.get_rect(topleft=position)
         self.velocity = pygame.Vector2()
         self.collision_sprites = collision_sprites
+        self.visible_sprites = visible_sprites
+        self.active_sprites = active_sprites
         self.target = target
         self.can_jump = True
         self.can_double_jump = True
@@ -41,8 +45,7 @@ class Player(pygame.sprite.Sprite):
         self.orig_pos = position
         self.can_rocket = False
         self.rocket_timer = 50
-
-        self.particle_sprites = particle_sprites
+        self.act = act
 
         # For animations
         self.animation_images: dict[str, pygame.Surface] = {}
@@ -73,6 +76,8 @@ class Player(pygame.sprite.Sprite):
         self.pause_in_sound = get_music("pause_in.wav")
         self.falling_sound = get_music("falling.wav")
 
+        self.end_act = False
+
     def input(self):
         if self.dead:
             return
@@ -92,7 +97,12 @@ class Player(pygame.sprite.Sprite):
             if self.can_rocket and self.rocket_timer > 0:
                 self.velocity.y = -5
                 self.rocket_timer -= 1
-                Particles(self.rect.bottomleft, (0, 0), self.particle_sprites)
+                Particles(
+                    self.rect.bottomleft,
+                    (0, 0),
+                    self.visible_sprites,
+                    self.active_sprites,
+                )
 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -105,7 +115,9 @@ class Player(pygame.sprite.Sprite):
                         self.velocity.y = -PLAYER_VERTICAL_VEL
                         self.can_double_jump = False
                         self.jump_sound.play()
-                    elif not self.can_double_jump and not self.can_jump:
+                    elif (
+                        not self.can_double_jump and not self.can_jump and self.act == 2
+                    ):
                         self.can_rocket = True
                 if event.key == pygame.K_ESCAPE:
                     self.pause_in_sound.play()
@@ -134,6 +146,7 @@ class Player(pygame.sprite.Sprite):
     def check_win(self) -> None:
         assert self.target.rect is not None
         if self.rect.colliderect(self.target.rect):
+            self.end_act = True
             win_screen()
 
     def animation(self):

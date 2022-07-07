@@ -9,26 +9,29 @@ WINDOW_WIDTH = settings["window"]["screen_width"]
 WINDOW_HEIGHT = settings["window"]["screen_height"]
 
 
-def get_background(
-    background_name: str,
-    *,
-    scale: tuple[int, int] = (1, 1),
-    colorkey: tuple[int, int, int] = (255, 255, 255),
-    convert=True,
-) -> pygame.surface.Surface:
-    backgrounds_path = ASSETS_PATH / "layers/"
-    background_image_path = backgrounds_path / (background_name + ".png")
-    image_scale = (scale[0] * WINDOW_WIDTH, scale[1] * WINDOW_HEIGHT)
-    if convert:
-        background = pygame.transform.scale(
-            pygame.image.load(background_image_path), image_scale
-        ).convert()
-    else:
-        background = pygame.transform.scale(
-            pygame.image.load(background_image_path), image_scale
-        )
-    background.set_colorkey(colorkey)
-    return background
+def select_background_act(act: int):
+    def get_background(
+        background_name: str,
+        *,
+        scale: tuple[int, int] = (1, 1),
+        colorkey: tuple[int, int, int] = (255, 255, 255),
+        convert=True,
+    ) -> pygame.surface.Surface:
+        backgrounds_path = ASSETS_PATH / "layers/" / f"act{act}"
+        background_image_path = backgrounds_path / (background_name + ".png")
+        image_scale = (scale[0] * WINDOW_WIDTH, scale[1] * WINDOW_HEIGHT)
+        if convert:
+            background = pygame.transform.scale(
+                pygame.image.load(background_image_path), image_scale
+            ).convert()
+        else:
+            background = pygame.transform.scale(
+                pygame.image.load(background_image_path), image_scale
+            )
+        background.set_colorkey(colorkey)
+        return background
+
+    return get_background
 
 
 def get_music(asset_name: str) -> pygame.mixer.Sound:

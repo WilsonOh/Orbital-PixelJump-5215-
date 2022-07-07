@@ -7,7 +7,7 @@ TILE_SIZE = settings["window"]["tile_size"]
 
 
 # Eg. frame_duration is [7,7] (list of multiple frame durations), frame
-def load_animation(animation_name: str, frame_duration, animation_images):
+def load_animation(animation_name: str, frame_duration, animation_images) -> list[str]:
     animation_frame_data = []
     n = 0
     for frame in frame_duration:

@@ -38,7 +38,7 @@ class Camera(pygame.sprite.Group):
         text = font.render(f"FPS: {clock.get_fps():.2f}", True, pygame.Color("red"))
         surface.blit(text, (0, 0))
 
-    def update(self, player: Player) -> None:
+    def update_player_pos(self, player: Player) -> None:
         if player.rect is not None:
             self.offset.x += (
                 (player.rect.x - self.offset.x) - (WINDOW_WIDTH // 2 + TILE_SIZE // 2)
