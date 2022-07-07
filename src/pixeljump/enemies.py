@@ -106,7 +106,7 @@ class MushroomEnemy(Enemy):
         self.hit_sound = get_music("hit1.wav")
 
         # For animations
-        self.animation_images = {}
+        self.animation_images: dict[str, pygame.Surface] = {}
         self.animation_database = {
             "walking": load_animation(
                 "mushroom_walking",
@@ -180,7 +180,7 @@ class FroggyEnemy(Enemy):
         self.hit_sound = get_music("hit1.wav")
 
         # For animations
-        self.animation_images = {}
+        self.animation_images: dict[str, pygame.Surface] = {}
         self.animation_database = {
             "walking": load_animation(
                 "froggy_walking", [7, 7, 7, 7, 7, 7, 7, 7, 7, 7], self.animation_images

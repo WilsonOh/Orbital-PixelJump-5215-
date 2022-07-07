@@ -39,7 +39,7 @@ class Player(pygame.sprite.Sprite):
         self.orig_pos = position
 
         # For animations
-        self.animation_images = {}
+        self.animation_images: dict[str, pygame.Surface] = {}
         self.animation_database = {
             "idle": load_animation("idle", [7, 7, 40], self.animation_images),
             "running": load_animation(

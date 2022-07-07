@@ -1,11 +1,11 @@
 import os
 
+os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 from pixeljump.level import Level
 from pixeljump.menu import menu
 from pixeljump.settings import load_settings
-import pygame
 
-os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
+import pygame
 
 
 settings = load_settings()

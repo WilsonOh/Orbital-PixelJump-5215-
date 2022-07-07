@@ -41,9 +41,7 @@ class Level:
                     100,
                     100,
                     get_background(
-                        "far",
-                        (WINDOW_WIDTH, WINDOW_HEIGHT),
-                        colorkey=(255, 255, 255),
+                        "far", (WINDOW_WIDTH, WINDOW_HEIGHT), colorkey=(255, 255, 255)
                     ),
                 ],
             ],
