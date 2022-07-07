@@ -70,14 +70,14 @@ def win_screen():
                 if event.key == pygame.K_q:
                     sys.exit()
                 if event.key == pygame.K_RETURN:
-                    from pixeljump.level import Level
-
                     clock = pygame.time.Clock()
-                    level = Level("map_empty")
+                    from pixeljump.levels.act2 import ActTwo
+
+                    level = ActTwo()
                     while True:
                         level.run(clock)
-                        pygame.display.update()
                         clock.tick_busy_loop(60)
+                        pygame.display.update()
 
         window.fill(pygame.Color("yellow"))
         window.blit(
