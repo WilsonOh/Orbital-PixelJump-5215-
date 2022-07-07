@@ -45,13 +45,13 @@ def show_menu() -> int:
                 if event.key == pygame.K_ESCAPE:
                     sys.exit()
                 if event.key == pygame.K_RETURN:
-                    pygame.mixer.Channel(1).play(menu_sound)
-                    menu_music.fadeout(1000)
                     return 0
                 if event.key == pygame.K_1:
                     return 1
                 if event.key == pygame.K_2:
                     return 2
+                pygame.mixer.Channel(1).play(menu_sound)
+                menu_music.fadeout(1000)
         window.blit(menu_image, [0, 0])
         pygame.display.update()
 

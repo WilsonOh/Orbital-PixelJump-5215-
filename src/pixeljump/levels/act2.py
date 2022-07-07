@@ -37,7 +37,7 @@ class ActTwo(Level):
         self.particle_sprites = pygame.sprite.Group()
         self.play_bgm(get_assets_path() + "music/BossBattle.wav")
         self.setup_level()
-        self.main_background = get_background("background_sky", scale=(1, 1))
+        self.main_background = get_background("background_sky")
         self.backgrounds = [
             Background(
                 scaling=0.15, pos=(300, 100), image=get_background("far_clouds")
@@ -117,6 +117,7 @@ class ActTwo(Level):
         )
 
     def play_bgm(self, path: str) -> None:
+        pygame.mixer.music.stop()
         pygame.mixer.music.load(path)
         pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play(-1)
