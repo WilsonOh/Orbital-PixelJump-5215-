@@ -1,9 +1,5 @@
-import pygame
-
-pygame.init()
-
-from pixeljump.assets import ASSETS_PATH
 from pixeljump.settings import SETTINGS_PATH
+from pixeljump.assets import ASSETS_PATH
 from pathlib import Path
 
 ROOT = Path(__file__).parents[1].resolve()

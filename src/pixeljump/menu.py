@@ -1,5 +1,9 @@
 import sys
 
+import pygame_widgets
+from pygame_widgets.slider import Slider
+from pygame_widgets.textbox import TextBox
+
 from pixeljump.assets import get_music, get_sprite_image
 from pixeljump.settings import load_settings
 import pygame
@@ -14,8 +18,32 @@ def pause_screen():
     pause_image = get_sprite_image("pause", (WINDOW_WIDTH, WINDOW_HEIGHT))
     window = pygame.display.get_surface()
     pause_out_sound = get_music("pause_out.wav")
+    slider_width, slider_height = int(WINDOW_WIDTH * 0.7), int(WINDOW_HEIGHT * 0.1)
+    slider = Slider(
+        window,
+        window.get_width() // 2 - slider_width // 2,
+        WINDOW_HEIGHT - 150,
+        slider_width,
+        slider_height,
+        handleRadius=25,
+        min=0.0,
+        max=1.0,
+        step=0.01,
+        initial=pygame.mixer.music.get_volume(),
+    )
+    text_width, text_height = 100, 50
+    text = TextBox(
+        window,
+        window.get_width() // 2 - text_width // 2,
+        window.get_height() - 200,
+        text_width,
+        text_height,
+    )
+    text.disable()
+    text.setText("music volume")
     while True:
-        for event in pygame.event.get():
+        events = pygame.event.get()
+        for event in events:
             if event.type == pygame.QUIT:
                 sys.exit()
             if event.type == pygame.KEYDOWN:
@@ -24,8 +52,22 @@ def pause_screen():
                     return
                 if event.key == pygame.K_q:
                     sys.exit()
+                if event.key == pygame.K_DOWN:
+                    new_value = slider.getValue() - 0.1
+                    if new_value < 0:
+                        new_value = 0
+                    slider.setValue(new_value)
+                if event.key == pygame.K_UP:
+                    new_value = slider.getValue() + 0.1
+                    if new_value > 1.0:
+                        new_value = 1.0
+                    slider.setValue(new_value)
+        pygame.mixer.music.set_volume(slider.getValue())
         window.fill(pygame.Color("white"))
-        window.blit(pause_image, [0, 0])
+        window.blit(pause_image, (0, 0))
+        slider.draw()
+        text.draw()
+        pygame_widgets.update(events)
         pygame.display.update()
 
 

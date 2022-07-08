@@ -22,12 +22,5 @@ class Spike(Enemy):
         )
         self.image = get_sprite_image("spikes1", (60, 42))
 
-    def checkPlayer(self):
-        for player in self.player_sprite:
-            assert player.rect is not None
-            if self.rect.colliderect(player.rect):
-                self.hit_sound.play()
-                player.player_die()
-
     def update(self):
         self.checkPlayer()

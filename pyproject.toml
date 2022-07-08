@@ -10,6 +10,7 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = ">=3.10,<3.11"
 pygame = "^2.1.2"
+pygame-widgets = "^1.0.0"
 
 [tool.poetry.dev-dependencies]
 pyinstaller = "^5.1"
