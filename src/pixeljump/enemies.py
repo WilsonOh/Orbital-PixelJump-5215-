@@ -59,8 +59,10 @@ class Enemy(pygame.sprite.Sprite):
         for player in self.player_sprite:
             assert player.rect is not None
             if self.rect.colliderect(player.rect):
-                self.hit_sound.play()
-                player.player_die()
+                if player.got_hit():
+                    self.hit_sound.play()
+                if player.health <= 0:
+                    player.player_die()
 
     def move(self) -> None:
         for player in self.player_sprite:

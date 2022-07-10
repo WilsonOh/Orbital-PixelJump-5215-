@@ -27,11 +27,13 @@ class Player(pygame.sprite.Sprite):
         target: pygame.sprite.Sprite,
         collision_sprites: pygame.sprite.Group,
         visible_sprites: pygame.sprite.Group,
-        active_sprites: pygame.sprite.Group
+        active_sprites: pygame.sprite.Group,
     ):
         super().__init__(*groups)
+        self.health = 3
         self.image = get_sprite_image("KNIGHT", (TILE_SIZE, TILE_SIZE), convert=False)
-        self.rect = self.image.get_rect(topleft=position)
+        self.rect = self.image.get_rect(center=position)
+        # self.rect.inflate_ip(-5, 0)
         self.velocity = pygame.Vector2()
         self.collision_sprites = collision_sprites
         self.visible_sprites = visible_sprites
@@ -46,6 +48,7 @@ class Player(pygame.sprite.Sprite):
         self.can_rocket = False
         self.rocket_timer = 50
         self.act = act
+        self.rocket_acceleration = 0
 
         # For animations
         self.animation_images: dict[str, pygame.Surface] = {}
@@ -78,6 +81,15 @@ class Player(pygame.sprite.Sprite):
 
         self.end_act = False
 
+        self.got_hit_cd = 0
+
+    def got_hit(self) -> bool:
+        if self.got_hit_cd <= 0:
+            self.health -= 1
+            self.got_hit_cd = 2 * FPS
+            return True
+        return False
+
     def input(self):
         if self.dead:
             return
@@ -95,11 +107,21 @@ class Player(pygame.sprite.Sprite):
 
         if keys[pygame.K_SPACE]:
             if self.can_rocket and self.rocket_timer > 0:
-                self.velocity.y = -5
+                self.rocket_acceleration -= 0.3
+                self.velocity.y += self.rocket_acceleration
+                if self.velocity.y < -10:
+                    self.velocity.y = -10
                 self.rocket_timer -= 1
                 Particles(
-                    self.rect.bottomleft,
-                    (0, 0),
+                    (self.rect.bottomleft[0] + 10, self.rect.bottomleft[1] - 10),
+                    (-2, 2),
+                    self.visible_sprites,
+                    self.active_sprites,
+                )
+
+                Particles(
+                    (self.rect.bottomright[0] - 20, self.rect.bottomright[1] - 10),
+                    (2, 2),
                     self.visible_sprites,
                     self.active_sprites,
                 )
@@ -119,6 +141,7 @@ class Player(pygame.sprite.Sprite):
                         not self.can_double_jump and not self.can_jump and self.act == 2
                     ):
                         self.can_rocket = True
+                        self.rocket_acceleration = 0
                 if event.key == pygame.K_ESCAPE:
                     self.pause_in_sound.play()
                     pause_screen()
@@ -203,6 +226,7 @@ class Player(pygame.sprite.Sprite):
                         self.can_double_jump = True
                         self.can_rocket = False
                         self.rocket_timer = 50
+                        self.rocket_acceleration = 0
                         if self.velocity.x != 0:
                             if self.step_sound_timer == 0:
                                 self.step_sound_timer = 30
@@ -243,8 +267,15 @@ class Player(pygame.sprite.Sprite):
             clock.tick(10)
         self.death_music.stop()
         self.dead = False
+        self.health = 3
         self.rect.topleft = self.orig_pos
         pygame.mixer.music.play()
+
+    def draw_health(self) -> None:
+        window = pygame.display.get_surface()
+        font = pygame.font.SysFont("arial", 30)
+        text = font.render(f"Health: {self.health}", True, pygame.Color("green"))
+        window.blit(text, (window.get_width() - text.get_width() - 20, 0))
 
     def update(self):
         self.input()
@@ -254,5 +285,8 @@ class Player(pygame.sprite.Sprite):
         self.horizontal_collisions()
         self.apply_gravity()
         self.vertical_collisions()
-        self.check_alive()
+        # self.check_alive()
         self.check_win()
+        if self.got_hit_cd > 0:
+            self.got_hit_cd -= 1
+        self.draw_health()

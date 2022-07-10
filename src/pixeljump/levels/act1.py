@@ -23,7 +23,7 @@ class ActOne(Level):
     def __init__(self):
         super().__init__()
         self.play_bgm(get_assets_path() + "music/music.wav")
-        self.main_background = get_background("parallax-mountain-bg", scale=(1, 1))
+        self.main_background = get_background("parallax-mountain-bg")
         self.backgrounds = [
             Background(
                 scaling=0.15,
