@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "PixelJump"
-version = "0.1.0"
+version = "0.2.7"
 description = "NUS Orbital 21/22 Team PixelJump"
 authors = ["Wilson Oh <e0773510@u.nus.edu>", "Jiang Pinran <e0725480@u.nus.edu>"]
 readme = "README.md"

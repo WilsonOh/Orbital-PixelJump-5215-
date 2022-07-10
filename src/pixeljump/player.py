@@ -31,6 +31,7 @@ class Player(pygame.sprite.Sprite):
     ):
         super().__init__(*groups)
         self.health = 3
+        self.heart_image = get_sprite_image("heart", (TILE_SIZE, TILE_SIZE))
         self.image = get_sprite_image("KNIGHT", (TILE_SIZE, TILE_SIZE), convert=False)
         self.rect = self.image.get_rect(center=position)
         # self.rect.inflate_ip(-5, 0)
@@ -273,9 +274,11 @@ class Player(pygame.sprite.Sprite):
 
     def draw_health(self) -> None:
         window = pygame.display.get_surface()
-        font = pygame.font.SysFont("arial", 30)
-        text = font.render(f"Health: {self.health}", True, pygame.Color("green"))
-        window.blit(text, (window.get_width() - text.get_width() - 20, 0))
+        for i in range(self.health):
+            window.blit(
+                self.heart_image,
+                (window.get_width() - ((i + 1) * TILE_SIZE * 1.15), 10),
+            )
 
     def update(self):
         self.input()

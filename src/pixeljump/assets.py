@@ -48,7 +48,9 @@ def get_sprite_image(
 ) -> pygame.surface.Surface:
     asset_path = ASSETS_PATH / (asset_name + ".png")
     if convert:
-        asset = pygame.transform.scale(pygame.image.load(asset_path), scale).convert()
+        asset = pygame.transform.scale(
+            pygame.image.load(asset_path), scale
+        ).convert_alpha()
     else:
         asset = pygame.transform.scale(pygame.image.load(asset_path), scale)
     asset.set_colorkey((255, 255, 255))
