@@ -80,6 +80,9 @@ class Player(pygame.sprite.Sprite):
         self.pause_in_sound = get_music("pause_in.wav")
         self.falling_sound = get_music("falling.wav")
 
+        self.rocket_sound = get_music("rocket.wav")
+        self.rocket_sound_timer = 10
+
         self.end_act = False
 
         self.got_hit_cd = 0
@@ -98,6 +101,9 @@ class Player(pygame.sprite.Sprite):
         if self.step_sound_timer > 0:
             self.step_sound_timer -= 1
 
+        if self.rocket_sound_timer > 0:
+            self.rocket_sound_timer -= 1
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             self.velocity.x = -PLAYER_HORIZONTAL_VEL
@@ -108,6 +114,9 @@ class Player(pygame.sprite.Sprite):
 
         if keys[pygame.K_SPACE]:
             if self.can_rocket and self.rocket_timer > 0:
+                if self.rocket_sound_timer == 0:
+                    self.rocket_sound.play()
+                    self.rocket_sound_timer = 10
                 self.rocket_acceleration -= 0.4
                 self.velocity.y += self.rocket_acceleration
                 if self.velocity.y < -10:
