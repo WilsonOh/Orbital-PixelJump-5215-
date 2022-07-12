@@ -1,7 +1,7 @@
 import pygame
 from pixeljump.settings import load_settings
 from pixeljump.assets import get_assets_path, get_sprite_image
-from pixeljump.particles import Particles
+from pixeljump.particles import RainParticles
 import random
 
 settings = load_settings()
@@ -17,16 +17,6 @@ class Tile(pygame.sprite.Sprite):
         col=1,
     ):
         super().__init__(*groups)
-        """
-        if grass:
-            self.image = pygame.transform.scale(
-                pygame.image.load(ASSETS_PATH / "grass.png"), (64, 64)
-            ).convert()
-        else:
-            self.image = pygame.transform.scale(
-                pygame.image.load(ASSETS_PATH / "dirt.png"), (64, 64)
-            ).convert()
-        """
         self.image = pygame.image.load(
             get_assets_path() + "TILES/" + str(col) + ".png"
         ).convert()
@@ -59,7 +49,7 @@ class Rain(Tile):
         self.count = 4
 
     def raining(self):
-        self.count -= 1
+        self.count -= 2
         if self.count == 0:
             self.rain()
             self.count = 4
@@ -67,7 +57,7 @@ class Rain(Tile):
     def rain(self):
         r_x = random.randint(self.rect.x, self.rect.x + self.rect.width)
         r_y = random.randint(self.rect.y, self.rect.y + self.rect.height)
-        Particles((r_x, r_y), (0, 10), self.visible_sprites, self.active_sprites)
+        RainParticles((r_x, r_y), (0, 10), self.visible_sprites, self.active_sprites)
 
     def update(self):
         self.raining()

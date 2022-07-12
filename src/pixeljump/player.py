@@ -5,7 +5,7 @@ from pixeljump.assets import get_sprite_image, get_music
 from pixeljump.animations import load_animation, change_action
 from pixeljump.menu import pause_screen, win_screen
 from pixeljump.die import Fade
-from pixeljump.particles import Particles
+from pixeljump.particles import RocketParticles
 
 
 settings = load_settings()
@@ -122,16 +122,16 @@ class Player(pygame.sprite.Sprite):
                 if self.velocity.y < -10:
                     self.velocity.y = -10
                 self.rocket_timer -= 1
-                Particles(
+                RocketParticles(
                     (self.rect.bottomleft[0] + 10, self.rect.bottomleft[1] - 10),
-                    (-2, 2),
+                    (random.randint(0, 20) / 10 - 2, random.randint(0, 20) / 10),
                     self.visible_sprites,
                     self.active_sprites,
                 )
 
-                Particles(
+                RocketParticles(
                     (self.rect.bottomright[0] - 20, self.rect.bottomright[1] - 10),
-                    (2, 2),
+                    (random.randint(0, 20) / 10, random.randint(0, 20) / 10),
                     self.visible_sprites,
                     self.active_sprites,
                 )

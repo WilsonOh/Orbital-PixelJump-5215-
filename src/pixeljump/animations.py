@@ -22,13 +22,13 @@ def load_animation(animation_name: str, frame_duration, animation_images) -> lis
     return animation_frame_data
 
 
-def load_particles(animation_name: str, frame_duration, animation_images) -> list[str]:
+def load_particles(animation_name: str, frame_duration, animation_images, scale: tuple) -> list[str]:
     animation_frame_data = []
     n = 0
     for frame in frame_duration:
         animation_frame_id = animation_name + "_" + str(n)
         animation_image = get_animation_image(
-            animation_frame_id, animation_name, (16, 16), True
+            animation_frame_id, animation_name, scale, True
         )
         animation_images[animation_frame_id] = animation_image.copy()
         for _ in range(frame):
