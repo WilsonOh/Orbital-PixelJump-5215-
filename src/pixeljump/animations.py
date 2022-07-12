@@ -13,7 +13,7 @@ def load_animation(animation_name: str, frame_duration, animation_images) -> lis
     for frame in frame_duration:
         animation_frame_id = animation_name + "_" + str(n)
         animation_image = get_animation_image(
-            animation_frame_id, animation_name, (TILE_SIZE, TILE_SIZE), False
+            animation_frame_id, animation_name, (TILE_SIZE, TILE_SIZE), True
         )
         animation_images[animation_frame_id] = animation_image.copy()
         for _ in range(frame):
@@ -28,7 +28,7 @@ def load_particles(animation_name: str, frame_duration, animation_images) -> lis
     for frame in frame_duration:
         animation_frame_id = animation_name + "_" + str(n)
         animation_image = get_animation_image(
-            animation_frame_id, animation_name, (16, 16), False
+            animation_frame_id, animation_name, (16, 16), True
         )
         animation_images[animation_frame_id] = animation_image.copy()
         for _ in range(frame):

@@ -1,6 +1,7 @@
 import pygame
 from pixeljump.settings import load_settings
 from pixeljump.assets import get_assets_path, get_sprite_image
+from pixeljump.particles import Particles
 import random
 
 settings = load_settings()
@@ -31,6 +32,45 @@ class Tile(pygame.sprite.Sprite):
         ).convert()
         self.image.set_colorkey((255, 255, 255))
         self.rect = self.image.get_rect(topleft=position)
+
+
+class Tile2(Tile):
+    def __init__(
+        self, position: tuple[int, int], *groups: pygame.sprite.AbstractGroup, col: int
+    ):
+        super().__init__(position, *groups, col=col)
+        self.image = pygame.image.load(
+            get_assets_path() + "TILES2/" + str(col) + ".png"
+        ).convert()
+        self.image.set_colorkey((0, 0, 0))
+        self.rect = self.image.get_rect(topleft=position)
+
+
+class Rain(Tile):
+    def __init__(
+        self, position: tuple[int, int], *groups: pygame.sprite.AbstractGroup, col: int,
+        visible_sprites: pygame.sprite.Group, active_sprites: pygame.sprite.Group
+    ):
+        super().__init__(position, *groups, col=col)
+        self.image = pygame.Surface((TILE_SIZE, TILE_SIZE))
+        self.rect = self.image.get_rect(topleft=position)
+        self.visible_sprites = visible_sprites
+        self.active_sprites = active_sprites
+        self.count = 4
+
+    def raining(self):
+        self.count -= 1
+        if self.count == 0:
+            self.rain()
+            self.count = 4
+
+    def rain(self):
+        r_x = random.randint(self.rect.x, self.rect.x + self.rect.width)
+        r_y = random.randint(self.rect.y, self.rect.y + self.rect.height)
+        Particles((r_x, r_y), (0, 10), self.visible_sprites, self.active_sprites)
+
+    def update(self):
+        self.raining()
 
 
 class EnemyTile(Tile):

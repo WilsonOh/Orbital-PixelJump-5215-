@@ -3,7 +3,7 @@ import pygame
 from pixeljump.level import Level
 from pixeljump.background import Background
 from pixeljump.enemies import MushroomEnemy, FroggyEnemy
-from pixeljump.tile import Tile, EnemyTile, TreeTile, PropTile
+from pixeljump.tile import Tile2, EnemyTile, TreeTile, PropTile, Rain
 from pixeljump.player import Player
 from pixeljump.settings import load_settings
 from pixeljump.assets import select_background_act, get_map, get_assets_path
@@ -40,10 +40,14 @@ class ActTwo(Level):
         self.main_background = get_background("background_sky")
         self.backgrounds = [
             Background(
-                scaling=0.15, pos=(300, 100), image=get_background("far_clouds")
+                scaling=0.25,
+                pos=(0, 200),
+                image=get_background("far_clouds", scale=(2, 1))
             ),
             Background(
-                scaling=0.50, pos=(100, 100), image=get_background("close_clouds")
+                scaling=0.50,
+                pos=(0, 400),
+                image=get_background("close_clouds", scale=(2, 1))
             ),
         ]
 
@@ -92,13 +96,18 @@ class ActTwo(Level):
                     )
 
                 if col == "$":
-                    self.target = Target((x, y))
+                    self.target = Target((x, y), self.visible_sprites)
 
                 if col == "#":
                     PropTile((x, y), self.visible_sprites)
 
+                if col == "R":
+                    Rain((x, y), self.active_sprites, col=1,
+                         visible_sprites=self.visible_sprites,
+                         active_sprites=self.active_sprites)
+
                 if col.isnumeric():
-                    Tile(
+                    Tile2(
                         (x, y),
                         self.visible_sprites,
                         self.collision_sprites,
@@ -122,7 +131,3 @@ class ActTwo(Level):
         pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play(-1)
 
-    def update_sprite(self):
-        for particles in self.particle_sprites:
-            self.visible_sprites.add(particles)
-            self.particle_sprites.remove(particles)

@@ -47,7 +47,7 @@ class Player(pygame.sprite.Sprite):
         self.dead = False
         self.orig_pos = position
         self.can_rocket = False
-        self.rocket_timer = 50
+        self.rocket_timer = 70
         self.act = act
         self.rocket_acceleration = 0
 
@@ -108,7 +108,7 @@ class Player(pygame.sprite.Sprite):
 
         if keys[pygame.K_SPACE]:
             if self.can_rocket and self.rocket_timer > 0:
-                self.rocket_acceleration -= 0.3
+                self.rocket_acceleration -= 0.4
                 self.velocity.y += self.rocket_acceleration
                 if self.velocity.y < -10:
                     self.velocity.y = -10
@@ -226,7 +226,7 @@ class Player(pygame.sprite.Sprite):
                         self.can_jump = True
                         self.can_double_jump = True
                         self.can_rocket = False
-                        self.rocket_timer = 50
+                        self.rocket_timer = 70
                         self.rocket_acceleration = 0
                         if self.velocity.x != 0:
                             if self.step_sound_timer == 0:

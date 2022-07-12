@@ -42,6 +42,7 @@ class Particles(pygame.sprite.Sprite):
             self.particle_frame
         ]
         particle_image = self.animation_images[particle_img_id]
+        particle_image.set_alpha(150)
         self.image = particle_image
 
     def update(self):

@@ -92,7 +92,7 @@ class ActOne(Level):
                     )
 
                 if col == "$":
-                    self.target = Target((x, y))
+                    self.target = Target((x, y), self.visible_sprites)
 
                 if col == "#":
                     PropTile((x, y), self.visible_sprites)

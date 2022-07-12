@@ -1,5 +1,6 @@
 import pygame
 from pixeljump.settings import load_settings
+from pixeljump.assets import get_sprite_image
 
 settings = load_settings()
 
@@ -11,5 +12,6 @@ class Target(pygame.sprite.Sprite):
         self, pos: tuple[int, int], *groups: pygame.sprite.AbstractGroup
     ) -> None:
         super().__init__(*groups)
-        self.image = pygame.Surface((TILE_SIZE, TILE_SIZE))
+        # self.image = pygame.Surface((TILE_SIZE, TILE_SIZE))
+        self.image = get_sprite_image("shoe", (TILE_SIZE, TILE_SIZE))
         self.rect = self.image.get_rect(topleft=pos)
