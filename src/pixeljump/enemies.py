@@ -246,6 +246,7 @@ class Dragon(Enemy):
         )
         self.image = get_sprite_image("dragon", (192, 192))
         self.rect = self.image.get_rect(topleft=pos)
+        self.mask = pygame.mask.from_surface(self.image)
         self.speed = 5
         self.velocity = pygame.Vector2((self.speed, 0))
         self.collision_sprites = collision_sprites
@@ -282,6 +283,15 @@ class Dragon(Enemy):
             )
             self.enemy_flip = False
 
+    def checkPlayer(self):
+        if pygame.sprite.spritecollide(self, self.player_sprite, False, pygame.sprite.collide_mask):
+            for player in self.player_sprite:
+                assert player.rect is not None
+                if player.got_hit():
+                    self.hit_sound.play()
+                if player.health <= 0:
+                    player.player_die()
+
     def animating_image(self):
         self.enemy_frame += 1
         if self.enemy_frame >= len(self.animation_database[self.enemy_action]):
@@ -289,11 +299,11 @@ class Dragon(Enemy):
         enemy_img_id = self.animation_database[self.enemy_action][self.enemy_frame]
         enemy_image = self.animation_images[enemy_img_id]
         self.image = pygame.transform.flip(enemy_image, self.enemy_flip, False)
+        self.mask = pygame.mask.from_surface(self.image)
 
     def move(self) -> None:
         for player in self.player_sprite:
             if abs(player.rect.centerx - self.rect.centerx) < 400 and abs(player.rect.centery - self.rect.centery) < 400:
-                print(1)
                 if player.rect.left <= self.rect.centerx <= player.rect.right:
                     self.velocity.x = 0
                 elif self.rect.centerx + 5 > player.rect.centerx:

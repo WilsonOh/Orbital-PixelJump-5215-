@@ -34,7 +34,7 @@ class Player(pygame.sprite.Sprite):
         self.heart_image = get_sprite_image("heart", (TILE_SIZE, TILE_SIZE))
         self.image = get_sprite_image("KNIGHT", (TILE_SIZE, TILE_SIZE), convert=False)
         self.rect = self.image.get_rect(center=position)
-        # self.rect.inflate_ip(-5, 0)
+        self.mask = pygame.mask.from_surface(self.image)
         self.velocity = pygame.Vector2()
         self.collision_sprites = collision_sprites
         self.visible_sprites = visible_sprites
