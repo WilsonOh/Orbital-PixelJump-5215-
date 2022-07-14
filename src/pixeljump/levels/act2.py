@@ -2,7 +2,7 @@ import pygame
 
 from pixeljump.level import Level
 from pixeljump.background import Background
-from pixeljump.enemies import MushroomEnemy, FroggyEnemy
+from pixeljump.enemies import Dragon, Nightmare
 from pixeljump.tile import Tile2, EnemyTile, TreeTile, PropTile, Rain
 from pixeljump.player import Player
 from pixeljump.settings import load_settings
@@ -61,8 +61,9 @@ class ActTwo(Level):
                 if col == "P":
                     p_x = x
                     p_y = y
-                if col == "E":
-                    MushroomEnemy(
+
+                if col == "D":
+                    Dragon(
                         (x, y),
                         self.enemy_sprites,
                         self.visible_sprites,
@@ -70,8 +71,9 @@ class ActTwo(Level):
                         enemy_collision_sprites=self.enemy_collision_sprites,
                         player_sprite=self.player_sprite,
                     )
-                if col == "F":
-                    FroggyEnemy(
+
+                if col == "N":
+                    Nightmare(
                         (x, y),
                         self.enemy_sprites,
                         self.visible_sprites,

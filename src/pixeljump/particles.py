@@ -67,7 +67,7 @@ class RainParticles(Particles):
         self.animation_images: dict[str, pygame.Surface] = {}
         self.animation_database = {
             "particle": load_particles(
-                "rain_particle", [14, 14, 14, 14, 14], self.animation_images, (8, 16)
+                "rain_particle", [14, 14, 14, 14, 14], self.animation_images, (16, 32)
             )
         }
 
