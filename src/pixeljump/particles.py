@@ -67,7 +67,7 @@ class RainParticles(Particles):
         self.animation_images: dict[str, pygame.Surface] = {}
         self.animation_database = {
             "particle": load_particles(
-                "rain_particle", [14, 14, 14, 14, 14], self.animation_images, (16, 32)
+                "rain_particle", [14, 14, 14, 14, 14], self.animation_images, (12, 24)
             )
         }
 
@@ -78,6 +78,7 @@ class RainParticles(Particles):
         if self.particle_frame >= len(self.animation_database[self.particle_action]):
             self.kill()
             return
+
         particle_img_id = self.animation_database[self.particle_action][
             self.particle_frame
         ]

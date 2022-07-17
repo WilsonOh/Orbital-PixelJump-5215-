@@ -212,6 +212,7 @@ class Player(pygame.sprite.Sprite):
         player_img_id = self.animation_database[self.player_action][self.player_frame]
         player_image = self.animation_images[player_img_id]
         self.image = pygame.transform.flip(player_image, self.player_flip, False)
+        self.mask = pygame.mask.from_surface(self.image)
 
     def horizontal_collisions(self):
         for sprite in self.collision_sprites.sprites():

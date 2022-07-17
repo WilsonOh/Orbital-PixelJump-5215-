@@ -46,17 +46,17 @@ class Rain(Tile):
         self.rect = self.image.get_rect(topleft=position)
         self.visible_sprites = visible_sprites
         self.active_sprites = active_sprites
-        self.count = 4
+        self.count = 5
 
     def raining(self):
-        self.count -= 2
+        self.count -= 1
         if self.count == 0:
             self.rain()
-            self.count = 4
+            self.count = 5
 
     def rain(self):
-        r_x = random.randint(self.rect.x, self.rect.x + self.rect.width)
-        r_y = random.randint(self.rect.y, self.rect.y + self.rect.height)
+        r_x = random.randint(self.rect.x, self.rect.x + self.rect.width - 5)
+        r_y = random.randint(self.rect.y - 5, self.rect.y + self.rect.height - 5)
         RainParticles((r_x, r_y), (0, 10), self.visible_sprites, self.active_sprites)
 
     def update(self):

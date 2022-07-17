@@ -16,6 +16,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.Surface((64, 64))
         self.rect = self.image.get_rect(topleft=pos)
         self.image.fill(pygame.Color("black"))
+        self.mask = pygame.mask.from_surface(self.image)
         self.speed = 5
         self.velocity = pygame.Vector2((self.speed, 0))
         self.collision_sprites = collision_sprites
@@ -56,9 +57,9 @@ class Enemy(pygame.sprite.Sprite):
                         self.velocity.y = 0
 
     def checkPlayer(self):
-        for player in self.player_sprite:
-            assert player.rect is not None
-            if self.rect.colliderect(player.rect):
+        if pygame.sprite.spritecollide(self, self.player_sprite, False, pygame.sprite.collide_mask):
+            for player in self.player_sprite:
+                assert player.rect is not None
                 if player.got_hit():
                     self.hit_sound.play()
                 if player.health <= 0:
@@ -99,6 +100,7 @@ class MushroomEnemy(Enemy):
         )
         self.image = get_sprite_image("mushroom", (64, 64))
         self.rect = self.image.get_rect(topleft=pos)
+        self.mask = pygame.mask.from_surface(self.image)
         self.speed = 3
         self.velocity = pygame.Vector2((self.speed, 0))
         self.collision_sprites = collision_sprites
@@ -146,6 +148,7 @@ class MushroomEnemy(Enemy):
         enemy_img_id = self.animation_database[self.enemy_action][self.enemy_frame]
         enemy_image = self.animation_images[enemy_img_id]
         self.image = pygame.transform.flip(enemy_image, self.enemy_flip, False)
+        self.mask = pygame.mask.from_surface(self.image)
 
     def update(self) -> None:
         self.animation()
@@ -174,6 +177,7 @@ class FroggyEnemy(Enemy):
         )
         self.image = get_sprite_image("froggy", (64, 64))
         self.rect = self.image.get_rect(topleft=pos)
+        self.mask = pygame.mask.from_surface(self.image)
         self.speed = 5
         self.velocity = pygame.Vector2((self.speed, 0))
         self.collision_sprites = collision_sprites
@@ -218,6 +222,7 @@ class FroggyEnemy(Enemy):
         enemy_img_id = self.animation_database[self.enemy_action][self.enemy_frame]
         enemy_image = self.animation_images[enemy_img_id]
         self.image = pygame.transform.flip(enemy_image, self.enemy_flip, False)
+        self.mask = pygame.mask.from_surface(self.image)
 
     def update(self) -> None:
         self.animation()
@@ -283,15 +288,6 @@ class Dragon(Enemy):
             )
             self.enemy_flip = False
 
-    def checkPlayer(self):
-        if pygame.sprite.spritecollide(self, self.player_sprite, False, pygame.sprite.collide_mask):
-            for player in self.player_sprite:
-                assert player.rect is not None
-                if player.got_hit():
-                    self.hit_sound.play()
-                if player.health <= 0:
-                    player.player_die()
-
     def animating_image(self):
         self.enemy_frame += 1
         if self.enemy_frame >= len(self.animation_database[self.enemy_action]):
@@ -349,7 +345,8 @@ class Nightmare(Enemy):
         )
         self.image = get_sprite_image("nightmare", (197, 128))
         self.rect = self.image.get_rect(topleft=pos)
-        self.speed = 5
+        self.mask = pygame.mask.from_surface(self.image)
+        self.speed = 8
         self.velocity = pygame.Vector2((self.speed, 0))
         self.collision_sprites = collision_sprites
         self.player_sprite = player_sprite
@@ -392,6 +389,7 @@ class Nightmare(Enemy):
         enemy_img_id = self.animation_database[self.enemy_action][self.enemy_frame]
         enemy_image = self.animation_images[enemy_img_id]
         self.image = pygame.transform.flip(enemy_image, self.enemy_flip, False)
+        self.mask = pygame.mask.from_surface(self.image)
 
     def update(self) -> None:
         self.animation()
@@ -399,5 +397,42 @@ class Nightmare(Enemy):
         self.rect.x += int(self.velocity.x)
         self.horizontal_collisions()
         self.move()
+        self.checkPlayer()
+
+
+class Border(Enemy):
+    def __init__(
+        self,
+        pos: tuple[int, int],
+        *groups: pygame.sprite.AbstractGroup,
+        collision_sprites: pygame.sprite.Group,
+        enemy_collision_sprites: pygame.sprite.Group,
+        player_sprite: pygame.sprite.Group,
+    ) -> None:
+        super().__init__(
+            pos,
+            *groups,
+            collision_sprites=collision_sprites,
+            enemy_collision_sprites=enemy_collision_sprites,
+            player_sprite=player_sprite,
+        )
+        self.image = pygame.Surface((64, 64))
+        self.rect = self.image.get_rect(topleft=pos)
+        self.image.fill(pygame.Color("black"))
+        self.speed = 0
+        self.velocity = pygame.Vector2((self.speed, 0))
+        self.collision_sprites = collision_sprites
+        self.player_sprite = player_sprite
+        self.enemy_collision_sprites = enemy_collision_sprites
+        self.hit_sound = get_music("hit1.wav")
+
+    def checkPlayer(self):
+        for player in self.player_sprite:
+            assert player.rect is not None
+            if self.rect.colliderect(player.rect):
+                self.hit_sound.play()
+                player.player_die()
+
+    def update(self) -> None:
         self.checkPlayer()
 
