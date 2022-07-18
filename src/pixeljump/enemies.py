@@ -391,6 +391,16 @@ class Nightmare(Enemy):
         self.image = pygame.transform.flip(enemy_image, self.enemy_flip, False)
         self.mask = pygame.mask.from_surface(self.image)
 
+    def move(self) -> None:
+        for player in self.player_sprite:
+            if abs(player.rect.centerx - self.rect.centerx) < 200 and abs(player.rect.centery - self.rect.centery) < 200:
+                if player.rect.left <= self.rect.centerx <= player.rect.right:
+                    self.velocity.x = 0
+                elif self.rect.centerx + 5 > player.rect.centerx:
+                    self.velocity.x = -1 * self.speed
+                elif self.rect.centerx - 5 < player.rect.centerx:
+                    self.velocity.x = self.speed
+
     def update(self) -> None:
         self.animation()
         self.animating_image()
