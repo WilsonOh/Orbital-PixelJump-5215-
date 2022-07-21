@@ -6,6 +6,7 @@ import pygame
 pygame.init()
 from pixeljump.levels.act1 import ActOne
 from pixeljump.levels.act2 import ActTwo
+from pixeljump.levels.act3 import ActThree
 from pixeljump.menu import show_menu
 from pixeljump.settings import load_settings
 from pixeljump.assets import get_sprite_image
@@ -27,8 +28,12 @@ def main():
     if act == 0 or act == 1:
         ActOne().run()
         ActTwo().run()
+        ActThree().run()
     if act == 2:
         ActTwo().run()
+        ActThree().run()
+    if act == 3:
+        ActThree().run()
 
 
 if __name__ == "__main__":
