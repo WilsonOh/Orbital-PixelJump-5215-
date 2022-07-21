@@ -114,6 +114,7 @@ class ActOne(Level):
             collision_sprites=self.collision_sprites,
             visible_sprites=self.visible_sprites,
             active_sprites=self.active_sprites,
+            enemy_sprites=self.enemy_sprites,
         )
 
     def play_bgm(self, path: str) -> None:

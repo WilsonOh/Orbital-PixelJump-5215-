@@ -6,7 +6,12 @@ from pixeljump.enemies import Dragon, Nightmare, Border
 from pixeljump.tile import Tile2, EnemyTile, TreeTile, PropTile, Rain
 from pixeljump.player import Player
 from pixeljump.settings import load_settings
-from pixeljump.assets import select_background_act, get_map, get_assets_path, get_sprite_image
+from pixeljump.assets import (
+    select_background_act,
+    get_map,
+    get_assets_path,
+    get_sprite_image,
+)
 from pixeljump.spikes import Spike, CeilingSpike
 from pixeljump.camera import Camera
 from pixeljump.target import Target
@@ -42,27 +47,27 @@ class ActTwo(Level):
             Background(
                 scaling=0.25,
                 pos=(0, 200),
-                image=get_background("far_clouds", scale=(2, 1))
+                image=get_background("far_clouds", scale=(2, 1)),
             ),
             Background(
                 scaling=0.50,
                 pos=(0, 600),
-                image=get_background("close_clouds", scale=(2, 1))
+                image=get_background("close_clouds", scale=(2, 1)),
             ),
             Background(
                 scaling=0.75,
                 pos=(1500, 1500),
-                image=get_sprite_image("cloud1", (372 * 2, 132 * 2), True)
+                image=get_sprite_image("cloud1", (372 * 2, 132 * 2), True),
             ),
             Background(
                 scaling=0.75,
                 pos=(3000, 800),
-                image=get_sprite_image("cloud1", (372 * 2, 132 * 2), True)
+                image=get_sprite_image("cloud1", (372 * 2, 132 * 2), True),
             ),
             Background(
                 scaling=0.75,
                 pos=(600, 400),
-                image=get_sprite_image("cloud2", (540 * 2, 284 * 2), True)
+                image=get_sprite_image("cloud2", (540 * 2, 284 * 2), True),
             ),
         ]
 
@@ -129,9 +134,13 @@ class ActTwo(Level):
                     PropTile((x, y), self.visible_sprites)
 
                 if col == "R":
-                    Rain((x, y), self.active_sprites, col=1,
-                         visible_sprites=self.visible_sprites,
-                         active_sprites=self.active_sprites)
+                    Rain(
+                        (x, y),
+                        self.active_sprites,
+                        col=1,
+                        visible_sprites=self.visible_sprites,
+                        active_sprites=self.active_sprites,
+                    )
 
                 if col == "Z":
                     Border(
@@ -159,6 +168,7 @@ class ActTwo(Level):
             collision_sprites=self.collision_sprites,
             visible_sprites=self.visible_sprites,
             active_sprites=self.active_sprites,
+            enemy_sprites=self.enemy_sprites,
         )
 
     def play_bgm(self, path: str) -> None:
@@ -166,4 +176,3 @@ class ActTwo(Level):
         pygame.mixer.music.load(path)
         pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play(-1)
-

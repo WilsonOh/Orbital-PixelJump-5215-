@@ -1,5 +1,6 @@
 import pygame
 import random
+from pixeljump.projectile import Projectile
 from pixeljump.settings import load_settings
 from pixeljump.assets import get_sprite_image, get_music
 from pixeljump.animations import load_animation, change_action
@@ -28,6 +29,7 @@ class Player(pygame.sprite.Sprite):
         collision_sprites: pygame.sprite.Group,
         visible_sprites: pygame.sprite.Group,
         active_sprites: pygame.sprite.Group,
+        enemy_sprites: pygame.sprite.Group
     ):
         super().__init__(*groups)
         self.health = 3
@@ -36,6 +38,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=position)
         self.mask = pygame.mask.from_surface(self.image)
         self.velocity = pygame.Vector2()
+        self.enemy_sprites = enemy_sprites
         self.collision_sprites = collision_sprites
         self.visible_sprites = visible_sprites
         self.active_sprites = active_sprites
@@ -157,6 +160,15 @@ class Player(pygame.sprite.Sprite):
                     pause_screen()
                 if event.key == pygame.K_m:
                     self.toggle_mute()
+                if event.key == pygame.K_p:
+                    Projectile(
+                        self.rect.center,
+                        self.visible_sprites,
+                        self.active_sprites,
+                        direction="left" if self.player_flip else "right",
+                        collision_sprites=self.collision_sprites,
+                        enemy_sprites=self.enemy_sprites,
+                    )
 
             if event.type == pygame.QUIT:
                 pygame.quit()

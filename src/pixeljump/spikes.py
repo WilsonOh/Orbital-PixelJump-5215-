@@ -1,7 +1,6 @@
 import pygame
 from pixeljump.enemies import Enemy
 from pixeljump.assets import get_sprite_image
-from pixeljump.player import Player
 
 
 class Spike(Enemy):
@@ -25,7 +24,9 @@ class Spike(Enemy):
         self.mask = pygame.mask.from_surface(self.image)
 
     def checkPlayer(self):
-        if pygame.sprite.spritecollide(self, self.player_sprite, False, pygame.sprite.collide_mask):
+        if pygame.sprite.spritecollide(
+            self, self.player_sprite, False, pygame.sprite.collide_mask
+        ):
             for player in self.player_sprite:
                 assert player.rect is not None
                 if player.got_hit():
@@ -60,7 +61,9 @@ class CeilingSpike(Enemy):
         self.mask = pygame.mask.from_surface(self.image)
 
     def checkPlayer(self):
-        if pygame.sprite.spritecollide(self, self.player_sprite, False, pygame.sprite.collide_mask):
+        if pygame.sprite.spritecollide(
+            self, self.player_sprite, False, pygame.sprite.collide_mask
+        ):
             for player in self.player_sprite:
                 assert player.rect is not None
                 if player.got_hit():
