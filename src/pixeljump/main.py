@@ -26,14 +26,20 @@ def main():
     pygame.display.set_icon(get_sprite_image("KNIGHT", (32, 32)))
     act = show_menu()
     if act == 0 or act == 1:
-        ActOne().run()
-        ActTwo().run()
-        ActThree().run()
+        while not (done := ActOne().run()):
+            done = ActOne().run()
+        while not (done := ActTwo().run()):
+            done = ActTwo().run()
+        while not (done := ActThree().run()):
+            done = ActThree().run()
     if act == 2:
-        ActTwo().run()
-        ActThree().run()
+        while not (done := ActTwo().run()):
+            done = ActTwo().run()
+        while not (done := ActThree().run()):
+            done = ActThree().run()
     if act == 3:
-        ActThree().run()
+        while not (done := ActThree().run()):
+            done = ActThree().run()
 
 
 if __name__ == "__main__":

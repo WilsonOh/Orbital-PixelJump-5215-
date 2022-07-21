@@ -39,7 +39,7 @@ class Level(ABC):
         pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play(-1)
 
-    def run(self):
+    def run(self) -> bool:
         clock = pygame.time.Clock()
         while True:
             self.window.blit(self.main_background, (0, 0))
@@ -50,4 +50,6 @@ class Level(ABC):
             pygame.display.update()
             clock.tick_busy_loop(FPS)
             if self.player.end_act:
-                break
+                return True
+            if self.player.dead:
+                return False

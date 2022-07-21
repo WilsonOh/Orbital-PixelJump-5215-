@@ -302,10 +302,10 @@ class Player(pygame.sprite.Sprite):
             pygame.display.update()
             clock.tick(10)
         self.death_music.stop()
-        self.dead = False
-        self.health = 3
-        self.rect.topleft = self.orig_pos
-        pygame.mixer.music.play()
+        # self.dead = False
+        # self.health = 3
+        # self.rect.topleft = self.orig_pos
+        # pygame.mixer.music.play()
 
     def draw_health(self) -> None:
         window = pygame.display.get_surface()
