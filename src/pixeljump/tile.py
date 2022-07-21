@@ -36,6 +36,19 @@ class Tile2(Tile):
         self.rect = self.image.get_rect(topleft=position)
 
 
+class Tile3(Tile):
+    def __init__(
+        self, position: tuple[int, int], *groups: pygame.sprite.AbstractGroup, col: int
+    ):
+        super().__init__(position, *groups, col=col)
+        self.image = pygame.image.load(
+            get_assets_path() + "TILES3/" + str(col) + ".png"
+        ).convert()
+        self.image = pygame.transform.scale(self.image, (64, 64))
+        self.image.set_colorkey((255, 255, 255))
+        self.rect = self.image.get_rect(topleft=position)
+
+
 class Rain(Tile):
     def __init__(
         self, position: tuple[int, int], *groups: pygame.sprite.AbstractGroup, col: int,

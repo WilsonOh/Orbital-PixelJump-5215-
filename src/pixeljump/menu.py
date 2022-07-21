@@ -94,6 +94,8 @@ def show_menu() -> int:
                     return 1
                 if event.key == pygame.K_2:
                     return 2
+                if event.key == pygame.K_3:
+                    return 3
         window.blit(menu_image, [0, 0])
         pygame.display.update()
 

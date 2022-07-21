@@ -92,6 +92,8 @@ class Player(pygame.sprite.Sprite):
 
         self.got_hit_cd = 0
 
+        self.gravity = GRAVITY
+
     def got_hit(self) -> bool:
         if self.got_hit_cd <= 0:
             self.health -= 1
@@ -163,15 +165,24 @@ class Player(pygame.sprite.Sprite):
                 if event.key == pygame.K_m:
                     self.toggle_mute()
                 if self.can_shoot and event.key == pygame.K_p:
-                    Projectile(
-                        self.rect.center,
-                        self.visible_sprites,
-                        self.active_sprites,
-                        direction="left" if self.player_flip else "right",
-                        collision_sprites=self.collision_sprites,
-                        enemy_sprites=self.enemy_sprites,
-                    )
-
+                    if not self.player_flip:
+                        Projectile(
+                            (self.rect.centerx, self.rect.centery - 10),
+                            self.visible_sprites,
+                            self.active_sprites,
+                            direction="left" if self.player_flip else "right",
+                            collision_sprites=self.collision_sprites,
+                            enemy_sprites=self.enemy_sprites,
+                        )
+                    else:
+                        Projectile(
+                            (self.rect.centerx - 64, self.rect.centery - 10),
+                            self.visible_sprites,
+                            self.active_sprites,
+                            direction="left" if self.player_flip else "right",
+                            collision_sprites=self.collision_sprites,
+                            enemy_sprites=self.enemy_sprites,
+                        )
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit(0)
@@ -258,7 +269,7 @@ class Player(pygame.sprite.Sprite):
                                 random.choice(self.step_sound).play()
 
     def apply_gravity(self):
-        self.velocity.y += GRAVITY
+        self.velocity.y += self.gravity
         self.rect.y += self.velocity.y
 
     def check_alive(self):

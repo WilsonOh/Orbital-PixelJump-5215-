@@ -1,4 +1,4 @@
-from pixeljump.assets import get_animation_image
+from pixeljump.assets import get_animation_image, get_animation_image_black
 from pixeljump.settings import load_settings
 
 settings = load_settings()
@@ -28,6 +28,21 @@ def load_particles(animation_name: str, frame_duration, animation_images, scale:
     for frame in frame_duration:
         animation_frame_id = animation_name + "_" + str(n)
         animation_image = get_animation_image(
+            animation_frame_id, animation_name, scale, True
+        )
+        animation_images[animation_frame_id] = animation_image.copy()
+        for _ in range(frame):
+            animation_frame_data.append(animation_frame_id)
+        n += 1
+    return animation_frame_data
+
+
+def load_projectile(animation_name: str, frame_duration, animation_images, scale: tuple) -> list[str]:
+    animation_frame_data = []
+    n = 0
+    for frame in frame_duration:
+        animation_frame_id = animation_name + "_" + str(n)
+        animation_image = get_animation_image_black(
             animation_frame_id, animation_name, scale, True
         )
         animation_images[animation_frame_id] = animation_image.copy()

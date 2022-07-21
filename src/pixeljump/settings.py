@@ -19,7 +19,7 @@ def load_settings() -> dict:
                 desktop_info.current_w,
                 desktop_info.current_h,
             )
-            width, height = int(desktop_width * 0.85), int(desktop_height * 0.7)
+            width, height = int(desktop_width * 0.85), int(desktop_height * 0.85)
             settings["window"]["screen_width"] = width
             settings["window"]["screen_height"] = height
             SETTINGS = settings
