@@ -29,7 +29,8 @@ class Player(pygame.sprite.Sprite):
         collision_sprites: pygame.sprite.Group,
         visible_sprites: pygame.sprite.Group,
         active_sprites: pygame.sprite.Group,
-        enemy_sprites: pygame.sprite.Group
+        enemy_sprites: pygame.sprite.Group,
+        can_shoot: bool = False
     ):
         super().__init__(*groups)
         self.health = 3
@@ -53,6 +54,7 @@ class Player(pygame.sprite.Sprite):
         self.rocket_timer = 70
         self.act = act
         self.rocket_acceleration = 0
+        self.can_shoot = can_shoot
 
         # For animations
         self.animation_images: dict[str, pygame.Surface] = {}
@@ -160,7 +162,7 @@ class Player(pygame.sprite.Sprite):
                     pause_screen()
                 if event.key == pygame.K_m:
                     self.toggle_mute()
-                if event.key == pygame.K_p:
+                if self.can_shoot and event.key == pygame.K_p:
                     Projectile(
                         self.rect.center,
                         self.visible_sprites,

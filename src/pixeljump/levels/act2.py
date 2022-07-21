@@ -169,6 +169,7 @@ class ActTwo(Level):
             visible_sprites=self.visible_sprites,
             active_sprites=self.active_sprites,
             enemy_sprites=self.enemy_sprites,
+            can_shoot=True,
         )
 
     def play_bgm(self, path: str) -> None:
