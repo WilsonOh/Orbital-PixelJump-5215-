@@ -39,7 +39,7 @@ class EnemyProjectile(pygame.sprite.Sprite):
         self.projectile_action = "shooting"
         self.projectile_frame = 0
         self.projectile_flip: bool = False if self.direction == 1 else True
-        self.hit_sound = get_music("hit.wav")
+        self.hit_sound = get_music("damage_gun.wav")
 
     def animation(self):
         if self.horizontal_velocity * self.direction > 0:

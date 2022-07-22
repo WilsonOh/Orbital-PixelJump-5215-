@@ -94,6 +94,8 @@ class Player(pygame.sprite.Sprite):
 
         self.gravity = GRAVITY
 
+        self.shoot_sound = get_music("projectile_player.wav")
+
     def got_hit(self) -> bool:
         if self.got_hit_cd <= 0:
             self.health -= 1
@@ -165,6 +167,7 @@ class Player(pygame.sprite.Sprite):
                 if event.key == pygame.K_m:
                     self.toggle_mute()
                 if self.can_shoot and event.key == pygame.K_p:
+                    self.shoot_sound.play()
                     if not self.player_flip:
                         Projectile(
                             (self.rect.centerx, self.rect.centery - 10),
@@ -204,6 +207,7 @@ class Player(pygame.sprite.Sprite):
     def check_win(self) -> None:
         assert self.target.rect is not None
         if self.rect.colliderect(self.target.rect):
+            self.target.win_sound.play()
             self.end_act = True
             win_screen()
 

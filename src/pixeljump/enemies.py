@@ -435,7 +435,7 @@ class Border(Enemy):
         self.collision_sprites = collision_sprites
         self.player_sprite = player_sprite
         self.enemy_collision_sprites = enemy_collision_sprites
-        self.hit_sound = get_music("hit1.wav")
+        self.hit_sound = get_music("falling.wav")
 
     def checkPlayer(self):
         for player in self.player_sprite:
@@ -477,6 +477,8 @@ class Marine(Enemy):
         self.player_sprite = player_sprite
         self.enemy_collision_sprites = enemy_collision_sprites
         self.hit_sound = get_music("hit1.wav")
+        self.shoot_sound = get_music("projectile_enemy.wav")
+        self.death_sound = get_music("death_marine.wav")
 
         # For animations
         self.animation_images: dict[str, pygame.Surface] = {}
@@ -489,7 +491,7 @@ class Marine(Enemy):
         self.enemy_action = "idle"
         self.enemy_frame = 0
         self.enemy_flip = False
-        self.cooldown = 1
+        self.cooldown = 4
 
     def animation(self):
         if self.velocity.x > 0:
@@ -531,6 +533,7 @@ class Marine(Enemy):
                 if player.rect.top - 5 <= self.rect.centery <= player.rect.bottom + 5:
                     self.cooldown -= 1
                     if self.cooldown == 0:
+                        self.shoot_sound.play()
                         EnemyProjectile(
                             (self.rect.centerx, self.rect.centery - 20),
                             self.visible_sprites,
@@ -549,3 +552,184 @@ class Marine(Enemy):
         self.move()
         self.checkPlayer()
 
+
+class Alien1(Enemy):
+    def __init__(
+        self,
+        pos: tuple[int, int],
+        *groups: pygame.sprite.AbstractGroup,
+        collision_sprites: pygame.sprite.Group,
+        enemy_collision_sprites: pygame.sprite.Group,
+        player_sprite: pygame.sprite.Group,
+    ) -> None:
+        super().__init__(
+            pos,
+            *groups,
+            collision_sprites=collision_sprites,
+            enemy_collision_sprites=enemy_collision_sprites,
+            player_sprite=player_sprite,
+        )
+        self.image = get_sprite_image("alien1", (64, 64))
+        self.rect = self.image.get_rect(topleft=pos)
+        self.mask = pygame.mask.from_surface(self.image)
+        self.speed = 7
+        self.velocity = pygame.Vector2((self.speed, 0))
+        self.collision_sprites = collision_sprites
+        self.player_sprite = player_sprite
+        self.enemy_collision_sprites = enemy_collision_sprites
+        self.hit_sound = get_music("hit1.wav")
+        self.death_sound = get_music("death_alien1.wav")
+
+        # For animations
+        self.animation_images: dict[str, pygame.Surface] = {}
+        self.animation_database = {
+            "flying": load_particles(
+                "alien1_flying", [7, 7, 7, 7, 7, 7, 7, 7], self.animation_images, (64, 64)
+            )
+        }
+        self.enemy_action = "flying"
+        self.enemy_frame = 0
+        self.enemy_flip = True
+
+    def animation(self):
+        if self.velocity.x > 0:
+            self.enemy_action, self.enemy_frame = change_action(
+                self.enemy_action, self.enemy_frame, "flying"
+            )
+            self.enemy_flip = True
+
+        if self.velocity.x == 0:
+            self.enemy_action, self.enemy_frame = change_action(
+                self.enemy_action, self.enemy_frame, "flying"
+            )
+
+        if self.velocity.x < 0:
+            self.enemy_action, self.enemy_frame = change_action(
+                self.enemy_action, self.enemy_frame, "flying"
+            )
+            self.enemy_flip = False
+
+    def animating_image(self):
+        self.enemy_frame += 1
+        if self.enemy_frame >= len(self.animation_database[self.enemy_action]):
+            self.enemy_frame = 0
+        enemy_img_id = self.animation_database[self.enemy_action][self.enemy_frame]
+        enemy_image = self.animation_images[enemy_img_id]
+        self.image = pygame.transform.flip(enemy_image, self.enemy_flip, False)
+        self.mask = pygame.mask.from_surface(self.image)
+
+    def move(self) -> None:
+        for player in self.player_sprite:
+            if abs(player.rect.centerx - self.rect.centerx) < 600 and abs(player.rect.centery - self.rect.centery) < 600:
+                if player.rect.left <= self.rect.centerx <= player.rect.right:
+                    self.velocity.x = 0
+                elif self.rect.centerx + 5 > player.rect.centerx:
+                    self.velocity.x = -1 * self.speed
+                elif self.rect.centerx - 5 < player.rect.centerx:
+                    self.velocity.x = self.speed
+            if abs(player.rect.centery - self.rect.centery) < 600 and abs(player.rect.centerx - self.rect.centerx) < 600:
+                if player.rect.top + 10 <= self.rect.centery <= player.rect.bottom - 10:
+                    self.velocity.y = 0
+                elif self.rect.centery + 5 > player.rect.centery:
+                    self.velocity.y = -1 * self.speed
+                elif self.rect.centery - 5 < player.rect.centery:
+                    self.velocity.y = self.speed
+            else:
+                self.velocity.y = 0
+
+    def update(self) -> None:
+        self.animation()
+        self.animating_image()
+        self.rect.x += int(self.velocity.x)
+        self.horizontal_collisions()
+        self.rect.y += int(self.velocity.y)
+        self.vertical_collisions()
+        self.move()
+        self.checkPlayer()
+
+
+class Alien2(Enemy):
+    def __init__(
+        self,
+        pos: tuple[int, int],
+        *groups: pygame.sprite.AbstractGroup,
+        collision_sprites: pygame.sprite.Group,
+        enemy_collision_sprites: pygame.sprite.Group,
+        player_sprite: pygame.sprite.Group,
+    ) -> None:
+        super().__init__(
+            pos,
+            *groups,
+            collision_sprites=collision_sprites,
+            enemy_collision_sprites=enemy_collision_sprites,
+            player_sprite=player_sprite,
+        )
+        self.image = get_sprite_image("alien2", (64, 64))
+        self.rect = self.image.get_rect(topleft=pos)
+        self.mask = pygame.mask.from_surface(self.image)
+        self.speed = 8
+        self.velocity = pygame.Vector2((self.speed, 0))
+        self.collision_sprites = collision_sprites
+        self.player_sprite = player_sprite
+        self.enemy_collision_sprites = enemy_collision_sprites
+        self.hit_sound = get_music("hit1.wav")
+        self.death_sound = get_music("death_alien2.wav")
+
+        # For animations
+        self.animation_images: dict[str, pygame.Surface] = {}
+        self.animation_database = {
+            "walking": load_particles(
+                "alien2_walking", [7, 7, 7, 7, 7, 7], self.animation_images, (64, 64)
+            ),
+            "idle": load_particles(
+                "alien2_idle", [7, 7, 7, 7], self.animation_images, (64, 64)
+            )
+        }
+        self.enemy_action = "walking"
+        self.enemy_frame = 0
+        self.enemy_flip = True
+
+    def animation(self):
+        if self.velocity.x > 0:
+            self.enemy_action, self.enemy_frame = change_action(
+                self.enemy_action, self.enemy_frame, "walking"
+            )
+            self.enemy_flip = True
+
+        if self.velocity.x == 0:
+            self.enemy_action, self.enemy_frame = change_action(
+                self.enemy_action, self.enemy_frame, "idle"
+            )
+
+        if self.velocity.x < 0:
+            self.enemy_action, self.enemy_frame = change_action(
+                self.enemy_action, self.enemy_frame, "walking"
+            )
+            self.enemy_flip = False
+
+    def animating_image(self):
+        self.enemy_frame += 1
+        if self.enemy_frame >= len(self.animation_database[self.enemy_action]):
+            self.enemy_frame = 0
+        enemy_img_id = self.animation_database[self.enemy_action][self.enemy_frame]
+        enemy_image = self.animation_images[enemy_img_id]
+        self.image = pygame.transform.flip(enemy_image, self.enemy_flip, False)
+        self.mask = pygame.mask.from_surface(self.image)
+
+    def move(self) -> None:
+        for player in self.player_sprite:
+            if abs(player.rect.centerx - self.rect.centerx) < 800 and abs(player.rect.centery - self.rect.centery) < 400:
+                if player.rect.left <= self.rect.centerx <= player.rect.right:
+                    self.velocity.x = 0
+                elif self.rect.centerx + 5 > player.rect.centerx:
+                    self.velocity.x = -1 * self.speed
+                elif self.rect.centerx - 5 < player.rect.centerx:
+                    self.velocity.x = self.speed
+
+    def update(self) -> None:
+        self.animation()
+        self.animating_image()
+        self.rect.x += int(self.velocity.x)
+        self.horizontal_collisions()
+        self.move()
+        self.checkPlayer()

@@ -2,8 +2,8 @@ import pygame
 
 from pixeljump.level import Level
 from pixeljump.background import Background
-from pixeljump.enemies import Marine, Nightmare, Border
-from pixeljump.tile import Tile3, EnemyTile, PropTile
+from pixeljump.enemies import Marine, Border, Alien1, Alien2
+from pixeljump.tile import Tile3, EnemyTile
 from pixeljump.player import Player
 from pixeljump.settings import load_settings
 from pixeljump.assets import (
@@ -41,7 +41,7 @@ class ActThree(Level):
         self.player_sprite = pygame.sprite.Group()
         self.collision_sprites = pygame.sprite.Group()
         self.particle_sprites = pygame.sprite.Group()
-        self.play_bgm(get_assets_path() + "music/BossBattle.wav")
+        self.play_bgm(get_assets_path() + "music/exploration.wav")
         self.setup_level()
         self.main_background = get_background("space_background")
         self.backgrounds = [
@@ -52,18 +52,28 @@ class ActThree(Level):
             ),
             Background(
                 scaling=0.35,
-                pos=(0, 0),
+                pos=(0, 500),
                 image=get_background("far_planet", scale=(2, 1)),
             ),
             Background(
                 scaling=0.50,
-                pos=(500, 500),
+                pos=(700, 1200),
                 image=get_background_sprite("closer_planet", scale=(102 * 4, 230 * 4)),
             ),
             Background(
                 scaling=0.75,
-                pos=(900, 900),
+                pos=(1900, 1000),
                 image=get_background_sprite("close_planet", scale=(176 * 4, 174 * 4)),
+            ),
+            Background(
+                scaling=0.50,
+                pos=(4500, 1500),
+                image=get_background_sprite("closer_planet", scale=(102 * 4, 230 * 4)),
+            ),
+            Background(
+                scaling=0.75,
+                pos=(5100, 1500),
+                image=get_background_sprite("close_planet", scale=(176 * 4, 174 * 4))
             ),
         ]
 
@@ -78,8 +88,20 @@ class ActThree(Level):
                     p_x = x
                     p_y = y
 
-                if col == "N":
-                    Nightmare(
+                if col == "M":
+                    Marine(
+                        (x, y),
+                        self.enemy_sprites,
+                        self.visible_sprites,
+                        visible_sprites=self.visible_sprites,
+                        active_sprites=self.active_sprites,
+                        collision_sprites=self.collision_sprites,
+                        enemy_collision_sprites=self.enemy_collision_sprites,
+                        player_sprite=self.player_sprite,
+                    )
+
+                if col == "A":
+                    Alien1(
                         (x, y),
                         self.enemy_sprites,
                         self.visible_sprites,
@@ -88,13 +110,11 @@ class ActThree(Level):
                         player_sprite=self.player_sprite,
                     )
 
-                if col == "M":
-                    Marine(
+                if col == "a":
+                    Alien2(
                         (x, y),
                         self.enemy_sprites,
                         self.visible_sprites,
-                        visible_sprites=self.visible_sprites,
-                        active_sprites=self.active_sprites,
                         collision_sprites=self.collision_sprites,
                         enemy_collision_sprites=self.enemy_collision_sprites,
                         player_sprite=self.player_sprite,
@@ -115,7 +135,7 @@ class ActThree(Level):
 
                 if col == "s":
                     CeilingSpike(
-                        (x, y - 2),
+                        (x, y - 10),
                         self.enemy_sprites,
                         self.visible_sprites,
                         collision_sprites=self.collision_sprites,
@@ -125,9 +145,6 @@ class ActThree(Level):
 
                 if col == "$":
                     self.target = Target((x, y), self.visible_sprites)
-
-                if col == "#":
-                    PropTile((x, y), self.visible_sprites)
 
                 if col == "Z":
                     Border(

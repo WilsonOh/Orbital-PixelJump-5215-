@@ -36,7 +36,7 @@ class Level(ABC):
 
     def play_bgm(self, path: str) -> None:
         pygame.mixer.music.load(path)
-        pygame.mixer.music.set_volume(0.2)
+        pygame.mixer.music.set_volume(0.6)
         pygame.mixer.music.play(-1)
 
     def run(self) -> bool:
