@@ -168,7 +168,7 @@ class ActThree(Level):
             self.active_sprites,
             self.player_sprite,
             target=self.target,
-            act=3,
+            act=2,
             collision_sprites=self.collision_sprites,
             visible_sprites=self.visible_sprites,
             active_sprites=self.active_sprites,

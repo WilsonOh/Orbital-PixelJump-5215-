@@ -211,9 +211,9 @@ class Player(pygame.sprite.Sprite):
             self.end_act = True
             if self.act == 1:
                 win_screen1()
-            elif self.act == 2:
+            elif self.act == 2 and not self.can_shoot:
                 win_screen2()
-            elif self.act == 3:
+            elif self.act == 2 and self.can_shoot:
                 win_screen3()
 
     def animation(self):
