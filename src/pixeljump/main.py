@@ -32,12 +32,12 @@ def main():
             done = ActTwo().run()
         while not (done := ActThree().run()):
             done = ActThree().run()
-    if act == 2:
+    elif act == 2:
         while not (done := ActTwo().run()):
             done = ActTwo().run()
         while not (done := ActThree().run()):
             done = ActThree().run()
-    if act == 3:
+    elif act == 3:
         while not (done := ActThree().run()):
             done = ActThree().run()
 

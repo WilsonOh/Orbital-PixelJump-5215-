@@ -48,7 +48,7 @@ class Level(ABC):
             self.active_sprites.update()
             self.enemy_sprites.update()
             pygame.display.update()
-            clock.tick_busy_loop(FPS)
+            clock.tick(FPS)
             if self.player.end_act:
                 return True
             if self.player.dead:
