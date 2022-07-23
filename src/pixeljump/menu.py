@@ -4,7 +4,7 @@ import pygame_widgets
 from pygame_widgets.slider import Slider
 from pygame_widgets.textbox import TextBox
 
-from pixeljump.assets import get_music, get_sprite_image
+from pixeljump.assets import get_music, get_sprite_image, get_sprite_image_ck
 from pixeljump.settings import load_settings
 import pygame
 
@@ -123,5 +123,62 @@ def win_screen():
         window.fill(pygame.Color("yellow"))
         window.blit(
             title, (win_center[0] - title_center[0], win_center[1] - title_center[1])
+        )
+        pygame.display.update()
+
+
+def win_screen1():
+    window = pygame.display.get_surface()
+    win_image = get_sprite_image("win_screen1", (WINDOW_WIDTH, WINDOW_HEIGHT))
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    sys.exit()
+                if event.key == pygame.K_RETURN:
+                    return
+
+        window.blit(
+            win_image, (0,0)
+        )
+        pygame.display.update()
+
+
+def win_screen2():
+    window = pygame.display.get_surface()
+    win_image = get_sprite_image("win_screen2", (WINDOW_WIDTH, WINDOW_HEIGHT))
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    sys.exit()
+                if event.key == pygame.K_RETURN:
+                    return
+
+        window.blit(
+            win_image, (0,0)
+        )
+        pygame.display.update()
+
+
+def win_screen3():
+    window = pygame.display.get_surface()
+    win_image = get_sprite_image_ck("win_screen3", (WINDOW_WIDTH, WINDOW_HEIGHT))
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    sys.exit()
+                if event.key == pygame.K_RETURN:
+                    return
+
+        window.blit(
+            win_image, (0,0)
         )
         pygame.display.update()

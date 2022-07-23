@@ -4,7 +4,7 @@ from pixeljump.projectile import Projectile
 from pixeljump.settings import load_settings
 from pixeljump.assets import get_sprite_image, get_music
 from pixeljump.animations import load_animation, change_action
-from pixeljump.menu import pause_screen, win_screen
+from pixeljump.menu import pause_screen, win_screen1, win_screen2, win_screen3
 from pixeljump.die import Fade
 from pixeljump.particles import RocketParticles
 
@@ -209,7 +209,12 @@ class Player(pygame.sprite.Sprite):
         if self.rect.colliderect(self.target.rect):
             self.target.win_sound.play()
             self.end_act = True
-            win_screen()
+            if self.act == 1:
+                win_screen1()
+            elif self.act == 2:
+                win_screen2()
+            elif self.act == 3:
+                win_screen3()
 
     def animation(self):
         if self.velocity.x > 0:

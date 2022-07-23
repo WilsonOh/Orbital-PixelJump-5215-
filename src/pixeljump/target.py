@@ -16,3 +16,25 @@ class Target(pygame.sprite.Sprite):
         self.image = get_sprite_image("shoe", (TILE_SIZE, TILE_SIZE))
         self.rect = self.image.get_rect(topleft=pos)
         self.win_sound = get_music("end_level.wav")
+
+
+class Target1(pygame.sprite.Sprite):
+    def __init__(
+        self, pos: tuple[int, int], *groups: pygame.sprite.AbstractGroup
+    ) -> None:
+        super().__init__(*groups)
+        # self.image = pygame.Surface((TILE_SIZE, TILE_SIZE))
+        self.image = get_sprite_image("gun", (TILE_SIZE, TILE_SIZE))
+        self.rect = self.image.get_rect(topleft=pos)
+        self.win_sound = get_music("end_level.wav")
+
+
+class Target2(pygame.sprite.Sprite):
+    def __init__(
+        self, pos: tuple[int, int], *groups: pygame.sprite.AbstractGroup
+    ) -> None:
+        super().__init__(*groups)
+        # self.image = pygame.Surface((TILE_SIZE, TILE_SIZE))
+        self.image = get_sprite_image("princess", (TILE_SIZE, TILE_SIZE))
+        self.rect = self.image.get_rect(topleft=pos)
+        self.win_sound = get_music("end_level.wav")

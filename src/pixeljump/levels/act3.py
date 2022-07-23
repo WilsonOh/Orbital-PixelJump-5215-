@@ -14,7 +14,7 @@ from pixeljump.assets import (
 )
 from pixeljump.spikes import Spike, CeilingSpike
 from pixeljump.camera import Camera
-from pixeljump.target import Target
+from pixeljump.target import Target2
 
 settings = load_settings()
 
@@ -144,7 +144,7 @@ class ActThree(Level):
                     )
 
                 if col == "$":
-                    self.target = Target((x, y), self.visible_sprites)
+                    self.target = Target2((x, y), self.visible_sprites)
 
                 if col == "Z":
                     Border(
@@ -168,7 +168,7 @@ class ActThree(Level):
             self.active_sprites,
             self.player_sprite,
             target=self.target,
-            act=2,
+            act=3,
             collision_sprites=self.collision_sprites,
             visible_sprites=self.visible_sprites,
             active_sprites=self.active_sprites,

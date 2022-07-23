@@ -14,7 +14,7 @@ from pixeljump.assets import (
 )
 from pixeljump.spikes import Spike, CeilingSpike
 from pixeljump.camera import Camera
-from pixeljump.target import Target
+from pixeljump.target import Target1
 
 settings = load_settings()
 
@@ -128,7 +128,7 @@ class ActTwo(Level):
                     )
 
                 if col == "$":
-                    self.target = Target((x, y), self.visible_sprites)
+                    self.target = Target1((x, y), self.visible_sprites)
 
                 if col == "#":
                     PropTile((x, y), self.visible_sprites)

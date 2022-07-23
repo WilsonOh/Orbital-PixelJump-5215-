@@ -80,6 +80,7 @@ def get_sprite_image(
     asset.set_colorkey((255, 255, 255))
     return asset
 
+
 def get_sprite_image_black(
     asset_name: str, scale: tuple[int, int], convert=True
 ) -> pygame.surface.Surface:
@@ -91,6 +92,19 @@ def get_sprite_image_black(
     else:
         asset = pygame.transform.scale(pygame.image.load(asset_path), scale)
     asset.set_colorkey((0, 0, 0))
+    return asset
+
+
+def get_sprite_image_ck(
+    asset_name: str, scale: tuple[int, int], convert=True
+) -> pygame.surface.Surface:
+    asset_path = ASSETS_PATH / (asset_name + ".png")
+    if convert:
+        asset = pygame.transform.scale(
+            pygame.image.load(asset_path), scale
+        ).convert_alpha()
+    else:
+        asset = pygame.transform.scale(pygame.image.load(asset_path), scale)
     return asset
 
 
