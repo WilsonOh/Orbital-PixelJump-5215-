@@ -14,7 +14,7 @@ In the main menu, in addition to `enter` you can press the buttons `1`, `2` or `
 
 ## Running the game
 ### Option 1: Run the packaged executable (reccomended for windows users)
-Go to [releases](https://github.com/WilsonOh/Orbital21-22-PixelJump-5215/releases/tag/v0.5.0) and follow the instructions for your OS.<br>
+Go to [releases](https://github.com/WilsonOh/Orbital21-22-PixelJump-5215/releases/tag/v1.0.0) and follow the instructions for your OS.<br>
 The packaged executables are only tested on limited hardware so there may be some problems that we have not faced.<br>
 If the executable packages do not work, then the most reliable way is to run the program from source, which will be explained below.
 
