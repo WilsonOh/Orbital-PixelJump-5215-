@@ -30,7 +30,7 @@ If the executable packages do not work, then the most reliable way is to run the
 5. `cd src/pixeljump` and `python3 main.py`
 
 ### Option 3.b: Running from source using `poetry`
-If you have poetry installed, it will be easier since this project uses poetry
+If you have [poetry](https://python-poetry.org/) installed, it will be easier since this project uses poetry
 1. `cd pixeljump` and run `poetry install`
 2. `cd src/pixeljump` and run `poetry shell`
 3. Run the game with `python main.py`
