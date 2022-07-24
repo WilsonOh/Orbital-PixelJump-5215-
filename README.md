@@ -19,7 +19,7 @@ The packaged executables are only tested on limited hardware so there may be som
 If the executable packages do not work, then the most reliable way is to run the program from source, which will be explained below.
 
 ### Option 2: Install using pip (reccomended in general if you have python >= 3.10 installed)
-1. execute `pip install pixeljump` for the stable release or `pip install git+https://github.com/WilsonOh/Orbital21-22-PixelJump-5215.git` for the nightly release
+1. execute `pip install -U pixeljump` for the stable release or `pip install git+https://github.com/WilsonOh/Orbital21-22-PixelJump-5215.git` for the nightly release
 2. run the game with `pixeljump`
 
 ### Option 3.a: Running from source using `pip` (not reccomended)
