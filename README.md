@@ -12,6 +12,11 @@
 
 In the main menu, in addition to `enter` you can press the buttons `1`, `2` or `3` to go straight to acts 1, 2 and 3 respectively if you don't feel like beating the game normally 💀
 
+The run-throughs for each act is on youtube:
+- [Act 1](https://youtu.be/1TSh3_e9B7M)
+- [Act 2](https://youtu.be/-fcHAAITNPE)
+- [Act 3](https://youtu.be/_q0ttfla9Fk)
+
 ## Running the game
 ### Option 1: Run the packaged executable (reccomended for windows users)
 Go to [releases](https://github.com/WilsonOh/Orbital21-22-PixelJump-5215/releases/tag/v1.0.0) and follow the instructions for your OS.<br>
