@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "PixelJump"
-version = "0.2.7"
+version = "0.3"
 description = "NUS Orbital 21/22 Team PixelJump"
 authors = ["Wilson Oh <e0773510@u.nus.edu>", "Jiang Pinran <e0725480@u.nus.edu>"]
 readme = "README.md"
@@ -8,7 +8,7 @@ repository = "https://github.com/WilsonOh/Orbital21-22-PixelJump-5215"
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.11"
+python = "^3.10"
 pygame = "^2.1.2"
 pygame-widgets = "^1.0.0"
 
